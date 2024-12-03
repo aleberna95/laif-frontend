@@ -74,6 +74,14 @@ export default {
       isRegistering: false,
     };
   },
+  created() {
+    // Controlla se l'utente è già autenticato
+    const token = localStorage.getItem('userToken');
+    if (token) {
+      // Se l'utente è già autenticato, reindirizza alla home
+      this.$router.push('/');
+    }
+  },
   methods: {
     async loginWithGoogle() {
       const provider = new GoogleAuthProvider();
@@ -126,4 +134,6 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Stili per il componente di login */
+</style>
