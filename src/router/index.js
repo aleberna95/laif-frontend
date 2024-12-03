@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import ViewHome from '@/views/ViewHome.vue';
+import ViewLogin from '@/views/ViewLogin.vue';
 
 // Definizione delle rotte
 const routes = [
@@ -11,7 +12,12 @@ const routes = [
         path: '/home',
         name: 'ViewHome',
         component: ViewHome,
-    }
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: ViewLogin,
+    },
     // Puoi aggiungere qui altre rotte quando crei nuove pagine, ad esempio:
     // {
     //   path: '/about',

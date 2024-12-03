@@ -1,26 +1,23 @@
 <template>
-  <div id="app">
-    <!-- Navbar o altre componenti di layout comuni possono essere aggiunte qui -->
+  <div class="p-8">
     <router-view />
-    <!-- Router View renderizzerà le pagine basate sulle rotte definite -->
+    <BottomNavbar />
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App',
-};
+  import BottomNavbar from '@/components/layout/BottomNavbar.vue';
+
+  export default {
+    name: 'App',
+    components: {
+      BottomNavbar,
+    },
+  };
 </script>
 
 <style>
-/* Stili generici per l'app */
-body {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f0f0f0;
-}
-#app {
-  text-align: center;
-}
+  body {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  }
 </style>
