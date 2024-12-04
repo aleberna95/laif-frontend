@@ -16,6 +16,9 @@ const routes = [
         path: '/home',
         name: 'ViewHome',
         component: ViewHome,
+        meta: {
+            requiresAuth: true, // Accesso consentito solo se autenticato
+        },
     },
     {
         path: '/login',

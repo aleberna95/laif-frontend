@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 // Configurazione base di Axios
 const apiClient = axios.create({
     baseURL: process.env.VUE_APP_ENV == 'local' ? 'http://localhost:3000' : process.env.VUE_APP_BACKEND_BASE_URL,

@@ -1,5 +1,3 @@
 <template>
-    <div>
-        Tips
-    </div>
+  <div class="w-full bg-color-primary p-4 h-full">Tips</div>
 </template>

@@ -1,4 +1,4 @@
-# laif-frontend
+# life-frontend
 
 ## Project setup
 ```

@@ -1,3 +1,3 @@
 <template>
-    <div>Aggiungi spesa</div>
+  <div class="w-full bg-color-primary p-4 h-full">Aggiungi spesa</div>
 </template>
