@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import store from '@/store';
 import ViewHome from '@/views/ViewHome.vue';
 import ViewLogin from '@/views/ViewLogin.vue';
 import ViewOperations from '@/views/ViewOperations.vue';
@@ -70,15 +71,14 @@ const router = createRouter({
 
 // Navigation Guard per proteggere le route
 router.beforeEach((to, from, next) => {
-    const isAuthenticated = !!localStorage.getItem('userToken'); // Controllo presenza del token di autenticazione
-
     // Se la route richiede autenticazione e l'utente non è autenticato, viene reindirizzato al login
-    if (to.matched.some((record) => record.meta.requiresAuth) && !isAuthenticated) {
-        next('/login');
-    }
-    // Se la route è accessibile solo per ospiti e l'utente è autenticato, viene reindirizzato alla home
-    else if (to.matched.some((record) => record.meta.guestOnly) && isAuthenticated) {
-        next('/home');
+    if (to.matched.some((record) => record.meta.requiresAuth)) {
+        if (!store.getters.isAuthenticated) {
+            next('/login');
+        }
+        else {
+            next();
+        }
     }
     // Altrimenti, proseguire normalmente
     else {

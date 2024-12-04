@@ -1,20 +1,18 @@
 <template>
-  <div class="w-full bg-color-primary p-4 h-full">
-    <h1>Welcome to the Home Page</h1>
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
-    <div v-else>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-      <p>{{ data }}</p>
-    </div>
+  <div class="w-full h-full text-center p-6 bg-color-primary">
+    <h1 class="font-bold text-lg">Welcome to the Home Page</h1>
+    <span class="p-8">
+      <div v-if="loading">Loading...</div>
+      <div v-else-if="error">{{ error }}</div>
+      <div v-else>
+        <span v-for="el in data.data" :key="el">
+          <span class="p-6">
+            <p>{{ el.email }}</p>
+            <p>{{ el.createdAt }}</p>
+          </span>
+        </span>
+      </div>
+    </span>
   </div>
 </template>
 

@@ -22,16 +22,10 @@
         try {
           // Esegui il logout tramite Firebase
           await signOut(auth);
-
-          // Rimuovi le informazioni dal localStorage
-          localStorage.removeItem('userToken');
-          localStorage.removeItem('userEmail');
-
           console.log('Logout riuscito');
 
           // Reindirizza alla pagina di login
           store.dispatch('logout');
-
           this.$router.push('/login');
         } catch (error) {
           console.error('Errore durante il logout:', error);
