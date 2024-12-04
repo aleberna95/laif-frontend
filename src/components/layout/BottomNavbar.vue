@@ -4,7 +4,7 @@
       <!-- Link Home -->
       <router-link to="/" class="flex flex-col items-center text-gray-600">
         <div class="hover:shadow-xl p-1 rounded">
-          <img class="inline-block size-12 h-8 w-8" :src="homeImage" alt="" />
+          <img class="inline-block size-12 h-6 w-6" :src="homeImage" alt="" />
         </div>
         <span class="text-xs">Home</span>
       </router-link>
@@ -12,7 +12,7 @@
       <!-- Icona Lista Operazioni -->
       <router-link to="/operations" class="flex flex-col items-center text-gray-600">
         <div class="hover:shadow-xl p-1 rounded">
-          <img class="inline-block size-12 h-8 w-8" :src="filesImage" alt="" />
+          <img class="inline-block size-12 h-6 w-6" :src="filesImage" alt="" />
         </div>
         <span class="text-xs">Operazioni</span>
       </router-link>
@@ -20,7 +20,7 @@
       <!-- Icona + al centro -->
       <router-link to="/addOperation" class="flex flex-col items-center text-gray-600">
         <div class="hover:shadow-xl p-1 rounded">
-          <img class="inline-block size-12 h-12 w-12" :src="addImage" alt="" />
+          <img class="inline-block size-12 h-8 w-8" :src="addImage" alt="" />
         </div>
         <span class="text-xs">Aggiungi</span>
       </router-link>
@@ -28,7 +28,7 @@
       <!-- Icona tips -->
       <router-link to="/tips" class="flex flex-col items-center text-gray-600">
         <div class="hover:shadow-xl p-1 rounded">
-          <img class="inline-block size-12 h-8 w-8" :src="piggyBankImage" alt="" />
+          <img class="inline-block size-12 h-6 w-6" :src="piggyBankImage" alt="" />
         </div>
         <span class="text-xs">Consigli</span>
       </router-link>
@@ -36,13 +36,13 @@
       <!-- Link Login/Utente -->
       <router-link v-if="!isAuthenticated" to="/login" class="flex flex-col items-center text-gray-600">
         <div class="hover:shadow-xl p-1 rounded">
-          <img class="inline-block size-12 rounded-full h-8 w-8" :src="loginImage" alt="" />
+          <img class="inline-block size-12 rounded-full h-6 w-6" :src="loginImage" alt="" />
         </div>
         <span class="text-xs">Login</span>
       </router-link>
       <router-link v-else to="/user" class="flex flex-col items-center text-gray-600">
         <div class="hover:shadow-xl p-1 rounded">
-          <img class="inline-block size-12 rounded-full h-8 w-8" :src="userImage" alt="" />
+          <img class="inline-block size-12 rounded-full h-6 w-6" :src="userImage" alt="" />
         </div>
         <span class="text-xs">Utente</span>
       </router-link>
