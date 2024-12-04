@@ -1,4 +1,4 @@
-# life-frontend
+# life
 
 ## Project setup
 ```

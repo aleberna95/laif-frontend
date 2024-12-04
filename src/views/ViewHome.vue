@@ -1,5 +1,6 @@
 <template>
   <div class="w-full h-full text-center p-6 bg-color-primary">
+    <div class="p-4 bg-red-200 rounded-full border border-red-800">Ciao Feferina, come stai? Spero bene. Ti dedico questa pagina web/app. Ti voglio bene {{ '<3' }}</div>
     <h1 class="font-bold text-lg">Welcome to the Home Page</h1>
     <span class="p-8">
       <div v-if="loading">Loading...</div>

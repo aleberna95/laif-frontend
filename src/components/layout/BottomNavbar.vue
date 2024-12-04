@@ -1,7 +1,7 @@
 <template>
   <span class="fixed bottom-0 left-0 right-0 w-full flex justify-center">
     <nav
-      class="bg-white border-t-4 border-gray-300 shadow-lg flex justify-between items-center px-6 py-2 lg:w-4/12 w-full">
+      class="bg-white border-t-4 border-gray-300 shadow-lg flex justify-between items-center px-6 py-2 lg:w-4/12 w-full pb-4">
       <!-- Link Home -->
       <router-link to="/" class="flex flex-col items-center text-gray-600">
         <div class="hover:shadow-xl p-1 rounded">
