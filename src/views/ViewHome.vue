@@ -1,5 +1,6 @@
 <template>
-    <div class="w-full h-full text-center p-4 bg-color-primary"><!-- 
+  <div class="w-full h-full text-center p-4 bg-color-primary">
+    <!-- 
       <div class="my-6 p-4 bg-red-200 rounded-full border border-red-800">
         Ciao Feferina, come stai? Spero bene. Ti dedico questa pagina web/app. Ti voglio bene {{ '<3' }}
       </div> -->
@@ -7,11 +8,14 @@
     <span class="p-4">
       <div v-if="loading">Loading...</div>
       <div v-else-if="error">{{ error }}</div>
-      <div v-else>
-        <span v-for="el in data.data" :key="el">
-          <span class="p-6">
-            <p>{{ el.name }}</p>
+      <div v-else class="flex justify-center">
+        <span>
+          <span class="flex">
+            <p>Ciao,</p>
+            <p class="font-bold ml-2">{{ data.data.name }}</p>
+            <p>.</p>
           </span>
+          <p>Sei correttamente loggato!!</p>
         </span>
       </div>
     </span>
