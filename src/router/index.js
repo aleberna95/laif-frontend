@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
-import store from '@/store';
 import ViewHome from '@/views/ViewHome.vue';
 import ViewLogin from '@/views/ViewLogin.vue';
 import ViewOperations from '@/views/ViewOperations.vue';
 import ViewTips from '@/views/ViewTips.vue';
 import ViewUser from '@/views/ViewUser.vue';
 import ViewAddOperation from '@/views/ViewAddOperation.vue';
+import { useAuthStore } from '@/store/auth';
 
 // Definizione delle rotte
 const routes = [
@@ -73,7 +73,8 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     // Se la route richiede autenticazione e l'utente non è autenticato, viene reindirizzato al login
     if (to.matched.some((record) => record.meta.requiresAuth)) {
-        if (!store.getters.isAuthenticated) {
+        const store = useAuthStore();
+        if (!store.isAuthenticated) {
             next('/login');
         }
         else {

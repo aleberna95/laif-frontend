@@ -68,12 +68,13 @@
   import piggyBankImage from '@/assets/navbar/piggyBank.png';
   import filesImage from '@/assets/navbar/files.png';
   import loginImage from '@/assets/navbar/login.png';
-  import store from '@/store';
+  import { useAuthStore } from '@/store/auth';
 
   export default {
     name: 'BottomNavbar',
     setup() {
-      const isAuthenticated = computed(() => store.getters.isAuthenticated);
+      const authStore = useAuthStore();
+      const isAuthenticated = computed(() => authStore.isAuthenticated);
       const activeIcon = ref(''); // Traccia l'icona attiva
 
       const setActiveIcon = (icon) => {

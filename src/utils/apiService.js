@@ -1,5 +1,6 @@
 import axios from 'axios';
-import store from '../store';
+import { useAuthStore } from '@/store/auth';
+
 // Configurazione base di Axios
 const apiClient = axios.create({
     baseURL: process.env.VUE_APP_ENV == 'local' ? 'http://localhost:3000' : process.env.VUE_APP_BACKEND_BASE_URL,
@@ -9,10 +10,11 @@ const apiClient = axios.create({
     timeout: 10000,
 });
 
-// Intercettore per aggiungere il token alle richieste
+// Intercettore per aggiungere il token alle richiesteF
 apiClient.interceptors.request.use(
     (config) => {
-        const token = store.getters.getToken;
+        const store = useAuthStore();
+        const token = store.token;
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }

@@ -1,46 +1,33 @@
-// store/modules/auth.js
-const state = {
-    user: null,
-    token: null,
-    isAuthenticated: false,
-};
+import { defineStore } from 'pinia';
 
-const mutations = {
-    SET_USER(state, user) {
-        state.user = user;
-        state.isAuthenticated = !!user;
-    },
-    SET_TOKEN(state, token) {
-        state.token = token;
-        localStorage.setItem('userToken', token);
-    },
-    CLEAR_AUTH(state) {
-        state.user = null;
-        state.token = null;
-        state.isAuthenticated = false;
-        localStorage.removeItem('userToken');
-    },
-};
+export const useAuthStore = defineStore('auth', {
+    state: () => ({
+        user: null,
+        token: null,
+        isAuthenticated: false,
+    }),
 
-const actions = {
-    login({ commit }, { user, token }) {
-        commit('SET_USER', user);
-        commit('SET_TOKEN', token);
+    actions: {
+        initializeAuth() {
+            const token = localStorage.getItem('userToken');
+            if (token) {
+                this.token = token;
+                this.isAuthenticated = true;
+                // Puoi aggiungere altre informazioni sull'utente se necessario
+                // ad esempio, caricarle da un'API.
+            }
+        },
+        login(user, token) {
+            this.user = user;
+            this.token = token;
+            this.isAuthenticated = !!user;
+            localStorage.setItem('userToken', token);
+        },
+        logout() {
+            this.user = null;
+            this.token = null;
+            this.isAuthenticated = false;
+            localStorage.removeItem('userToken');
+        },
     },
-    logout({ commit }) {
-        commit('CLEAR_AUTH');
-    },
-};
-
-const getters = {
-    isAuthenticated: (state) => state.isAuthenticated, // Definisci come funzione
-    getUser: (state) => state.user,
-    getToken: (state) => state.token,
-};
-
-export default {
-    state,
-    mutations,
-    actions,
-    getters,
-};
+});

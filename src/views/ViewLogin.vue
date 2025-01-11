@@ -92,8 +92,7 @@
     createUserWithEmailAndPassword,
     sendPasswordResetEmail,
   } from 'firebase/auth';
-  // importo lo store
-  import store from '@/store';
+  import { useAuthStore } from '@/store/auth';
 
   export default {
     name: 'ViewLogin',
@@ -105,10 +104,9 @@
       };
     },
     created() {
-      // Controlla se l'utente è già autenticato
-      const token = localStorage.getItem('userToken');
-      if (token) {
-        // Se l'utente è già autenticato, reindirizza alla home
+      const authStore = useAuthStore();
+      authStore.initializeAuth();
+      if (authStore.isAuthenticated) {
         this.$router.push('/');
       }
     },
@@ -121,7 +119,7 @@
           const token = await user.getIdToken();
           console.log('Login riuscito:', user);
           console.log('Token ottenuto:', token);
-          this.handleUserLogin(user, token); // Salva stato e redirigi l'utente
+          this.handleUserLogin(user, token);
         } catch (error) {
           console.error('Errore durante il login con Google:', error);
         }
@@ -133,9 +131,7 @@
           const token = await user.getIdToken();
           console.log('Login con email e password riuscito:', user);
           console.log('Token ottenuto:', token);
-          this.handleUserLogin(user, token); // Salva stato e redirigi l'utente
-
-          // chiamo login dallo store
+          this.handleUserLogin(user, token);
         } catch (error) {
           console.error('Errore durante il login con email e password:', error);
         }
@@ -147,7 +143,7 @@
           const token = await user.getIdToken();
           console.log('Registrazione con email e password riuscita:', user);
           console.log('Token ottenuto:', token);
-          this.handleUserLogin(user, token); // Salva stato e redirigi l'utente
+          this.handleUserLogin(user, token);
         } catch (error) {
           console.error('Errore durante la registrazione con email e password:', error);
         }
@@ -168,10 +164,9 @@
       toggleAuthMode() {
         this.isRegistering = !this.isRegistering;
       },
-      handleUserLogin(user, token) {
-        // Salva i dettagli dell'utente e il token nel tuo stato globale o in localStorage/sessionStorage
-        store.dispatch('login', { user, token });
-        // A questo punto, puoi reindirizzare l'utente alla home o alla pagina che desideri
+      async handleUserLogin(user, token) {
+        const authStore = useAuthStore();
+        authStore.login(user, token);
         this.$router.push('/');
       },
     },

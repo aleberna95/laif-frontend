@@ -13,7 +13,7 @@
 <script>
   import { signOut } from 'firebase/auth';
   import { auth } from '@/services/firebase';
-  import store from '@/store';
+  import { useAuthStore } from '@/store/auth';
 
   export default {
     name: 'ViewUser',
@@ -24,8 +24,9 @@
           await signOut(auth);
           console.log('Logout riuscito');
 
+          const store = useAuthStore();
           // Reindirizza alla pagina di login
-          store.dispatch('logout');
+          store.logout();
           this.$router.push('/login');
         } catch (error) {
           console.error('Errore durante il logout:', error);
