@@ -7,10 +7,10 @@ export const useOperationsStore = defineStore('operations', {
     }),
 
     actions: {
-        async fetchOperations(year, month) {
+        async fetchOperations(year, month, pageSize, cursor = null) {
             try {
-                const response = await apiClient.getData(`/api/operations/getOperations?year=${year}&month=${month}`);
-                this.operations = response.data.data;
+                const response = await apiClient.getData('/api/operations/getOperations', { year, month, pageSize, cursor });
+                this.operations = response.data.data.records;
                 return response.data; // Restituisce i dati per essere usati nel componente
             } catch (error) {
                 console.error('Errore durante il fetch delle operazioni:', error);

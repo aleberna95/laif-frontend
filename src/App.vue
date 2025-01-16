@@ -13,11 +13,17 @@
 
 <script>
   import BottomNavbar from '@/components/layout/BottomNavbar.vue';
+  import { useDeviceStore } from '@/store/device';
 
   export default {
     name: 'App',
     components: {
       BottomNavbar,
+    },
+
+    created() {
+      const deviceStore = useDeviceStore();
+      deviceStore.detectDevice();
     },
   };
 </script>

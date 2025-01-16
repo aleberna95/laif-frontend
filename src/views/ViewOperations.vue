@@ -11,11 +11,6 @@
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-100 sticky top-0 z-10">
           <tr>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider rounded-tl-lg">
-              Importo
-            </th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
               Tipo
             </th>
@@ -24,20 +19,25 @@
               class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider rounded-tr-lg">
               Categoria
             </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider rounded-tl-lg">
+              Importo
+            </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody v-if="operations && operations.length > 0" class="bg-white divide-y divide-gray-200">
           <tr v-for="operation in operations" :key="operation.id" class="hover:bg-gray-100 transition duration-200">
-            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 rounded-l-lg">
-              {{ operation.amount }} €
-            </td>
             <td
               class="px-6 py-4 whitespace-nowrap text-sm"
-              :class="{ 'text-green-500': operation.type === 'income', 'text-red-500': operation.type === 'expense' }">
-              {{ operation.type === 'income' ? 'Entrata' : 'Uscita' }}
+              :class="{ 'text-green-500': operation.type === 'INCOME', 'text-red-500': operation.type === 'EXPENSE' }">
+              {{ operation.type === 'INCOME' ? 'Entrata' : 'Uscita' }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 rounded-r-lg">
-              {{ operation.category }}
+              {{ operation.type === 'INCOME' ? operation.incomeCategory : operation.expenseCategory }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 rounded-l-lg">
+              {{ operation.amount }} €
             </td>
           </tr>
         </tbody>
@@ -56,11 +56,7 @@
     components: { DateSelector },
     setup() {
       const operationsStore = useOperationsStore();
-      const operations = computed(() => [
-        ...operationsStore.operations,
-        ...operationsStore.operations,
-        ...operationsStore.operations,
-      ]);
+      const operations = computed(() => operationsStore.operations);
 
       const selectedYear = ref(new Date().getFullYear());
       const selectedMonth = ref(new Date().getMonth() + 1);
@@ -85,10 +81,22 @@
         { label: 'Novembre', value: 11 },
         { label: 'Dicembre', value: 12 },
       ]);
+      const pageSize = ref(5);
+      const cursor = ref(null);
 
       const fetchOperations = async () => {
+        cursor.value = null;
         try {
-          await operationsStore.fetchOperations(selectedYear.value, selectedMonth.value);
+          console.log('Fetching operations...', selectedYear.value, selectedMonth.value);
+
+          const operationsData = await operationsStore.fetchOperations(
+            selectedYear.value,
+            selectedMonth.value,
+            pageSize.value,
+            cursor.value,
+          );
+
+          cursor.value = operationsData.nextCursor;
         } catch (error) {
           console.error('Errore durante il caricamento delle operazioni:', error);
         }

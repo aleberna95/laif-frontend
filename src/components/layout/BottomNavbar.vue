@@ -1,11 +1,15 @@
 <template>
   <div class="fixed bottom-0 left-0 right-0 w-full flex justify-center">
     <nav
-      class="bg-white border-t-4 border-gray-200 shadow-lg flex justify-between items-center px-6 lg:w-4/12 w-full pb-10 relative">
+      :class="{
+        'pb-2': deviceType === 'android' || isLargeScreen,
+        'pb-10': deviceType === 'ios-phone',
+      }"
+      class="bg-white border-t-4 border-gray-200 shadow-lg flex justify-between items-center px-6 lg:w-4/12 w-full relative">
       <!-- Link Home -->
       <router-link to="/" class="flex flex-col items-center" @click="setActiveIcon('home')">
         <div :class="['icon-container', { 'active-icon': activeIcon === 'home' }]">
-          <img :class="['icon', { 'text-blue-500': activeIcon === 'home' }]" :src="homeImage" alt="Home" />
+          <img :src="homeImage" alt="Home" />
           <span v-if="activeIcon === 'home'" class="active-bar"></span>
         </div>
       </router-link>
@@ -13,7 +17,7 @@
       <!-- Icona Lista Operazioni -->
       <router-link to="/operations" class="flex flex-col items-center" @click="setActiveIcon('operations')">
         <div :class="['icon-container', { 'active-icon': activeIcon === 'operations' }]">
-          <img :class="['icon', { 'text-blue-500': activeIcon === 'operations' }]" :src="filesImage" alt="Operations" />
+          <img :src="filesImage" alt="Operations" />
           <span v-if="activeIcon === 'operations'" class="active-bar"></span>
         </div>
       </router-link>
@@ -21,16 +25,16 @@
       <!-- Icona + al centro -->
       <router-link to="/addOperation" class="flex flex-col items-center" @click="setActiveIcon('add')">
         <div :class="['icon-container', { 'active-icon': activeIcon === 'add' }]">
-          <img :class="['icon', { 'text-blue-500': activeIcon === 'add' }]" :src="addImage" alt="Add" />
+          <img :src="addImage" alt="Add" />
           <span v-if="activeIcon === 'add'" class="active-bar"></span>
         </div>
       </router-link>
 
-      <!-- Icona tips -->
+      <!-- Icona Tips -->
       <router-link to="/tips" class="flex flex-col items-center" @click="setActiveIcon('tips')">
         <div :class="['icon-container', { 'active-icon': activeIcon === 'tips' }]">
+          <img :src="piggyBankImage" alt="Tips" />
           <span v-if="activeIcon === 'tips'" class="active-bar"></span>
-          <img :class="['icon', { 'text-blue-500': activeIcon === 'tips' }]" :src="piggyBankImage" alt="Tips" />
         </div>
       </router-link>
 
@@ -41,7 +45,7 @@
         class="flex flex-col items-center"
         @click="setActiveIcon('login')">
         <div :class="['icon-container', { 'active-icon': activeIcon === 'login' }]">
-          <img :class="['icon', { 'text-blue-500': activeIcon === 'login' }]" :src="loginImage" alt="Login" />
+          <img :src="loginImage" alt="Login" />
           <span v-if="activeIcon === 'login'" class="active-bar"></span>
         </div>
       </router-link>
@@ -52,7 +56,7 @@
         class="flex flex-col items-center"
         @click="setActiveIcon('user')">
         <div :class="['icon-container', { 'active-icon': activeIcon === 'user' }]">
-          <img :class="['icon', { 'text-blue-500': activeIcon === 'user' }]" :src="userImage" alt="User" />
+          <img :src="userImage" alt="User" />
           <span v-if="activeIcon === 'user'" class="active-bar"></span>
         </div>
       </router-link>
@@ -69,6 +73,7 @@
   import filesImage from '@/assets/navbar/files.png';
   import loginImage from '@/assets/navbar/login.png';
   import { useAuthStore } from '@/store/auth';
+  import { useDeviceStore } from '@/store/device';
 
   export default {
     name: 'BottomNavbar',
@@ -81,6 +86,12 @@
         activeIcon.value = icon;
       };
 
+      const deviceStore = useDeviceStore();
+      const deviceType = computed(() => deviceStore.deviceType);
+      const isLargeScreen = computed(() => {
+        return window.innerWidth > 1024; // Schermi grandi
+      });
+
       return {
         isAuthenticated,
         activeIcon,
@@ -91,32 +102,30 @@
         piggyBankImage,
         filesImage,
         loginImage,
+        deviceType,
+        isLargeScreen
       };
     },
   };
 </script>
 
 <style scoped>
-  /* Stile per il contenitore dell'icona */
   .icon-container {
     position: relative;
-    padding: 1rem;
+    padding: 0.9375rem 1rem; /* 0.9375rem = 15px, ridotto di 2px rispetto a 1rem */
+    transition: transform 0.3s ease-in-out;
   }
-
-  .icon {
+  .icon-container img {
     width: 28px;
     height: 28px;
-    transition: all 0.3s ease-in-out;
   }
-
-  .icon-container.active-icon .icon {
-    color: #3b82f6; /* Blu per l'icona attiva */
+  .icon-container.active-icon {
     transform: scale(1.1);
+    color: #3b82f6; /* Blu per l'icona attiva */
   }
-
   .active-bar {
     position: absolute;
-    top: 1px; /* Si posiziona appena sopra la barra di navigazione */
+    top: 1px;
     width: 24px;
     height: 4px;
     background-color: #3b82f6; /* Colore blu per la barretta */

@@ -14,9 +14,10 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
     (config) => {
         const store = useAuthStore();
-        const token = store.token;
+        const { token, refreshToken } = store;
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
+            config.headers['x-refresh-token'] = refreshToken;
         }
         return config;
     },
@@ -26,8 +27,8 @@ apiClient.interceptors.request.use(
 );
 
 export default {
-    getData(url) {
-        return apiClient.get(url);
+    getData(url, params = {}) {
+        return apiClient.get(url, { params });
     },
     postData(url, data) {
         return apiClient.post(url, data);
