@@ -60,7 +60,16 @@ const routes = [
         meta: {
             requiresAuth: true, // Accesso consentito solo se autenticato
         },
-    }
+    },
+    {
+        // aggiungo la rotta per aggiungere le entrate
+        path: '/addOperation/income',
+        name: 'AddIncome',
+        component: () => import('@/components/layout/operations/AddIncome.vue'),
+        meta: {
+            requiresAuth: true, // Accesso consentito solo se autenticato
+        },
+    },
 ];
 
 // Creazione del router
