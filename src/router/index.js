@@ -69,6 +69,14 @@ const routes = [
         meta: {
             requiresAuth: true, // Accesso consentito solo se autenticato
         },
+    }, {
+        // aggiungo la rotta per aggiungere le entrate
+        path: '/addOperation/expense',
+        name: 'AddExpense',
+        component: () => import('@/components/layout/operations/AddExpense.vue'),
+        meta: {
+            requiresAuth: true, // Accesso consentito solo se autenticato
+        },
     },
 ];
 

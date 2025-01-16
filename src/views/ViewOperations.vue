@@ -1,5 +1,5 @@
 <template>
-  <div class="max-w-4xl mx-auto bg-gray-100 p-5 h-full overflow-hidden">
+  <div class="max-w-4xl mx-auto bg-color-primary p-5 h-full overflow-hidden">
     <!-- Filtri per anno e mese -->
     <div class="flex justify-between space-x-4">
       <DateSelector :label="$t('year')" :options="years" v-model="selectedYear" @update:modelValue="updateOperations" />

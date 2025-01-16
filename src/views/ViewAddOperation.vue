@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center">
+  <div class="min-h-full bg-color-primary flex items-center justify-center">
     <div class="max-w-lg w-full p-6 bg-white rounded-lg shadow-md">
       <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Cosa vuoi aggiungere?</h1>
       <p class="text-gray-600 text-center mb-8">Scegli tra un'entrata o un'uscita per continuare.</p>
@@ -24,7 +24,9 @@
         </router-link>
 
         <!-- Uscita -->
-        <div :class="['flex flex-col items-center p-6 border rounded-lg cursor-pointer transition-all duration-300']">
+        <router-link
+          to="/addOperation/expense"
+          :class="['flex flex-col items-center p-6 border rounded-lg cursor-pointer transition-all duration-300']">
           <div class="w-16 h-16 flex items-center justify-center bg-red-100 rounded-full mb-4">
             <svg
               class="w-8 h-8 text-red-500"
@@ -37,7 +39,7 @@
             </svg>
           </div>
           <span class="text-lg font-medium text-gray-800">Uscita</span>
-        </div>
+        </router-link>
       </div>
       <!-- 
       <button

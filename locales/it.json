@@ -73,5 +73,7 @@
     "newIncomeDescription": "Compila i campi per aggiungere una nuova entrata al tuo bilancio.",
     "newExpense": "Nuova Uscita",
     "description": "Descrizione",
-    "saveIncome": "Salva Entrata"
+    "saveIncome": "Salva Entrata",
+    "saveExpense": "Salva Uscita",
+    "newExpenseDescription": "Compila i campi per aggiungere una nuova uscita al tuo bilancio."
 }

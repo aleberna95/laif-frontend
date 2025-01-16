@@ -1,12 +1,12 @@
 <template>
-  <div class="min-h-full flex items-end justify-center bg-color-primary">
+  <div class="min-h-full flex items-center justify-center bg-color-primary">
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
-      <div class="text-center">
-        <h1 class="text-4xl font-bold text-gray-800">{{ $t('newIncome') }}</h1>
-        <p class="text-gray-600 mt-2">{{ $t('newIncomeDescription') }}</p>
+      <div class=" text-center">
+        <h1 class="text-4xl font-bold text-gray-800">{{ $t('newExpense') }}</h1>
+        <p class="text-gray-600 mt-2">{{ $t('newExpenseDescription') }}</p>
       </div>
 
-      <form @submit.prevent="submitIncome" class="space-y-6">
+      <form @submit.prevent="submitExpense" class="space-y-6">
         <!-- Amount -->
         <div class="relative">
           <label for="amount" class="block text-sm font-medium text-gray-700">{{ $t('amount') }}</label>
@@ -38,7 +38,7 @@
             v-model="category"
             required
             class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none">
-            <option v-for="cat in incomeCategories" :key="cat" :value="cat.value">
+            <option v-for="cat in expenseCategories" :key="cat" :value="cat.value">
               {{ $t(cat.label) }}
             </option>
           </select>
@@ -55,7 +55,7 @@
           <button
             type="submit"
             class="w-full py-3 bg-blue-600 text-white font-medium text-lg rounded-md shadow-sm hover:bg-blue-700">
-            {{ $t('saveIncome') }}
+            {{ $t('saveExpense') }}
           </button>
         </div>
       </form>
@@ -73,7 +73,7 @@
   const globalStore = useGlobalStore();
   const operationStore = useOperationsStore();
 
-  const incomeCategories = computed(() => operationStore.incomeCategories);
+  const expenseCategories = computed(() => operationStore.expenseCategories);
 
   const amount = ref(null);
   const description = ref('');
@@ -84,7 +84,7 @@
   const months = globalStore.months;
   const years = globalStore.years;
 
-  const submitIncome = () => {
+  const submitExpense = () => {
     if (amount.value && description.value && category.value && month.value && year.value) {
       operationStore
         .addOperation({
@@ -93,10 +93,10 @@
           category: category.value,
           month: month.value,
           year: year.value,
-          type: 'INCOME',
+          type: 'EXPENSE',
         })
         .finally(() => {
-          console.log('Entrata salvata con successo!');
+          console.log('Uscita salvata con successo!');
           router.push({ name: 'AddOperation' });
         });
     } else {
@@ -104,12 +104,12 @@
     }
   };
 
-  const getIncomeCategories = async () => {
-    await operationStore.getIncomeCategories();
+  const getExpenseCategories = async () => {
+    await operationStore.getExpenseCategories();
   };
 
   onMounted(() => {
-    getIncomeCategories();
+    getExpenseCategories();
   });
 </script>
 
