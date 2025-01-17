@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-full w-full bg-color-primary">
+  <div class="flex flex-col items-center justify-center h-full w-full">
     <div class="text-xl font-semibold text-gray-800 mb-6">User Page</div>
     <!-- Bottone di Logout -->
     <button

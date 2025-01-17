@@ -1,11 +1,20 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
+import { useAuthStore } from '@/store/auth';
+
 import ViewHome from '@/views/ViewHome.vue';
 import ViewLogin from '@/views/ViewLogin.vue';
 import ViewOperations from '@/views/ViewOperations.vue';
 import ViewTips from '@/views/ViewTips.vue';
 import ViewUser from '@/views/ViewUser.vue';
+
+// Operations
 import ViewAddOperation from '@/views/ViewAddOperation.vue';
-import { useAuthStore } from '@/store/auth';
+import OperationChoice from '@/components/layout/operations/OperationChoice.vue';
+import AddIncome from '@/components/layout/operations/AddIncome.vue';
+import ExpenseChoice from '@/components/layout/operations/ExpenseChoice.vue';
+import AddExpense from '@/components/layout/operations/AddExpense.vue';
+import AddRecurringExpense from '@/components/layout/operations/AddRecurringExpense.vue';
+
 
 // Definizione delle rotte
 const routes = [
@@ -56,27 +65,58 @@ const routes = [
     {
         path: '/addOperation',
         name: 'AddOperation',
+        redirect: '/addOperation/operationChoice',
         component: ViewAddOperation,
         meta: {
             requiresAuth: true, // Accesso consentito solo se autenticato
         },
-    },
-    {
-        // aggiungo la rotta per aggiungere le entrate
-        path: '/addOperation/income',
-        name: 'AddIncome',
-        component: () => import('@/components/layout/operations/AddIncome.vue'),
-        meta: {
-            requiresAuth: true, // Accesso consentito solo se autenticato
-        },
-    }, {
-        // aggiungo la rotta per aggiungere le entrate
-        path: '/addOperation/expense',
-        name: 'AddExpense',
-        component: () => import('@/components/layout/operations/AddExpense.vue'),
-        meta: {
-            requiresAuth: true, // Accesso consentito solo se autenticato
-        },
+        children: [
+            {
+                // aggiungo la rotta per aggiungere le entrate
+                path: 'operationChoice',
+                name: 'OperationChoice',
+                component: OperationChoice,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
+            {
+                // aggiungo la rotta per aggiungere le entrate
+                path: 'income',
+                name: 'AddIncome',
+                component: AddIncome,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
+            {
+                path: 'expenseChoice',
+                name: 'ExpenseChoice',
+                component: ExpenseChoice,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
+            {
+                // aggiungo la rotta per aggiungere le entrate
+                path: 'singleExpense',
+                name: 'AddExpense',
+                component: AddExpense,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
+            {
+                // aggiungo la rotta per aggiungere le entrate
+                path: 'recurringExpense',
+                name: 'AddRecurringExpense',
+                component: AddRecurringExpense,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
+
+        ]
     },
 ];
 

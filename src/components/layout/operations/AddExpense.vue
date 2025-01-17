@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-full flex items-center justify-center bg-color-primary">
+  <div class="flex items-center justify-center">
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
-      <div class=" text-center">
+      <div class="text-center">
         <h1 class="text-4xl font-bold text-gray-800">{{ $t('newExpense') }}</h1>
         <p class="text-gray-600 mt-2">{{ $t('newExpenseDescription') }}</p>
       </div>

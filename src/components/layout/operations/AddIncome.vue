@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full flex items-end justify-center bg-color-primary">
+  <div class="flex items-center justify-center">
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
       <div class="text-center">
         <h1 class="text-4xl font-bold text-gray-800">{{ $t('newIncome') }}</h1>

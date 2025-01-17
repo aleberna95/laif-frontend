@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full text-center p-4 bg-color-primary">
+  <div class="w-full h-full text-center p-4">
     <!-- 
       <div class="my-6 p-4 bg-red-200 rounded-full border border-red-800">
         Ciao Feferina, come stai? Spero bene. Ti dedico questa pagina web/app. Ti voglio bene {{ '<3' }}
@@ -11,7 +11,7 @@
       <div v-else class="flex justify-center">
         <span>
           <span class="flex">
-            <p>{{$t('hello')}},</p>
+            <p>{{ $t('hello') }},</p>
             <p class="font-bold ml-2">{{ data.data.name }}</p>
             <p>.</p>
           </span>

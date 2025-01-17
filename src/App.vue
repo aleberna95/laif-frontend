@@ -2,7 +2,7 @@
   <div class="flex justify-center w-screen h-screen overflow-hidden">
     <div class="h-full w-full md:w-6/12 flex flex-col">
       <!-- Contenuto Scrollabile con barra nascosta, termina sopra la navbar -->
-      <div class="flex-1 overflow-y-auto hide-scrollbar mb-16 rounded-lg">
+      <div class="flex-1 overflow-y-auto hide-scrollbar mb-16 rounded-lg min-h-full bg-color-primary flex items-center justify-center">
         <router-view />
       </div>
     </div>
