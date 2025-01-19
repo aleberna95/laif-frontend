@@ -1,7 +1,7 @@
 <template>
-  <div class="date-selector flex flex-col">
-    <label :for="label" class="mb-2 text-sm font-bold text-gray-700">
-      {{ $t(label) }}
+  <div class="base-selector flex flex-col">
+    <label v-if="label" :for="label" class="mb-2 text-sm font-bold text-gray-700">
+      {{ parseInt(label) ? label : $t(label) }}
     </label>
     <select
       :id="label"
@@ -9,7 +9,7 @@
       @change="$emit('update:modelValue', $event.target.value)"
       class="border rounded px-3 py-2 shadow focus:outline-none focus:ring-2 focus:ring-blue-500">
       <option v-for="option in options" :key="option.value" :value="option.value">
-        {{ $t(option.label) }}
+        {{ parseInt(option.label) ? option.label : $t(option.label) }}
       </option>
     </select>
   </div>
@@ -17,7 +17,7 @@
 
 <script>
   export default {
-    name: 'DateSelector',
+    name: 'BaseSelector',
     props: {
       label: {
         type: String,
@@ -36,7 +36,7 @@
 </script>
 
 <style scoped>
-  .date-selector {
+  .base-selector {
     width: 100%;
   }
 </style>

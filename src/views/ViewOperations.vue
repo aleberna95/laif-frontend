@@ -1,51 +1,91 @@
 <template>
-  <div class="max-w-4xl mx-auto p-5 h-full overflow-hidden">
-    <!-- Filtri per anno e mese -->
-    <div class="flex justify-between space-x-4">
-      <DateSelector :label="$t('year')" :options="years" v-model="selectedYear" @update:modelValue="updateOperations" />
-      <DateSelector
-        :label="$t('month')"
-        :options="months"
-        v-model="selectedMonth"
-        @update:modelValue="updateOperations" />
-    </div>
+  <!-- Contenitore globale con sfondo leggero -->
+  <div class="bg-gray-50 min-h-full">
+    <div class="max-w-4xl mx-auto p-5 h-full">
+      <!-- Sezione Filtri (Anno / Mese) -->
+      <div class="flex items-start mb-4">
+        <div class="mr-4">
+          <DateSelector
+            :label="$t('year')"
+            :options="years"
+            v-model="selectedYear"
+            @update:modelValue="updateOperations" />
+        </div>
+        <div>
+          <DateSelector
+            :label="$t('month')"
+            :options="months"
+            v-model="selectedMonth"
+            @update:modelValue="updateOperations" />
+        </div>
+      </div>
 
-    <!-- Tabella delle operazioni -->
-    <div class="overflow-y-auto bg-white shadow-lg rounded-lg mt-4 h-[calc(100%-140px)]">
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-100 sticky top-0 z-10">
-          <tr>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-              {{ $t('description') }}
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider rounded-tr-lg">
-              {{ $t('category') }}
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider rounded-tl-lg">
-              {{ $t('amount') }}
-            </th>
-          </tr>
-        </thead>
-        <tbody v-if="operations && operations.length > 0" class="bg-white divide-y divide-gray-200">
-          <tr v-for="operation in operations" :key="operation.id" class="hover:bg-gray-100 transition duration-200">
-            <td class="px-6 py-4 whitespace-nowrap text-sm">
-              {{ operation.description }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 rounded-r-lg">
-              {{ operation.type === 'INCOME' ? $t(operation.incomeCategory) : $t(operation.expenseCategory) }}
-            </td>
-            <td
-              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 rounded-l-lg"
-              :class="{ 'text-green-500': operation.type === 'INCOME', 'text-red-500': operation.type === 'EXPENSE' }">
-              {{ operation.amount }} €
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <!-- Contenitore della tabella con scrolling verticale e orizzontale -->
+      <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="overflow-x-auto overflow-y-auto max-h-[calc(100vh-200px)]">
+          <table class="table-fixed w-full text-left">
+            <!-- Intestazione -->
+            <thead class="bg-gray-100 sticky top-0 z-10">
+              <tr>
+                <!-- Colonna Descrizione -->
+                <th
+                  scope="col"
+                  class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/5 sm:w-2/6 md:w-3/6">
+                  {{ $t('description') }}
+                </th>
+                <!-- Colonna Categoria -->
+                <th scope="col" class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-1/4">
+                  {{ $t('category') }}
+                </th>
+                <!-- Colonna Importo -->
+                <th scope="col" class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-1/4">
+                  {{ $t('amount') }}
+                </th>
+              </tr>
+            </thead>
+
+            <!-- Corpo Tabella -->
+            <tbody v-if="operations && operations.length > 0" class="divide-y divide-gray-200 text-sm">
+              <tr v-for="operation in operations" :key="operation.id" class="hover:bg-gray-50 transition-colors">
+                <!-- Descrizione -->
+                <td class="px-4 py-3">
+                  {{ operation.description }}
+                </td>
+
+                <!-- Categoria (incomeCategory o expenseCategory) -->
+                <td class="px-4 py-3 text-gray-500">
+                  {{ operation.type === 'INCOME' ? $t(operation.incomeCategory) : $t(operation.expenseCategory) }}
+                </td>
+
+                <!-- Importo (+/-) -->
+                <td
+                  class="px-4 py-3 font-medium"
+                  :class="{
+                    'text-green-600': operation.type === 'INCOME',
+                    'text-red-500': operation.type === 'EXPENSE',
+                  }">
+                  {{ operation.type === 'INCOME' ? '+' : '-' }}{{ operation.amount }} €
+                </td>
+              </tr>
+            </tbody>
+
+            <!-- Skeleton: Nessun dato (o in caricamento) -->
+            <tbody v-else>
+              <tr v-for="n in 3" :key="n" class="border-b last:border-0">
+                <td class="px-4 py-3">
+                  <div class="animate-pulse h-4 bg-gray-200 rounded w-3/4 mx-auto"></div>
+                </td>
+                <td class="px-4 py-3">
+                  <div class="animate-pulse h-4 bg-gray-200 rounded w-2/4 mx-auto"></div>
+                </td>
+                <td class="px-4 py-3">
+                  <div class="animate-pulse h-4 bg-gray-200 rounded w-1/4 mx-auto"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -54,7 +94,7 @@
   import { computed, ref, onMounted } from 'vue';
   import { useOperationsStore } from '@/store/operations';
   import { useGlobalStore } from '@/store/global';
-  import DateSelector from '@/components/DateSelector.vue';
+  import DateSelector from '@/components/BaseSelector.vue';
 
   export default {
     name: 'OperationsList',
@@ -76,15 +116,12 @@
       const fetchOperations = async () => {
         cursor.value = null;
         try {
-          console.log('Fetching operations...', selectedYear.value, selectedMonth.value);
-
           const operationsData = await operationsStore.fetchOperations(
             selectedYear.value,
             selectedMonth.value,
             pageSize.value,
             cursor.value,
           );
-
           cursor.value = operationsData.nextCursor;
         } catch (error) {
           console.error('Errore durante il caricamento delle operazioni:', error);
@@ -108,5 +145,3 @@
     },
   };
 </script>
-
-<style scoped></style>

@@ -75,5 +75,9 @@
     "description": "Descrizione",
     "saveIncome": "Salva Entrata",
     "saveExpense": "Salva Uscita",
-    "newExpenseDescription": "Compila i campi per aggiungere una nuova uscita al tuo bilancio."
+    "newExpenseDescription": "Compila i campi per aggiungere una nuova uscita al tuo bilancio.",
+    "noDataAvailable": "Nessun dato disponibile",
+    "INFINITE": "Continuativa",
+    "UNTIL_DATE": "Fino a data",
+    "OCCURRENCES_LIMIT": "Numero di ricorrenze"
 }

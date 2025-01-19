@@ -67,7 +67,7 @@
   import { ref, computed, onMounted } from 'vue';
   import { useOperationsStore } from '@/store/operations';
   import { useGlobalStore } from '@/store/global';
-  import DateSelector from '@/components/DateSelector.vue';
+  import DateSelector from '@/components/BaseSelector.vue';
   import router from '@/router';
 
   const globalStore = useGlobalStore();

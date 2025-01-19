@@ -6,9 +6,20 @@ export const useOperationsStore = defineStore('operations', {
         operations: [],
         incomeCategories: [],
         expenseCategories: [],
+        recursiveTypes: [],
+        frequencies: [],
     }),
 
     actions: {
+        async addRecurringOperation(operation) {
+            //insertRecurringExpense
+            try {
+                await apiClient.postData('/api/operations/insertRecurringExpense', operation);
+            } catch (error) {
+                console.error('Errore durante l\'aggiunta dell\'operazione ricorrente:', error);
+                throw error;
+            }
+        },
         async addOperation(operation) {
             try {
                 await apiClient.postData('/api/operations/insertOperation', operation);
@@ -27,6 +38,24 @@ export const useOperationsStore = defineStore('operations', {
             }
         },
 
+        async getRecursiveTypes() {
+            try {
+                const response = await apiClient.getData('/api/operations/getRecursiveTypes');
+                this.recursiveTypes = response.data.data;
+            } catch (error) {
+                console.error('Errore durante il fetch dei tipi ricorsivi:', error);
+                throw error;
+            }
+        },
+        async getFrequencies() {
+            try {
+                const response = await apiClient.getData('/api/operations/getFrequencies');
+                this.frequencies = response.data.data;
+            } catch (error) {
+                console.error('Errore durante il fetch delle frequenze:', error);
+                throw error;
+            }
+        },
         async getExpenseCategories() {
             try {
                 const response = await apiClient.getData('/api/operations/getExpenseCategories');
