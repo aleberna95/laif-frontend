@@ -1,6 +1,7 @@
 <template>
   <div class="flex items-center justify-center">
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
+      <BaseBackButton />
       <div class="text-center">
         <h1 class="text-4xl font-bold text-gray-800">{{ $t('newIncome') }}</h1>
         <p class="text-gray-600 mt-2">{{ $t('newIncomeDescription') }}</p>
@@ -69,6 +70,7 @@
   import { useGlobalStore } from '@/store/global';
   import DateSelector from '@/components/BaseSelector.vue';
   import router from '@/router';
+  import BaseBackButton from '@/components/BaseBackButton.vue';
 
   const globalStore = useGlobalStore();
   const operationStore = useOperationsStore();

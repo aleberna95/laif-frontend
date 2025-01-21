@@ -1,6 +1,7 @@
 <template>
-  <div class="flex items-center justify-center">
+  <div class="flex items-center justify-center w-screen">
     <div class="max-w-lg w-full p-6 bg-white rounded-lg shadow-md">
+      <BaseBackButton />
       <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Tipo di Uscita</h1>
       <p class="text-gray-600 text-center mb-8">Scegli tra una spesa singola o una ricorrente.</p>
 
@@ -46,6 +47,7 @@
 </template>
 
 <script setup>
+  import BaseBackButton from '@/components/BaseBackButton.vue';
   // This script is placeholder for potential future logic.
 </script>
 
