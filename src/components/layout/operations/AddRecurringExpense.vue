@@ -1,49 +1,32 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-gray-50">
+  <div class="flex items-center justify-center w-screen min-h-screen bg-gray-50">
     <div class="max-w-2xl w-full bg-white rounded-lg shadow-md px-4">
       <!-- Header -->
-      <div class="text-center p-8">
+      <div class="text-center p-8 w-full">
         <BaseBackButton />
-        <h1 class="text-4xl font-bold text-gray-800">{{ $t('newRecurringExpense') }}</h1>
+        <h1 class="text-2xl font-bold text-gray-800">{{ $t('newRecurringExpense') }}</h1>
         <p class="text-gray-500 mt-2">{{ $t('newExpenseDescription') }}</p>
-        <!-- Campo read-only -->
-        <div>
-          <div class="relative mt-1 w-full flex justify-end">
-            <input
-              id="maxOccurrencesCalc"
-              type="number"
-              readonly
-              :value="localForm.maxOccurrences || 0"
-              class="cursor-default w-20 text-center bg-gray-100 border border-gray-300 rounded-full text-sm text-gray-700 px-2 py-1 shadow focus:outline-none" />
-          </div>
-          <div class="flex justify-end mt-1">
-            <label for="maxOccurrencesCalc" class="text-sm font-medium text-gray-700">
-              {{ $t('calculatedOccurrences') }}
-            </label>
-          </div>
-        </div>
       </div>
 
       <!-- Contenitore scrollabile -->
       <div class="overflow-y-auto max-h-[70vh] px-8 mb-12">
-        <!-- Loading state -->
-        <div v-if="loading" class="flex flex-col items-center justify-center h-60">
-          <svg
-            class="animate-spin h-12 w-12 text-gray-400 mb-4"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 008 8V4a8 8 0 00-8 8z"></path>
-          </svg>
-          <p class="text-gray-500 text-lg">{{ $t('loading') }}...</p>
-        </div>
-
+        <BaseLoader v-if="loading" :loading="loading" />
         <!-- Form -->
         <form v-else @submit.prevent="submitExpense" class="space-y-6 mb-16">
           <!-- Sezione ricorsività -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <BaseSelector :label="$t('recursiveType')" :options="recursiveTypes" v-model="localForm.recursiveType" />
+
+            <!-- Se OCCURRENCES_LIMIT -->
+            <div v-if="localForm.recursiveType === 'OCCURRENCES_LIMIT'">
+              <label for="maxOccurrences" class="text-sm font-medium text-gray-700">{{ $t('maxOccurrences') }}</label>
+              <input
+                id="maxOccurrences"
+                type="number"
+                min="1"
+                v-model.number="localForm.maxOccurrences"
+                class="mt-2 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none" />
+            </div>
             <div class="flex items-center gap-2">
               <div>
                 <label for="frequencyCount" class="text-sm font-bold text-gray-700">{{ $t('every') }}</label>
@@ -51,31 +34,18 @@
                   id="frequencyCount"
                   type="number"
                   min="1"
-                  class="w-16 px-2 py-1 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none"
+                  class="w-16 mt-3 px-2 py-1 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none"
                   v-model.number="localForm.frequencyCount" />
               </div>
               <BaseSelector :label="$t('frequencies')" :options="frequencies" v-model="localForm.frequency" hideLabel />
             </div>
           </div>
-
-          <!-- Se UNTIL_DATE -->
-          <div v-if="localForm.recursiveType === 'UNTIL_DATE'">
-            <label for="endDate" class="text-sm font-medium text-gray-700">{{ $t('endDate') }}</label>
+          <div>
+            <label for="endDate" class="text-sm font-medium text-gray-700">{{ $t('firstOccurrence') }}</label>
             <div class="grid grid-cols-2 gap-4 mt-2">
-              <BaseSelector :label="null" :options="months" v-model="localForm.endDate.month" hideLabel />
-              <BaseSelector :label="null" :options="years" v-model="localForm.endDate.year" hideLabel />
+              <BaseSelector :label="null" :options="months" v-model="localForm.firstOccurrence.month" hideLabel />
+              <BaseSelector :label="null" :options="years" v-model="localForm.firstOccurrence.year" hideLabel />
             </div>
-          </div>
-
-          <!-- Se OCCURRENCES_LIMIT -->
-          <div v-if="localForm.recursiveType === 'OCCURRENCES_LIMIT'">
-            <label for="maxOccurrences" class="text-sm font-medium text-gray-700">{{ $t('maxOccurrences') }}</label>
-            <input
-              id="maxOccurrences"
-              type="number"
-              min="1"
-              v-model.number="localForm.maxOccurrences"
-              class="mt-2 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none" />
           </div>
 
           <!-- Amount e Category -->
@@ -133,6 +103,7 @@
   import { useOperationsStore } from '@/store/operations';
   import { useGlobalStore } from '@/store/global';
   import BaseBackButton from '@/components/BaseBackButton.vue';
+  import BaseLoader from '@/components/BaseLoader.vue';
 
   // Store / enumerations
   const operationStore = useOperationsStore();
@@ -155,8 +126,8 @@
     frequency: 'MONTHLY',
     frequencyCount: 1,
     maxOccurrences: null,
-    endDate: {
-      month: new Date().getMonth() + 2,
+    firstOccurrence: {
+      month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
     },
   });
@@ -182,10 +153,8 @@
     (newVal) => {
       if (newVal === 'INFINITE') {
         localForm.value.maxOccurrences = 9999;
-        localForm.value.endDate = null;
       } else if (newVal === 'OCCURRENCES_LIMIT') {
         localForm.value.maxOccurrences = 5;
-        localForm.value.endDate = null;
       } else if (newVal === 'UNTIL_DATE') {
         localForm.value.maxOccurrences = 0;
       }
@@ -194,7 +163,14 @@
 
   // Watch per calcolare maxOccurrences e impostare lastOccurenceDate
   watch(
-    () => [localForm.value.endDate, localForm.value.frequency, localForm.value.frequencyCount],
+    () => [
+      localForm.value.frequency,
+      localForm.value.frequencyCount,
+      localForm.value.recursiveType,
+      localForm.value.maxOccurrences,
+      localForm.value.firstOccurrence?.month,
+      localForm.value.firstOccurrence?.year,
+    ],
     () => {
       if (localForm.value.recursiveType === 'UNTIL_DATE') {
         computeMaxOccurrences();
@@ -202,47 +178,49 @@
     },
   );
 
-  // Funzione per calcolare maxOccurrences
-function computeMaxOccurrences() {
+  function computeMaxOccurrences() {
     console.log('Computing max occurrences...');
-    
-    const { endDate, frequency, frequencyCount } = localForm.value;
-    if (!endDate || !endDate.month || !endDate.year) {
+
+    const { frequency, frequencyCount, firstOccurrence } = localForm.value;
+
+    // Verifica validità di `firstOccurrence`
+    if (!firstOccurrence || !firstOccurrence.month || !firstOccurrence.year) {
       localForm.value.maxOccurrences = 0;
       return;
     }
 
-    const start = new Date();
-    const end = new Date(endDate.year, endDate.month - 1, 0, 23, 59, 59); // Ultimo giorno del mese
-    const diffInMs = end - start;
+    // Data iniziale (da `firstOccurrence`)
+    const start = new Date(firstOccurrence.year, firstOccurrence.month - 1, 1); // Primo giorno del mese di `firstOccurrence`
 
-    if (diffInMs <= 0) {
-      localForm.value.maxOccurrences = 0;
-      return;
-    }
-
-    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-    let occ = 1;
+    // Intervallo di ricorrenza
     const fc = frequencyCount || 1;
 
-    switch (frequency) {
-      case 'DAILY':
-        occ = Math.floor(diffInDays / fc);
-        break;
-      case 'WEEKLY':
-        occ = Math.floor(diffInDays / (7 * fc));
-        break;
-      case 'MONTHLY':
-        occ = Math.floor(diffInDays / (30.4 * fc));
-        break;
-      case 'YEARLY':
-        occ = Math.floor(diffInDays / (365 * fc));
-        break;
-      default:
-        occ = 1;
+    // Contatore delle occorrenze
+    let occurrences = 0;
+
+    // Calcolo delle occorrenze basato sulla ricorsività
+    const currentDate = new Date(); // Data attuale
+    let current = new Date(start); // Copia della data iniziale per calcoli
+
+    while (current <= currentDate) {
+      occurrences++;
+
+      switch (frequency) {
+        case 'MONTHLY':
+          current.setMonth(current.getMonth() + fc); // Incremento di X mesi
+          break;
+        case 'YEARLY':
+          current.setFullYear(current.getFullYear() + fc); // Incremento di X anni
+          break;
+        default:
+          console.warn('Tipo di ricorsività non supportato');
+          localForm.value.maxOccurrences = 0;
+          return;
+      }
     }
 
-    localForm.value.maxOccurrences = Math.max(occ, 1);
+    // Assegna il numero di occorrenze calcolate
+    localForm.value.maxOccurrences = occurrences;
   }
 
   // Invio del form
@@ -270,6 +248,7 @@ function computeMaxOccurrences() {
         ? new Date(localForm.value.endDate.year, localForm.value.endDate.month - 1, 0, 23, 59, 59)
         : null;
 
+    loading.value = true;
     operationStore
       .addRecurringOperation({
         amount: localForm.value.amount,
@@ -279,11 +258,14 @@ function computeMaxOccurrences() {
         frequencyCount: localForm.value.frequencyCount,
         recursiveType: localForm.value.recursiveType,
         maxOccurrences: localForm.value.maxOccurrences,
+        firstOccurrenceDate: new Date(localForm.value.firstOccurrence.year, localForm.value.firstOccurrence.month),
         lastOccurenceDate: lastOccurrenceDate ? lastOccurrenceDate.toISOString() : null,
         type: 'EXPENSE',
       })
       .then(() => {
         console.log('Uscita salvata con successo!');
+        loading.value = false;
+
         router.push({ name: 'AddOperation' });
       })
       .catch((err) => console.error(err));

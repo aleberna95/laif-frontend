@@ -3,11 +3,11 @@
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
       <BaseBackButton />
       <div class="text-center">
-        <h1 class="text-4xl font-bold text-gray-800">{{ $t('newExpense') }}</h1>
+        <h1 class="text-2xl font-bold text-gray-800">{{ $t('newExpense') }}</h1>
         <p class="text-gray-600 mt-2">{{ $t('newExpenseDescription') }}</p>
       </div>
-
-      <form @submit.prevent="submitExpense" class="space-y-6">
+      <BaseLoader v-if="loading" />
+      <form v-else @submit.prevent="submitExpense" class="space-y-6">
         <!-- Amount -->
         <div class="relative">
           <label for="amount" class="block text-sm font-medium text-gray-700">{{ $t('amount') }}</label>
@@ -71,6 +71,7 @@
   import DateSelector from '@/components/BaseSelector.vue';
   import router from '@/router';
   import BaseBackButton from '@/components/BaseBackButton.vue';
+  import BaseLoader from '@/components/BaseLoader.vue';
 
   const globalStore = useGlobalStore();
   const operationStore = useOperationsStore();
@@ -86,8 +87,11 @@
   const months = globalStore.months;
   const years = globalStore.years;
 
+  const loading = ref(false);
+
   const submitExpense = () => {
     if (amount.value && description.value && category.value && month.value && year.value) {
+      loading.value = true;
       operationStore
         .addOperation({
           amount: amount.value,
@@ -99,6 +103,8 @@
         })
         .finally(() => {
           console.log('Uscita salvata con successo!');
+          loading.value = false;
+
           router.push({ name: 'AddOperation' });
         });
     } else {
@@ -107,7 +113,11 @@
   };
 
   const getExpenseCategories = async () => {
-    await operationStore.getExpenseCategories();
+    loading.value = true;
+
+    await operationStore.getExpenseCategories().finally(() => {
+      loading.value = false;
+    });
   };
 
   onMounted(() => {

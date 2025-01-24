@@ -75,9 +75,17 @@
     "description": "Descrizione",
     "saveIncome": "Salva Entrata",
     "saveExpense": "Salva Uscita",
-    "newExpenseDescription": "Compila i campi per aggiungere una nuova uscita al tuo bilancio.",
+    "newExpenseDescription": "Compila i campi per aggiungere una nuova uscita ricorsiva al tuo bilancio.",
     "noDataAvailable": "Nessun dato disponibile",
     "INFINITE": "Continuativa",
     "UNTIL_DATE": "Fino a data",
-    "OCCURRENCES_LIMIT": "Numero di ricorrenze"
+    "OCCURRENCES_LIMIT": "Numero di ricorrenze",
+    "newRecurringExpense": "Nuova Uscita Ricorsiva",
+    "loading": "Caricamento...",
+    "recursiveType": "Tipo di Ricorsività",
+    "frequencies": "Frequenza",
+    "firstOccurrence": "Prima Ricorrenza",
+    "maxOccurrences": "Numero di ricorrenze",
+    "every": "Ogni",
+    "noData": "Nessun dato disponibile"
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center h-full bg-gradient-to-b from-blue-500 to-indigo-600 p-4">
+  <div class="flex flex-col items-center justify-center h-full p-4">
     <div class="w-full max-w-sm bg-white shadow-xl rounded-lg overflow-hidden p-8">
       <h2 class="text-center text-2xl font-semibold text-gray-800 mb-6">
         {{ isRegistering ? 'Crea il tuo Account' : 'Accedi al tuo Account' }}
