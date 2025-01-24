@@ -52,24 +52,26 @@
 
               <!-- Importo (+/-) -->
               <td
-                class="px-4 py-3 font-medium"
+                class="px-4 py-3 font-medium flex justify-end items-center w-full"
                 :class="{
                   'text-green-600': operation.type === 'INCOME',
                   'text-red-500': operation.type === 'EXPENSE',
                 }">
-                {{ operation.type === 'INCOME' ? '+' : '-' }}{{ operation.amount }} €
+                <p>{{ operation.type === 'INCOME' ? '+' : '-' }}{{ operation.amount + '€' }}</p>
+                <button @click="confirmDelete(operation.id)" class="text-black flex items-end ml-2">
+                  <span class="material-icons-outlined">delete</span>
+                </button>
               </td>
             </tr>
           </tbody>
           <!-- Nessun dato -->
           <tbody v-else-if="!loading && operations && operations.length === 0">
             <tr>
-              <td class="px-4 py-3 text-center" colspan="3">
+              <td class="px-4 py-3 text-center" colspan="4">
                 {{ $t('noData') }}
               </td>
             </tr>
           </tbody>
-
           <tbody v-else>
             <tr v-for="n in 3" :key="n" class="border-b last:border-0">
               <td class="px-4 py-3">
@@ -81,9 +83,27 @@
               <td class="px-4 py-3">
                 <div class="animate-pulse h-4 bg-gray-200 rounded w-1/4 mx-auto"></div>
               </td>
+              <td class="px-4 py-3">
+                <div class="animate-pulse h-4 bg-gray-200 rounded w-1/6 mx-auto"></div>
+              </td>
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- Popup conferma eliminazione -->
+    <div v-if="showConfirm" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+      <div class="bg-white p-6 rounded shadow-md">
+        <p class="text-gray-800 mb-4">{{ $t('confirmDelete') }}</p>
+        <div class="flex justify-end gap-4">
+          <button @click="cancelDelete" class="bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 px-4 rounded">
+            {{ $t('cancel') }}
+          </button>
+          <button @click="deleteOperation(deleteId)" class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded">
+            {{ $t('confirm') }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -115,6 +135,9 @@
 
       const loading = ref(true);
 
+      const showConfirm = ref(false);
+      const deleteId = ref(null);
+
       const fetchOperations = async () => {
         cursor.value = null;
         loading.value = true;
@@ -134,6 +157,31 @@
         fetchOperations();
       };
 
+      const confirmDelete = (id) => {
+        deleteId.value = id;
+        showConfirm.value = true;
+      };
+
+      const cancelDelete = () => {
+        deleteId.value = null;
+        showConfirm.value = false;
+      };
+
+      const deleteOperation = async (id) => {
+        try {
+          console.log('Cancellazione operazione con id:', id);
+
+          if (!id) {
+            return;
+          }
+          await operationsStore.deleteOperation(id);
+          fetchOperations(); // Aggiorna la lista dopo la cancellazione
+          cancelDelete();
+        } catch (error) {
+          console.error("Errore durante la cancellazione dell'operazione:", error);
+        }
+      };
+
       onMounted(fetchOperations);
 
       return {
@@ -144,6 +192,11 @@
         months,
         loading,
         updateOperations,
+        confirmDelete,
+        cancelDelete,
+        deleteOperation,
+        showConfirm,
+        deleteId,
       };
     },
   };

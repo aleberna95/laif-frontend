@@ -91,5 +91,13 @@
     "operationChoiceTitle": "Cosa vuoi aggiungere?",
     "operationChoiceBody": "Scegli tra un'entrata o un'uscita per continuare.",
     "MONTHLY": "Mese",
-    "YEARLY": "Anno"
+    "YEARLY": "Anno",
+    "manageAccount": "Gestisci Account",
+    "manageRecurring": "Ricorrenze e percentuali",
+    "languageSelection": "Seleziona la lingua",
+    "logout": "Esci",
+    "cancel": "Annulla",
+    "confirm": "Conferma",
+    "confirmDelete": "Conferma eliminazione",
+    "insertNewVal":"Inserisci il nuovo valore:"
 }

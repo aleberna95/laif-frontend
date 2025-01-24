@@ -5,7 +5,6 @@ import ViewHome from '@/views/ViewHome.vue';
 import ViewLogin from '@/views/ViewLogin.vue';
 import ViewOperations from '@/views/ViewOperations.vue';
 import ViewTips from '@/views/ViewTips.vue';
-import ViewUser from '@/views/ViewUser.vue';
 
 // Operations
 import ViewAddOperation from '@/views/ViewAddOperation.vue';
@@ -15,6 +14,11 @@ import ExpenseChoice from '@/components/layout/operations/ExpenseChoice.vue';
 import AddExpense from '@/components/layout/operations/AddExpense.vue';
 import AddRecurringExpense from '@/components/layout/operations/AddRecurringExpense.vue';
 
+// User
+import ViewUser from '@/views/ViewUser.vue';
+import UserChoice from '@/components/layout/user/UserChoice.vue';
+import RecurrenceAndSettings from '@/components/layout/user/RecurrenceAndSettings.vue';
+import UserSetting from '@/components/layout/user/UserSetting.vue';
 
 // Definizione delle rotte
 const routes = [
@@ -42,22 +46,6 @@ const routes = [
         path: '/operations',
         name: 'Operations',
         component: ViewOperations,
-        meta: {
-            requiresAuth: true, // Accesso consentito solo se autenticato
-        },
-    },
-    {
-        path: '/tips',
-        name: 'Tips',
-        component: ViewTips,
-        meta: {
-            requiresAuth: true, // Accesso consentito solo se autenticato
-        },
-    },
-    {
-        path: '/user',
-        name: 'User',
-        component: ViewUser,
         meta: {
             requiresAuth: true, // Accesso consentito solo se autenticato
         },
@@ -116,6 +104,49 @@ const routes = [
                 },
             },
 
+        ]
+    },
+    {
+        path: '/tips',
+        name: 'Tips',
+        component: ViewTips,
+        meta: {
+            requiresAuth: true, // Accesso consentito solo se autenticato
+        },
+    },
+    {
+        path: '/user',
+        name: 'User',
+        redirect: '/user/userChoice',
+        component: ViewUser,
+        meta: {
+            requiresAuth: true, // Accesso consentito solo se autenticato
+        },
+        children: [
+            {
+                path: 'userChoice',
+                name: 'UserChoice',
+                component: UserChoice,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
+            {
+                path: 'recurrenceAndSettings',
+                name: 'RecurrenceAndSettings',
+                component: RecurrenceAndSettings,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
+            {
+                path: 'userSetting',
+                name: 'UserSetting',
+                component: UserSetting,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            }
         ]
     },
 ];

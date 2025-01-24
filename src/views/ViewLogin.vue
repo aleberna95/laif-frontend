@@ -4,7 +4,6 @@
       <h2 class="text-center text-2xl font-semibold text-gray-800 mb-6">
         {{ isRegistering ? 'Crea il tuo Account' : 'Accedi al tuo Account' }}
       </h2>
-
       <!-- Login/Registrazione con Email e Password -->
       <form @submit.prevent="isRegistering ? registerWithEmailPassword : loginWithEmailPassword" class="space-y-6">
         <div class="relative">

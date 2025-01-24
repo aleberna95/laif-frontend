@@ -8,9 +8,37 @@ export const useOperationsStore = defineStore('operations', {
         expenseCategories: [],
         recursiveTypes: [],
         frequencies: [],
+        recurringExpenses: []
     }),
 
     actions: {
+        async deleteRecurringExpense(id) {
+            try {
+                await apiClient.deleteData(`/api/operations/deleteRecurringExpense/${id}`);
+            }
+            catch (error) {
+                console.error('Errore durante l\'eliminazione dell\'operazione ricorrente:', error);
+                throw error;
+            }
+        },
+        async getRecurringExpenses() {
+            try {
+                const response = await apiClient.getData('/api/operations/getRecurringExpenses');
+                this.recurringExpenses = response.data.data.records;
+                return response.data.data.records;
+            } catch (error) {
+                console.error('Errore durante il fetch delle operazioni ricorrenti:', error);
+                throw error;
+            }
+        },
+        async deleteOperation(id) {
+            try {
+                await apiClient.deleteData(`/api/operations/deleteOperation/${id}`);
+            } catch (error) {
+                console.error('Errore durante l\'eliminazione dell\'operazione:', error);
+                throw error;
+            }
+        },
         async addRecurringOperation(operation) {
             //insertRecurringExpense
             try {

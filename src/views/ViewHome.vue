@@ -12,7 +12,7 @@
         <span>
           <span class="flex">
             <p>{{ $t('hello') }},</p>
-            <p class="font-bold ml-2">{{ data.data.name }}</p>
+            <p class="font-bold ml-2">{{ user.name }}</p>
             <p>.</p>
           </span>
           <p>Sei correttamente loggato!!</p>
@@ -23,8 +23,8 @@
 </template>
 
 <script>
-  import { ref, onMounted } from 'vue';
-  import apiService from '@/utils/apiService';
+  import { ref, onMounted, computed } from 'vue';
+  import { useUserStore } from '@/store/user';
 
   export default {
     name: 'ViewHome',
@@ -32,11 +32,13 @@
       const data = ref(null);
       const loading = ref(true);
       const error = ref(null);
+      const userStore = useUserStore();
+      const user = computed(() => userStore.user);
 
       const fetchData = async () => {
+        loading.value = true;
         try {
-          const response = await apiService.getData('/api/users');
-          data.value = response.data;
+          await userStore.getUser();
         } catch (err) {
           error.value = 'Errore durante il caricamento dei dati';
         } finally {
@@ -50,6 +52,7 @@
 
       return {
         data,
+        user,
         loading,
         error,
       };
