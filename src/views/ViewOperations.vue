@@ -5,18 +5,10 @@
       <!-- Sezione Filtri (Anno / Mese) -->
       <div class="flex items-start mb-4">
         <div class="mr-4">
-          <DateSelector
-            :label="$t('year')"
-            :options="years"
-            v-model="selectedYear"
-            @update:modelValue="updateOperations" />
+          <DateSelector label="year" :options="years" v-model="selectedYear" @update:modelValue="updateOperations" />
         </div>
         <div>
-          <DateSelector
-            :label="$t('month')"
-            :options="months"
-            v-model="selectedMonth"
-            @update:modelValue="updateOperations" />
+          <DateSelector label="month" :options="months" v-model="selectedMonth" @update:modelValue="updateOperations" />
         </div>
       </div>
       <BaseLoader v-if="loading" />

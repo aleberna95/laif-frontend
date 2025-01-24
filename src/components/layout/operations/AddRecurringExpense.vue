@@ -10,12 +10,12 @@
 
       <!-- Contenitore scrollabile -->
       <div class="overflow-y-auto max-h-[70vh] px-8 mb-12">
-        <BaseLoader v-if="loading" :loading="loading" />
+        <BaseLoader v-if="loading" />
         <!-- Form -->
         <form v-else @submit.prevent="submitExpense" class="space-y-6 mb-16">
           <!-- Sezione ricorsività -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <BaseSelector :label="$t('recursiveType')" :options="recursiveTypes" v-model="localForm.recursiveType" />
+            <BaseSelector label="recursiveType" :options="recursiveTypes" v-model="localForm.recursiveType" />
 
             <!-- Se OCCURRENCES_LIMIT -->
             <div v-if="localForm.recursiveType === 'OCCURRENCES_LIMIT'">
@@ -28,23 +28,23 @@
                 class="mt-2 w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none" />
             </div>
             <div class="flex items-center gap-2">
-              <div>
+              <div class="mb-1">
                 <label for="frequencyCount" class="text-sm font-bold text-gray-700">{{ $t('every') }}</label>
                 <input
                   id="frequencyCount"
                   type="number"
                   min="1"
-                  class="w-16 mt-3 px-2 py-1 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none"
+                  class="w-16 mt-2 px-2 py-1 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none"
                   v-model.number="localForm.frequencyCount" />
               </div>
-              <BaseSelector :label="$t('frequencies')" :options="frequencies" v-model="localForm.frequency" hideLabel />
+              <BaseSelector label="frequencies" :options="frequencies" v-model="localForm.frequency" hideLabel />
             </div>
           </div>
           <div>
             <label for="endDate" class="text-sm font-medium text-gray-700">{{ $t('firstOccurrence') }}</label>
             <div class="grid grid-cols-2 gap-4 mt-2">
-              <BaseSelector :label="null" :options="months" v-model="localForm.firstOccurrence.month" hideLabel />
-              <BaseSelector :label="null" :options="years" v-model="localForm.firstOccurrence.year" hideLabel />
+              <BaseSelector :options="months" v-model="localForm.firstOccurrence.month" hideLabel />
+              <BaseSelector :options="years" v-model="localForm.firstOccurrence.year" hideLabel />
             </div>
           </div>
 
@@ -122,7 +122,7 @@
     amount: null,
     description: '',
     category: '',
-    recursiveType: '',
+    recursiveType: 'INFINITE',
     frequency: 'MONTHLY',
     frequencyCount: 1,
     maxOccurrences: null,

@@ -1,8 +1,8 @@
 <template>
   <div class="flex items-center justify-center">
     <div class="max-w-lg w-full p-6 bg-white rounded-lg shadow-md">
-      <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Cosa vuoi aggiungere?</h1>
-      <p class="text-gray-600 text-center mb-8">Scegli tra un'entrata o un'uscita per continuare.</p>
+      <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">{{ $t('operationChoiceTitle') }}</h1>
+      <p class="text-gray-600 text-center mb-8">{{ $t('operationChoiceBody') }}</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <!-- Entrata -->
@@ -20,7 +20,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
             </svg>
           </div>
-          <span class="text-lg font-medium text-gray-800">Entrata</span>
+          <span class="text-lg font-medium text-gray-800">{{ $t('income') }}</span>
         </router-link>
 
         <!-- Uscita -->
@@ -38,7 +38,7 @@
               <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4m16 0l-8 8m8-8l-8-8"></path>
             </svg>
           </div>
-          <span class="text-lg font-medium text-gray-800">Uscita</span>
+          <span class="text-lg font-medium text-gray-800">{{ $t('expense') }}</span>
         </router-link>
       </div>
     </div>

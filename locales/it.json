@@ -87,5 +87,9 @@
     "firstOccurrence": "Prima Ricorrenza",
     "maxOccurrences": "Numero di ricorrenze",
     "every": "Ogni",
-    "noData": "Nessun dato disponibile"
+    "noData": "Nessun dato disponibile",
+    "operationChoiceTitle": "Cosa vuoi aggiungere?",
+    "operationChoiceBody": "Scegli tra un'entrata o un'uscita per continuare.",
+    "MONTHLY": "Mese",
+    "YEARLY": "Anno"
 }
