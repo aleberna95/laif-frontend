@@ -1,67 +1,83 @@
 <template>
-  <div class="fixed bottom-0 left-0 right-0 w-full flex justify-center">
-    <nav
-      :class="{
-        'pb-2': deviceType === 'android' || isLargeScreen,
-        'pb-10': deviceType === 'ios-phone',
-      }"
-      class="bg-white border-t-4 border-gray-200 shadow-lg flex justify-between items-center px-6 lg:w-4/12 w-full relative">
-      <!-- Link Home -->
-      <router-link to="/" class="flex flex-col items-center" @click="setActiveIcon('home')">
-        <div :class="['icon-container', { 'active-icon': activeIcon === 'home' }]">
-          <img :src="homeImage" alt="Home" />
-          <span v-if="activeIcon === 'home'" class="active-bar"></span>
-        </div>
-      </router-link>
+  <!-- Contenitore fisso in basso e centrato -->
+  <nav class="bg-white border-t-4 border-gray-200 shadow-lg flex justify-between items-center px-6 lg:w-2/4">
+    <!-- Link Home -->
+    <router-link to="/" class="flex flex-col items-center" @click="setActiveIcon('home')">
+      <div
+        :class="[
+          'relative px-4 py-3.5 transition-transform duration-300 ease-in-out',
+          activeIcon === 'home' ? 'scale-110 text-blue-500' : '',
+        ]">
+        <img :src="homeImage" alt="Home" class="w-7 h-7" />
+        <!-- Barretta blu se attivo -->
+        <span v-if="activeIcon === 'home'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+      </div>
+    </router-link>
 
-      <!-- Icona Lista Operazioni -->
-      <router-link to="/operations" class="flex flex-col items-center" @click="setActiveIcon('operations')">
-        <div :class="['icon-container', { 'active-icon': activeIcon === 'operations' }]">
-          <img :src="filesImage" alt="Operations" />
-          <span v-if="activeIcon === 'operations'" class="active-bar"></span>
-        </div>
-      </router-link>
+    <!-- Link Operations -->
+    <router-link to="/operations" class="flex flex-col items-center" @click="setActiveIcon('operations')">
+      <div
+        :class="[
+          'relative px-4 py-3.5 transition-transform duration-300 ease-in-out',
+          activeIcon === 'operations' ? 'scale-110 text-blue-500' : '',
+        ]">
+        <img :src="filesImage" alt="Operations" class="w-7 h-7" />
+        <span v-if="activeIcon === 'operations'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+      </div>
+    </router-link>
 
-      <!-- Icona + al centro -->
-      <router-link to="/addOperation" class="flex flex-col items-center" @click="setActiveIcon('add')">
-        <div :class="['icon-container', { 'active-icon': activeIcon === 'add' }]">
-          <img :src="addImage" alt="Add" />
-          <span v-if="activeIcon === 'add'" class="active-bar"></span>
-        </div>
-      </router-link>
+    <!-- Link Add -->
+    <router-link to="/addOperation" class="flex flex-col items-center" @click="setActiveIcon('add')">
+      <div
+        :class="[
+          'relative px-4 py-3.5 transition-transform duration-300 ease-in-out',
+          activeIcon === 'add' ? 'scale-110 text-blue-500' : '',
+        ]">
+        <img :src="addImage" alt="Add" class="w-7 h-7" />
+        <span v-if="activeIcon === 'add'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+      </div>
+    </router-link>
 
-      <!-- Icona Tips -->
-      <router-link to="/tips" class="flex flex-col items-center" @click="setActiveIcon('tips')">
-        <div :class="['icon-container', { 'active-icon': activeIcon === 'tips' }]">
-          <img :src="piggyBankImage" alt="Tips" />
-          <span v-if="activeIcon === 'tips'" class="active-bar"></span>
-        </div>
-      </router-link>
+    <!-- Link Tips -->
+    <router-link to="/tips" class="flex flex-col items-center" @click="setActiveIcon('tips')">
+      <div
+        :class="[
+          'relative px-4 py-3.5 transition-transform duration-300 ease-in-out',
+          activeIcon === 'tips' ? 'scale-110 text-blue-500' : '',
+        ]">
+        <img :src="piggyBankImage" alt="Tips" class="w-7 h-7" />
+        <span v-if="activeIcon === 'tips'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+      </div>
+    </router-link>
 
-      <!-- Link Login/Utente -->
-      <router-link
-        v-show="!isAuthenticated"
-        to="/login"
-        class="flex flex-col items-center"
-        @click="setActiveIcon('login')">
-        <div :class="['icon-container', { 'active-icon': activeIcon === 'login' }]">
-          <img :src="loginImage" alt="Login" />
-          <span v-if="activeIcon === 'login'" class="active-bar"></span>
-        </div>
-      </router-link>
+    <!-- Link Login se non autenticato -->
+    <router-link
+      v-show="!isAuthenticated"
+      to="/login"
+      class="flex flex-col items-center"
+      @click="setActiveIcon('login')">
+      <div
+        :class="[
+          'relative px-4 py-3.5 transition-transform duration-300 ease-in-out',
+          activeIcon === 'login' ? 'scale-110 text-blue-500' : '',
+        ]">
+        <img :src="loginImage" alt="Login" class="w-7 h-7" />
+        <span v-if="activeIcon === 'login'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+      </div>
+    </router-link>
 
-      <router-link
-        v-show="isAuthenticated"
-        to="/user"
-        class="flex flex-col items-center"
-        @click="setActiveIcon('user')">
-        <div :class="['icon-container', { 'active-icon': activeIcon === 'user' }]">
-          <img :src="userImage" alt="User" />
-          <span v-if="activeIcon === 'user'" class="active-bar"></span>
-        </div>
-      </router-link>
-    </nav>
-  </div>
+    <!-- Link User se autenticato -->
+    <router-link v-show="isAuthenticated" to="/user" class="flex flex-col items-center" @click="setActiveIcon('user')">
+      <div
+        :class="[
+          'relative px-4 py-3.5 transition-transform duration-300 ease-in-out',
+          activeIcon === 'user' ? 'scale-110 text-blue-500' : '',
+        ]">
+        <img :src="userImage" alt="User" class="w-7 h-7" />
+        <span v-if="activeIcon === 'user'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+      </div>
+    </router-link>
+  </nav>
 </template>
 
 <script>
@@ -78,18 +94,29 @@
   export default {
     name: 'BottomNavbar',
     setup() {
+      // Store per l'autenticazione
       const authStore = useAuthStore();
       const isAuthenticated = computed(() => authStore.isAuthenticated);
-      const activeIcon = ref(''); // Traccia l'icona attiva
+
+      // Track dell'icona attiva
+      const activeIcon = ref('');
 
       const setActiveIcon = (icon) => {
         activeIcon.value = icon;
       };
 
+      // Device store per sapere se siamo su iOS / Android / Desktop
       const deviceStore = useDeviceStore();
       const deviceType = computed(() => deviceStore.deviceType);
-      const isLargeScreen = computed(() => {
-        return window.innerWidth > 1024; // Schermi grandi
+
+      // Distanza dal fondo dinamica
+      const bottomClass = computed(() => {
+        if (deviceType.value === 'ios-phone') {
+          // Più spazio se iOS, es. bottom-10
+          return 'bottom-10';
+        }
+        // Altrimenti, Android o desktop
+        return 'bottom-2';
       });
 
       return {
@@ -103,32 +130,8 @@
         filesImage,
         loginImage,
         deviceType,
-        isLargeScreen
+        bottomClass,
       };
     },
   };
 </script>
-
-<style scoped>
-  .icon-container {
-    position: relative;
-    padding: 0.9375rem 1rem; /* 0.9375rem = 15px, ridotto di 2px rispetto a 1rem */
-    transition: transform 0.3s ease-in-out;
-  }
-  .icon-container img {
-    width: 28px;
-    height: 28px;
-  }
-  .icon-container.active-icon {
-    transform: scale(1.1);
-    color: #3b82f6; /* Blu per l'icona attiva */
-  }
-  .active-bar {
-    position: absolute;
-    top: 1px;
-    width: 24px;
-    height: 4px;
-    background-color: #3b82f6; /* Colore blu per la barretta */
-    border-radius: 2px;
-  }
-</style>

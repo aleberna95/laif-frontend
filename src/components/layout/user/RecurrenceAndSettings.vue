@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex justify-center items-end overflow-hidden">
+  <div class="flex justify-center items-end overflow-hidden">
     <div>
       <BaseLoader v-if="loadingSettings" />
       <div v-else class="bg-gray-50 min-w-full">

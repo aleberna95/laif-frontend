@@ -1,14 +1,25 @@
 <template>
-  <div class="flex justify-center w-screen h-screen overflow-hidden">
-    <div class="h-full w-full md:w-6/12 flex flex-col">
-      <!-- Contenuto Scrollabile con barra nascosta, termina sopra la navbar -->
-      <div
-        class="flex-1 overflow-y-auto hide-scrollbar rounded-lg min-h-full bg-color-primary flex justify-center pb-20">
-        <router-view />
-      </div>
-    </div>
-    <!-- Navbar Fissa in Basso -->
-    <BottomNavbar class="fixed bottom-0 left-0" />
+  <!-- Container a piena altezza -->
+  <!-- grid-rows-[auto_minmax(0,1fr)_auto] = 3 righe: header | main flexibile | footer -->
+  <div class="grid grid-rows-[auto_minmax(0,1fr)_auto] h-screen w-full bg-gray-50">
+    <!-- Header in alto -->
+    <header class="bg-gray-200 p-4">
+      <h1 class="text-lg font-bold">Header / Info Generali</h1>
+    </header>
+
+    <!-- Main scorrevole -->
+    <!-- minmax(0,1fr) fa sì che questa riga riempia lo spazio disponibile -->
+    <!-- overflow-y-auto permette di scorrere il contenuto qui dentro -->
+    <main class="overflow-y-auto p-4">
+      <!-- Le tue pagine (router-view) -->
+      <router-view />
+    </main>
+
+    <!-- Footer in basso, barra di navigazione -->
+    <!-- NOTA: niente position: fixed. Sarà un normale blocco in flow -->
+    <footer class="flex justify-center">
+      <BottomNavbar :class="{ 'pb-10': isMobileiOS, 'pb-2': !isMobileiOS }" />
+    </footer>
   </div>
 </template>
 
@@ -21,22 +32,16 @@
     components: {
       BottomNavbar,
     },
-
-    created() {
+    setup() {
+      // Rileva il dispositivo e salva il risultato
       const deviceStore = useDeviceStore();
       deviceStore.detectDevice();
+
+      const isMobileiOS = deviceStore.isMobileiOS;
+
+      return {
+        isMobileiOS,
+      };
     },
   };
 </script>
-
-<style scoped>
-  /* Classe per Nascondere la Barra di Scorrimento */
-  .hide-scrollbar {
-    -ms-overflow-style: none; /* Nasconde la barra di scorrimento su IE e Edge */
-    scrollbar-width: none; /* Nasconde la barra di scorrimento su Firefox */
-  }
-
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none; /* Nasconde la barra di scorrimento su Chrome, Safari, Opera */
-  }
-</style>
