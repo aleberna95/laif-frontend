@@ -3,8 +3,9 @@
   <!-- grid-rows-[auto_minmax(0,1fr)_auto] = 3 righe: header | main flexibile | footer -->
   <div class="grid grid-rows-[auto_minmax(0,1fr)_auto] h-screen w-full bg-gray-50">
     <!-- Header in alto -->
-    <header class="bg-gray-200 p-4">
+    <header class="bg-gray-200 p-4 min-h-1/4 max-h-1/4">
       <h1 class="text-lg font-bold">Header / Info Generali</h1>
+      <p>Test info cose bla bla</p>
     </header>
 
     <!-- Main scorrevole -->

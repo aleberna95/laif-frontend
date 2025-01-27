@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full">
+  <div class="flex flex-col h-full w-full">
     <!-- Titolo pagina (opzionale) -->
     <h2 class="text-xl font-semibold mb-4">
       {{ $t('operations') }}
@@ -15,7 +15,9 @@
     <BaseLoader v-if="loading" />
 
     <!-- Tabella, se non stiamo caricando -->
-    <div v-else class="bg-white shadow-md rounded-lg overflow-x-hidden md:overflow-x-auto max-h-60">
+    <div
+      v-else
+      class="flex-1 min-h-0 bg-white shadow-md rounded-lg overflow-x-hidden md:overflow-x-auto overflow-y-auto">
       <table class="table-fixed w-full text-left">
         <!-- Intestazione (thead) -->
         <thead class="bg-gray-100 sticky top-0 z-10">
