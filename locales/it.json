@@ -9,7 +9,7 @@
     "PUBLIC_TRANSPORT": "Trasporti pubblici",
     "SAVINGS_ACCOUNT": "Conto risparmio",
     "INVESTMENTS": "Investimenti",
-    "LEISURE": "Tempo libero",
+    "LEISURE": "Svago e Tempo libero",
     "HEALTH": "Salute",
     "WELLNESS": "Benessere",
     "CLOTHING": "Abbigliamento",
@@ -99,5 +99,10 @@
     "cancel": "Annulla",
     "confirm": "Conferma",
     "confirmDelete": "Conferma eliminazione",
-    "insertNewVal":"Inserisci il nuovo valore:"
+    "insertNewVal": "Inserisci il nuovo valore:",
+    "leisureAmount": "Spesa per lo svago",
+    "investPercentage": "Percentuale da investire",
+    "savePercentage": "Percentuale da risparmiare",
+    "settingsPercent": "Impostazioni di gestione",
+    "settingsRecursiveList": "Lista delle spesi ricorrenti"
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center min-h-full w-full py-6">
+  <div class="flex flex-col items-center justify-end min-h-full w-full py-6">
     <!-- Lista centrale di bottoni -->
     <div class="flex flex-col items-center gap-4 w-80">
       <!-- Bottone Gestisci Account -->

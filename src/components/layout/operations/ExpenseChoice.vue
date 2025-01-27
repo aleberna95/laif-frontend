@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center w-screen">
+  <div class="flex items-end justify-center min-h-full">
     <div class="max-w-lg w-full p-6 bg-white rounded-lg shadow-md">
       <BaseBackButton />
       <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Tipo di Uscita</h1>

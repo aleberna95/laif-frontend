@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center w-screen min-h-screen bg-gray-50">
+  <div class="flex items-end justify-center w-screen min-h-full bg-gray-50">
     <div class="max-w-2xl w-full bg-white rounded-lg shadow-md px-4">
       <!-- Header -->
       <div class="text-center p-8 w-full">
@@ -104,12 +104,20 @@
   import { useGlobalStore } from '@/store/global';
   import BaseBackButton from '@/components/BaseBackButton.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
+  import { useI18n } from 'vue-i18n';
 
+  const { t } = useI18n();
   // Store / enumerations
   const operationStore = useOperationsStore();
   const globalStore = useGlobalStore();
 
-  const expenseCategories = computed(() => operationStore.expenseCategories);
+  const expenseCategories = computed(() => {
+    const categories = operationStore.expenseCategories;
+    if (!categories) return [];
+    return categories
+      .map((cat) => ({ label: t(cat.label), value: cat.value }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  });
   const frequencies = computed(() => operationStore.frequencies);
   const recursiveTypes = computed(() => operationStore.recursiveTypes);
   const months = computed(() => globalStore.months);

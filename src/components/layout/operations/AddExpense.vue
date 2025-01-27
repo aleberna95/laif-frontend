@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center">
+  <div class="min-h-full flex items-end justify-center">
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
       <BaseBackButton />
       <div class="text-center">
@@ -40,7 +40,7 @@
             required
             class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none">
             <option v-for="cat in expenseCategories" :key="cat" :value="cat.value">
-              {{ $t(cat.label) }}
+              {{ cat.label }}
             </option>
           </select>
         </div>
@@ -72,11 +72,23 @@
   import router from '@/router';
   import BaseBackButton from '@/components/BaseBackButton.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
+  import { useI18n } from 'vue-i18n';
 
+  const { t } = useI18n();
   const globalStore = useGlobalStore();
   const operationStore = useOperationsStore();
 
-  const expenseCategories = computed(() => operationStore.expenseCategories);
+  const expenseCategories = computed(() => {
+    const categories = operationStore.expenseCategories;
+    if (!categories) return [];
+
+    return categories
+      .map((category) => ({
+        value: category.value,
+        label: t(category.label),
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  });
 
   const amount = ref(null);
   const description = ref('');

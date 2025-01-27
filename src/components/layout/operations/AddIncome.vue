@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center">
+  <div class="min-h-full flex items-end justify-center">
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
       <BaseBackButton />
       <div class="text-center">
@@ -41,7 +41,7 @@
             required
             class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none">
             <option v-for="cat in incomeCategories" :key="cat" :value="cat.value">
-              {{ $t(cat.label) }}
+              {{ cat.label }}
             </option>
           </select>
         </div>
@@ -67,6 +67,7 @@
 
 <script setup>
   import { ref, computed, onMounted } from 'vue';
+  import { useI18n } from 'vue-i18n';
   import { useOperationsStore } from '@/store/operations';
   import { useGlobalStore } from '@/store/global';
   import DateSelector from '@/components/BaseSelector.vue';
@@ -74,11 +75,22 @@
   import BaseBackButton from '@/components/BaseBackButton.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
 
+  const { t } = useI18n();
+
   const globalStore = useGlobalStore();
   const operationStore = useOperationsStore();
+  const incomeCategories = computed(() => {
+    const categories = operationStore.incomeCategories;
+    if (!categories) return [];
 
-  const incomeCategories = computed(() => operationStore.incomeCategories);
-
+    // le traduco con la funzione t di vue-i18n, poi le ordino in ordine alfabetico e le restituisco
+    return categories
+      .map((cat) => ({
+        value: cat.value,
+        label: t(cat.label),
+      }))
+      .sort((a, b) => a.label.localeCompare(b.label));
+  });
   const amount = ref(null);
   const description = ref('');
   const category = ref('');
