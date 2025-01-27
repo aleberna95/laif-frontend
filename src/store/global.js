@@ -5,6 +5,10 @@ const years = [];
 for (let i = currentYear; i >= 2020; i--) {
     years.push({ label: i.toString(), value: i });
 }
+const days = [];
+for (let i = 1; i <= 31; i++) {
+    days.push({ label: i.toString(), value: i });
+}
 
 export const useGlobalStore = defineStore('global', {
     state: () => ({
@@ -22,6 +26,7 @@ export const useGlobalStore = defineStore('global', {
             { label: 'NOVEMBER', value: 11 },
             { label: 'DECEMBER', value: 12 },
         ],
-        years
+        years,
+        days
     }),
 });

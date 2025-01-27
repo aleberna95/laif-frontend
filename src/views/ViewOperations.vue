@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-full flex justify-center items-end">
+  <div class="min-h-full w-full flex justify-center items-end">
     <!-- Contenitore globale con sfondo leggero -->
     <div class="bg-gray-50 min-w-full">
       <div class="max-w-4xl mx-auto p-5 h-full">

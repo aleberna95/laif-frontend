@@ -11,6 +11,14 @@ export const useUserStore = defineStore('user', {
     }),
 
     actions: {
+        async updateSettings(settings) {
+            try {
+                await apiClient.putData('/api/user/updateSettings', settings);
+            } catch (error) {
+                console.error('Errore durante l\'aggiornamento delle impostazioni utente:', error);
+                throw error;
+            }
+        },
         async getUser() {
             this.user = null;
             try {
@@ -30,6 +38,7 @@ export const useUserStore = defineStore('user', {
                     this.leisureAmount = response.data.data.leisureAmount || 0;
                     this.investPercentage = response.data.data.investPercentage || 0;
                     this.savePercentage = response.data.data.savePercentage || 0;
+                    return response.data.data;
                 })
                 .catch((error) => {
                     console.error('Errore durante il fetch delle impostazioni utente:', error);

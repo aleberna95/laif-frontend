@@ -42,9 +42,10 @@
           </div>
           <div>
             <label for="endDate" class="text-sm font-medium text-gray-700">{{ $t('firstOccurrence') }}</label>
-            <div class="grid grid-cols-2 gap-4 mt-2">
-              <BaseSelector :options="months" v-model="localForm.firstOccurrence.month" hideLabel />
-              <BaseSelector :options="years" v-model="localForm.firstOccurrence.year" hideLabel />
+            <div class="grid grid-cols-5 gap-2 mt-2">
+              <BaseSelector class="" :options="days" v-model="localForm.firstOccurrence.day" hideLabel />
+              <BaseSelector class="col-span-2" :options="months" v-model="localForm.firstOccurrence.month" hideLabel />
+              <BaseSelector class="col-span-2" :options="years" v-model="localForm.firstOccurrence.year" hideLabel />
             </div>
           </div>
 
@@ -69,7 +70,7 @@
                 v-model="localForm.category"
                 class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none">
                 <option v-for="cat in expenseCategories" :key="cat.value" :value="cat.value">
-                  {{ $t(cat.label) }}
+                  {{ cat.label }}
                 </option>
               </select>
             </div>
@@ -121,6 +122,7 @@
   const frequencies = computed(() => operationStore.frequencies);
   const recursiveTypes = computed(() => operationStore.recursiveTypes);
   const months = computed(() => globalStore.months);
+  const days = computed(() => globalStore.days);
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 6 }, (_, i) => ({ label: currentYear + i, value: currentYear + i }));
@@ -135,6 +137,7 @@
     frequencyCount: 1,
     maxOccurrences: null,
     firstOccurrence: {
+      day: 1,
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
     },
@@ -266,7 +269,11 @@
         frequencyCount: localForm.value.frequencyCount,
         recursiveType: localForm.value.recursiveType,
         maxOccurrences: localForm.value.maxOccurrences,
-        firstOccurrenceDate: new Date(localForm.value.firstOccurrence.year, localForm.value.firstOccurrence.month),
+        firstOccurrenceDate: new Date(
+          localForm.value.firstOccurrence.year,
+          localForm.value.firstOccurrence.month,
+          localForm.value.firstOccurrence.day,
+        ).toISOString(),
         lastOccurenceDate: lastOccurrenceDate ? lastOccurrenceDate.toISOString() : null,
         type: 'EXPENSE',
       })
