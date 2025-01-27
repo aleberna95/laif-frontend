@@ -1,6 +1,6 @@
 <template>
   <!-- Contenitore fisso in basso e centrato -->
-  <nav class="bg-white border-t-4 border-gray-200 shadow-lg flex justify-between items-center px-6 lg:w-2/4">
+  <nav class="bg-white border-t-4 border-gray-200 shadow-lg flex justify-between items-center px-6 w-full lg:w-2/4">
     <!-- Link Home -->
     <router-link to="/" class="flex flex-col items-center" @click="setActiveIcon('home')">
       <div

@@ -1,15 +1,15 @@
 <template>
-  <div class="flex items-end justify-center w-screen min-h-full bg-gray-50">
+  <div class="flex items-end justify-center w-full min-h-full bg-gray-50">
     <div class="max-w-2xl w-full bg-white rounded-lg shadow-md px-4">
       <!-- Header -->
-      <div class="text-center p-8 w-full">
+      <div class="text-center p-4 w-full">
         <BaseBackButton />
         <h1 class="text-2xl font-bold text-gray-800">{{ $t('newRecurringExpense') }}</h1>
         <p class="text-gray-500 mt-2">{{ $t('newExpenseDescription') }}</p>
       </div>
 
       <!-- Contenitore scrollabile -->
-      <div class="overflow-y-auto max-h-[70vh] px-8 mb-12">
+      <div class="overflow-y-auto max-h-[70vh] px-6 mb-12">
         <BaseLoader v-if="loading" />
         <!-- Form -->
         <form v-else @submit.prevent="submitExpense" class="space-y-6 mb-16">
