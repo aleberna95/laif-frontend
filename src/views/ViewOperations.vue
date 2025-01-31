@@ -24,18 +24,21 @@
           <tr>
             <th
               scope="col"
-              class="px-2 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/5 sm:w-2/6 break-words">
+              class="px-2 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
               {{ $t('description') }}
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-1/4 break-words">
+              class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
               {{ $t('category') }}
             </th>
             <th
               scope="col"
-              class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-1/4 break-words">
+              class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
               {{ $t('amount') }}
+              <p class="text-xs text-gray-500">
+                {{ currency }}
+              </p>
             </th>
           </tr>
         </thead>
@@ -61,7 +64,7 @@
                 'text-red-500': operation.type === 'EXPENSE',
               }">
               <div class="flex justify-end items-center">
-                <p>{{ operation.type === 'INCOME' ? '+' : '-' }}{{ operation.amount }}€</p>
+                <p>{{ operation.type === 'INCOME' ? '+' : '-' }}{{ operation.amount }}</p>
                 <button @click="confirmDelete(operation.id)" class="text-gray-400 hover:text-black ml-2">
                   <span class="material-icons-outlined text-base">delete</span>
                 </button>
@@ -121,6 +124,7 @@
   import { useGlobalStore } from '@/store/global';
   import DateSelector from '@/components/BaseSelector.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
+  import { useUserStore } from '@/store/user';
 
   export default {
     name: 'OperationsList',
@@ -129,6 +133,9 @@
       const globalStore = useGlobalStore();
       const operationsStore = useOperationsStore();
       const operations = computed(() => operationsStore.operations);
+      const userStore = useUserStore();
+
+      const currency = computed(() => userStore.user?.currency);
 
       // Filtri anno/mese
       const selectedYear = ref(new Date().getFullYear());
@@ -197,6 +204,7 @@
       onMounted(fetchOperations);
 
       return {
+        currency,
         operations,
         selectedYear,
         selectedMonth,

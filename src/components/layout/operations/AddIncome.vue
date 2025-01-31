@@ -19,7 +19,7 @@
             step="0.01"
             required
             class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none" />
-          <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">€</span>
+          <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 ml-2">{{ currency }}</span>
         </div>
 
         <!-- Description -->
@@ -74,6 +74,10 @@
   import router from '@/router';
   import BaseBackButton from '@/components/BaseBackButton.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
+  import { useUserStore } from '@/store/user';
+
+  const userStore = useUserStore();
+  const currency = computed(() => userStore.user?.currency);
 
   const { t } = useI18n();
 

@@ -21,9 +21,11 @@
     <!-- Main scorrevole -->
     <!-- minmax(0,1fr) fa sì che questa riga riempia lo spazio disponibile -->
     <!-- overflow-y-auto permette di scorrere il contenuto qui dentro -->
-    <main class="overflow-y-auto p-4">
-      <!-- Le tue pagine (router-view) -->
-      <router-view />
+    <main class="flex justify-center overflow-y-auto p-4">
+      <div class="md:w-3/4">
+        <!-- Le tue pagine (router-view) -->
+        <router-view />
+      </div>
     </main>
 
     <!-- Footer in basso, barra di navigazione -->
@@ -37,6 +39,7 @@
 <script>
   import BottomNavbar from '@/components/layout/BottomNavbar.vue';
   import { useDeviceStore } from '@/store/device';
+  import { useUserStore } from './store/user';
 
   export default {
     name: 'App',
@@ -44,6 +47,8 @@
       BottomNavbar,
     },
     setup() {
+      const userStore = useUserStore();
+      userStore.getUser();
       // Rileva il dispositivo e salva il risultato
       const deviceStore = useDeviceStore();
       deviceStore.detectDevice();

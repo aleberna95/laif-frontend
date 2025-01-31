@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import apiClient from '@/utils/apiService'; // Importa il client configurato
+import { getCurrencySymbol } from '@/utils/globalUtils'; // Importa la funzione formatCurrency
 
 export const useUserStore = defineStore('user', {
     state: () => ({
@@ -8,6 +9,9 @@ export const useUserStore = defineStore('user', {
         leisureAmount: 0,
         investPercentage: 0,
         savePercentage: 0,
+        currency: "€",
+        darkMode: false,
+        language: 'it',
     }),
 
     actions: {
@@ -24,6 +28,13 @@ export const useUserStore = defineStore('user', {
             try {
                 const response = await apiClient.getData('/api/user/getUser');
                 this.user = response.data.data;
+                this.currency = getCurrencySymbol(response.data.data.currency);
+                // salvo darkMode e language in localStorage
+                localStorage.setItem('darkMode', response.data.data.darkMode);
+                localStorage.setItem('userLanguage', response.data.data.language);
+
+                this.darkMode = response.data.data.darkMode;
+                this.language = response.data.data.language;
                 return response.data.data;
             } catch (error) {
                 console.error('Errore durante il fetch dell\'utente:', error);

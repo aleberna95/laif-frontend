@@ -101,9 +101,10 @@
     "confirmDelete": "Conferma eliminazione",
     "insertNewVal": "Inserisci il nuovo valore:",
     "leisureAmount": "Spesa per lo svago",
-    "investPercentage": "Percentuale da investire",
-    "savePercentage": "Percentuale da risparmiare",
+    "investPercentage": "% da investire",
+    "savePercentage": "% da risparmiare",
     "settingsPercent": "Impostazioni di gestione",
     "settingsRecursiveList": "Lista delle spesi ricorrenti",
-    "operations": "Operazioni"
+    "operations": "Operazioni",
+    "nextDebit": "Prossima uscita"
 }

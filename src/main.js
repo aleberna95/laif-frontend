@@ -15,6 +15,5 @@ authStore.initializeAuth();
 app.use(router)  // Utilizza il router nell'applicazione
 app.use(i18n) // Utilizza l'istanza di i18n nell'applicazione
 
-
 app.mount('#app');
 
