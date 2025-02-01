@@ -3,17 +3,17 @@
   <!-- grid-rows-[auto_minmax(0,1fr)_auto] = 3 righe: header | main flexibile | footer -->
   <div class="grid grid-rows-[auto_minmax(0,1fr)_auto] h-screen w-full bg-gray-50">
     <!-- Header in alto -->
-    <header class="bg-gray-200 p-4 max-h-24">
+    <header class="p-4 max-h-24 shadow-lg rounded-b-lg bg-white">
       <div class="grid grid-cols-3 gap-2">
-        <div class="mt-4 flex justify-start">
+        <div class="flex justify-start">
           <div>
             <h1 class="font-bold">Icona</h1>
             <p class="text-xs">Nome App</p>
           </div>
         </div>
-        <div class="mt-8 flex justify-center">Spendi troppo</div>
-        <div class="mt-4 flex justify-end">
-          <h1 class="font-bold">Icona</h1>
+        <div class="flex justify-center">Spendi troppo</div>
+        <div class="flex justify-end">
+          <h1 class="font-bold">Icona notifiche</h1>
         </div>
       </div>
     </header>

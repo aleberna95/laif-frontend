@@ -106,5 +106,15 @@
     "settingsPercent": "Management Settings",
     "settingsRecursiveList": "List of Recurring Expenses",
     "operations": "Operations",
-    "nextDebit": "Next Expense"
+    "nextDebit": "Next Expense",
+    "it": "Italian",
+    "en": "English",
+    "language": "Language",
+    "currency": "Currency",
+    "userSettingsTitle": "User and Settings Management",
+    "userInfo": "User Information",
+    "name": "Name",
+    "email": "Email",
+    "settings": "Settings",
+    "save": "Save Changes"
 }

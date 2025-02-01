@@ -106,5 +106,15 @@
     "settingsPercent": "Impostazioni di gestione",
     "settingsRecursiveList": "Lista delle spesi ricorrenti",
     "operations": "Operazioni",
-    "nextDebit": "Prossima uscita"
+    "nextDebit": "Prossima uscita",
+    "it": "Italiano",
+    "en": "Inglese",
+    "language": "Lingua",
+    "currency": "Valuta",
+    "userSettingsTitle":"Gestione Impostazioni e Utente",
+    "userInfo":"Informazioni Utente",
+    "name":"Nome",
+    "email":"Email",
+    "settings":"Impostazioni",
+    "save":"Salva Modifiche"
 }

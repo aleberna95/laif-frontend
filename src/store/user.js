@@ -9,12 +9,44 @@ export const useUserStore = defineStore('user', {
         leisureAmount: 0,
         investPercentage: 0,
         savePercentage: 0,
-        currency: "€",
+        currency: "EUR",
+        currencies: [],
         darkMode: false,
         language: 'it',
+        languages: [],
+
     }),
 
     actions: {
+        async getCurrencies() {
+            try {
+                const response = await apiClient.getData('/api/user/getCurrencies');
+                this.currencies = response.data.data;
+                return response.data.data;
+            } catch (error) {
+                console.error('Errore durante il fetch delle valute:', error);
+                throw error;
+            }
+        },
+        async getLanguages() {
+            try {
+                const response = await apiClient.getData('/api/user/getLanguages');
+                this.languages = response.data.data;
+                return response.data.data;
+            } catch (error) {
+                console.error('Errore durante il fetch delle lingue:', error);
+                throw error;
+            }
+        },
+
+        async updateUser(data) {
+            try {
+                await apiClient.putData('/api/user/updateUser', data);
+            } catch (error) {
+                console.error('Errore durante l\'aggiornamento dell\'utente:', error);
+                throw error;
+            }
+        },
         async updateSettings(settings) {
             try {
                 await apiClient.putData('/api/user/updateSettings', settings);
