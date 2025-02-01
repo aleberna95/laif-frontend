@@ -12,6 +12,7 @@ for (let i = 1; i <= 31; i++) {
 
 export const useGlobalStore = defineStore('global', {
     state: () => ({
+        currentPage: '',
         months: [
             { label: 'JANUARY', value: 1 },
             { label: 'FEBRUARY', value: 2 },
@@ -29,4 +30,9 @@ export const useGlobalStore = defineStore('global', {
         years,
         days
     }),
+    actions: {
+        setAppTitle(page) {
+            this.currentPage = page;
+        }
+    }
 });

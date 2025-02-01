@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-col h-full w-full">
+  <div class="flex flex-col h-full w-screen px-4">
     <!-- Titolo pagina (opzionale) -->
     <h2 class="text-xl font-semibold mb-4">
       {{ $t('operations') }}
     </h2>
 
     <!-- Sezione Filtri (anno/mese) -->
-    <div class="flex flex-wrap gap-4 mb-4">
+    <div class="flex flex-wrap gap-4 mb-4 min-w-full">
       <DateSelector label="year" :options="years" v-model="selectedYear" @update:modelValue="updateOperations" />
       <DateSelector label="month" :options="months" v-model="selectedMonth" @update:modelValue="updateOperations" />
     </div>
@@ -125,11 +125,14 @@
   import DateSelector from '@/components/BaseSelector.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
   import { useUserStore } from '@/store/user';
+  import { useI18n } from 'vue-i18n';
 
   export default {
     name: 'OperationsList',
     components: { DateSelector, BaseLoader },
     setup() {
+      const { t } = useI18n();
+
       const globalStore = useGlobalStore();
       const operationsStore = useOperationsStore();
       const operations = computed(() => operationsStore.operations);
@@ -201,7 +204,10 @@
         }
       };
 
-      onMounted(fetchOperations);
+      onMounted(() => {
+        globalStore.setAppTitle(t('operationListTitle'));
+        fetchOperations();
+      });
 
       return {
         currency,

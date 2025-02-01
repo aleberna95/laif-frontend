@@ -69,9 +69,6 @@
       v-else
       class="flex-1 min-h-0 bg-white shadow-md rounded-lg overflow-x-hidden md:overflow-x-auto overflow-y-auto">
       <!-- Titolo tabella -->
-      <!-- <p class="p-4 font-semibold text-gray-700">
-          {{ $t('settingsRecursiveList') }}
-        </p> -->
 
       <table class="table-fixed w-full text-left">
         <thead class="bg-gray-100 sticky top-0 z-10">
@@ -79,11 +76,16 @@
             <th class="px-2 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4">
               {{ $t('description') }}
             </th>
-            <th class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4">
+            <th class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-3/4 text-center">
               {{ $t('nextDebit') }}
             </th>
-            <th class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/5">
+            <th
+              scope="col"
+              class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words text-right">
               {{ $t('amount') }}
+              <p class="text-xs text-gray-500">
+                {{ currency }}
+              </p>
             </th>
           </tr>
         </thead>
@@ -100,7 +102,7 @@
 
             <!-- Prossima Scadenza + Tipo -->
             <td class="px-4 py-3">
-              <span class="flex items-center gap-1">
+              <span class="flex items-center justify-center gap-1">
                 <p>{{ formatDate(operation.nextDueDate) }}</p>
               </span>
             </td>
@@ -108,12 +110,12 @@
             <!-- Importo -->
             <td class="px-4 py-3 font-medium">
               <div class="min-h-full flex justify-end items-center">
-                <p>{{ operation.amount }}{{ currency }}</p>
+                <p>{{ operation.amount }}</p>
                 <button @click="confirmDelete(operation.id)" class="text-gray-400 hover:text-black ml-2">
                   <span class="material-icons-outlined">delete</span>
                 </button>
               </div>
-              <span class="text-xs text-gray-400 flex items-center gap-1">
+              <span class="text-xs text-gray-400 flex items-center justify-end gap-1">
                 <p>
                   {{ $t('every') }}
                 </p>

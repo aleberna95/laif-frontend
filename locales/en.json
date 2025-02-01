@@ -116,5 +116,14 @@
     "name": "Name",
     "email": "Email",
     "settings": "Settings",
-    "save": "Save Changes"
+    "save": "Save Changes",
+    "settingsTitle": "Settings",
+    "tipsTitle": "Tips",
+    "addOperationTitle": "Add Operation",
+    "operationListTitle": "Operations List",
+    "homePageTitle": "Summary",
+    "totalIncome": "Total Income",
+    "totalExpense": "Total Expenses",
+    "homePageDescription": "Here you can see a summary of your income and expenses. The percentages are calculated based on the previous month.",
+    "operationType": "Operation Type"
 }
