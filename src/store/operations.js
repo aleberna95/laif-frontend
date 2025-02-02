@@ -8,10 +8,21 @@ export const useOperationsStore = defineStore('operations', {
         expenseCategories: [],
         recursiveTypes: [],
         frequencies: [],
-        recurringExpenses: []
+        recurringExpenses: [],
+        tips: null,
     }),
 
     actions: {
+        async fetchTips() {
+            try {
+                const response = await apiClient.getData('/api/operations/getTips');
+                this.tips = response.data.data;
+                return response.data.data;
+            } catch (error) {
+                console.error('Errore durante il fetch dei suggerimenti:', error);
+                throw error;
+            }
+        },
         async deleteRecurringExpense(id) {
             try {
                 await apiClient.deleteData(`/api/operations/deleteRecurringExpense/${id}`);
@@ -103,5 +114,6 @@ export const useOperationsStore = defineStore('operations', {
                 throw error;
             }
         },
+
     },
 });
