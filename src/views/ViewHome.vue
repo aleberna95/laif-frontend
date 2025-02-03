@@ -38,11 +38,13 @@
               <span class="flex items-center">
                 <p class="text-xl font-semibold">{{ totalIncome || 0 }}</p>
                 <p
-                  class="text-sm rounded-lg p-2"
+                  class="text-sm rounded-lg p-2 flex items-center"
                   :class="{
                     'text-green-600': incomeChange >= 0,
                     'text-red-600': incomeChange < 0,
                   }">
+                  <span v-if="incomeChange >= 0" class="material-icons-outlined">trending_up</span>
+                  <span v-else class="material-icons-outlined">trending_down</span>
                   {{ incomeChange >= 0 ? '+' : '' }}{{ incomeChange }}%
                 </p>
               </span>
@@ -56,8 +58,10 @@
               <span class="flex items-center">
                 <p class="text-xl font-semibold">{{ totalExpense || 0 }}</p>
                 <p
-                  class="text-sm rounded-lg p-2"
+                  class="text-sm rounded-lg p-2 flex justify-center items-center"
                   :class="{ 'text-red-600': expenseChange >= 0, ' text-green-600': expenseChange < 0 }">
+                  <span v-if="expenseChange >= 0" class="material-icons-outlined">trending_up</span>
+                  <span v-else class="material-icons-outlined">trending_down</span>
                   {{ expenseChange >= 0 ? '+' : '' }}{{ expenseChange }}%
                 </p>
               </span>

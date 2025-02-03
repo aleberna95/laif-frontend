@@ -138,5 +138,6 @@
     "overLeisureBudget": "Attenzione! Hai superato il budget per lo svago. Rallenta un attimo e controlla le spese per mantenere il giusto equilibrio.",
     "goodLeisureBudget": "Perfetto! Sei proprio in linea con il budget per lo svago. Continua così e goditi il divertimento senza sorprese!",
     "almostLeisureBudget": "Ci sei quasi! Sei vicino al budget per lo svago. Fai attenzione, potresti superarlo se non moderi i consumi.",
-    "underLeisureBudget": "Ottimo! Hai speso meno del budget per lo svago. Forse è il momento di concederti qualche extra, sempre nel rispetto dei tuoi obiettivi."
+    "underLeisureBudget": "Ottimo! Hai speso meno del budget per lo svago. Forse è il momento di concederti qualche extra, sempre nel rispetto dei tuoi obiettivi.",
+    "noIncome": "Sembra che al momento non ci siano entrate. Inizia a registrare le tue fonti di reddito per dare vita al tuo budget e muovere i primi passi verso i tuoi obiettivi finanziari!"
 }

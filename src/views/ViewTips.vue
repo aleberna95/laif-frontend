@@ -56,7 +56,7 @@
             <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden relative">
               <div
                 class="h-full rounded-full transition-all duration-1000 bg-gradient-to-r from-blue-400 to-blue-600"
-                :style="{ width: (spentInvestmentsPercent > 0 ? 100 : spentInvestmentsPercent) + '%' }"></div>
+                :style="{ width: (spentInvestmentsPercent > 100 ? 100 : spentInvestmentsPercent) + '%' }"></div>
               <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
                 <span>{{ spentInvestments || 0 }}</span>
                 <span class="mx-1">/</span>

@@ -125,5 +125,19 @@
     "totalIncome": "Total Income",
     "totalExpense": "Total Expenses",
     "homePageDescription": "Here you can see a summary of your income and expenses. The percentages are calculated based on the previous month.",
-    "operationType": "Operation Type"
+    "operationType": "Operation Type",
+    "leisure": "Leisure",
+    "savings": "Savings",
+    "investments": "Investments",
+    "overSavingBudget": "Excellent! You have surpassed your savings goal. Keep it up and enjoy the fruits of your hard work!",
+    "almostSavingBudget": "You're almost there! Just a little extra effort and you'll reach your goal. Keep going—you're on the right track!",
+    "underSavingBudget": "Warning! Your savings are below target. Review your spending and recharge your batteries to improve!",
+    "overInvestmentBudget": "Fantastic! You have surpassed your investment goal. Your future is bright; keep it up!",
+    "almostInvestmentBudget": "You're almost there! A little extra effort and your investments will yield great results. Don't give up now!",
+    "underInvestmentBudget": "Warning! Your investments are below target. Review your strategy and realign your goals to achieve more!",
+    "overLeisureBudget": "Warning! You have exceeded your leisure budget. Slow down and check your spending to maintain balance.",
+    "goodLeisureBudget": "Perfect! You're right on target with your leisure budget. Keep it up and enjoy your fun without surprises!",
+    "almostLeisureBudget": "You're almost there! You're close to your leisure budget. Be careful—you might exceed it if you don't moderate your spending.",
+    "underLeisureBudget": "Great! You've spent less than your leisure budget. Maybe it's time to treat yourself to a little extra, while still staying within your goals.",
+    "noIncome": "It seems there are currently no incomes. Start recording your sources of income to bring your budget to life and take the first steps toward your financial goals!"
 }
