@@ -8,11 +8,17 @@
       </div>
       <!-- Bottoni grandi -->
       <div v-else class="flex flex-col space-y-4">
-        <!-- Bottone per scaricare Excel  -->
+        <!-- Bottone per scaricare Excel delle Spese -->
         <button
-          @click="downloadExcel()"
+          @click="downloadExcel('expense')"
+          class="w-full bg-red-300 text-white py-6 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300 ease-out">
+          {{ $t('downloadExpenses') }}
+        </button>
+        <!-- Bottone per scaricare Excel delle Entrate -->
+        <button
+          @click="downloadExcel('income')"
           class="w-full bg-blue-300 text-white py-6 rounded-lg shadow-xl transform hover:scale-105 transition-transform duration-300 ease-out">
-          {{ $t('downloadOperationTemplate') }}
+          {{ $t('downloadIncomes') }}
         </button>
         <!-- Bottone per importare Excel -->
         <button
@@ -32,50 +38,52 @@
   import { useI18n } from 'vue-i18n';
   import BaseLoader from '@/components/BaseLoader.vue';
   import { useGlobalStore } from '@/store/global';
+  import { useDashboardStore } from '@/store/dashboard';
   import { useExcelStore } from '@/store/excel';
-  import { useOperationsStore } from '@/store/operations';
 
   const { t } = useI18n();
   const loading = ref(false);
   const fileInput = ref(null);
 
   const globalStore = useGlobalStore();
+  const dashboardStore = useDashboardStore();
   const excelStore = useExcelStore();
-  const operationStore = useOperationsStore();
 
-  const categories = computed(() => operationStore.categories);
+  const expenseCategories = ref([]);
+  const incomeCategories = ref([]);
   onMounted(() => {
-    operationStore.getCategories();
+    dashboardStore.fetchCategories('EXPENSE').then((res) => {
+      expenseCategories.value = res; // Chiamata per le categorie spese
+    });
+    dashboardStore.fetchCategories('INCOME').then((res) => {
+      incomeCategories.value = res; // Chiamata per le categorie entrate
+    });
   });
 
   // Recupera i mesi dal globalStore
   const months = computed(() => globalStore.months);
   const years = computed(() => globalStore.years);
-  const operationTypes = globalStore.operationTypes;
 
   // Funzione per il download. In base al tipo, seleziona le categorie e la tipologia tradotta
-  async function downloadExcel() {
+  async function downloadExcel(type) {
     try {
       loading.value = true;
 
+      // Determina le categorie in base al tipo (spese o entrate)
+      const categoriesArray = type === 'expense' ? expenseCategories.value : incomeCategories.value;
+
       // Controlla se mesi e categorie sono validi prima di procedere
       const parsedMonths = months.value?.map((month) => t(month.label)) || [];
-      const parsedCategories = categories.value?.map((category) => t(category.label)) || [];
-      const parsedTypes = operationTypes?.map((opType) => t(opType)) || [];
-
-      console.log('types', operationTypes);
+      const parsedCategories = categoriesArray?.map((category) => t(category.label)) || [];
 
       // Chiamata all'azione del Pinia store per il download dell'Excel
       const response = await excelStore.downloadExcel({
         categories: parsedCategories,
         months: parsedMonths,
         years: years.value,
-        type: parsedTypes,
+        type: t(type),
       });
 
-      console.log('Risposta dal backend:', response);
-      console.log('Tipo di dati ricevuto:', response.data instanceof Blob ? 'Blob valido' : 'Non è un Blob');
-      console.log('Dimensione del file ricevuto:', response.data?.size);
       // Verifica se la risposta è valida e contiene dati
       if (!response || !response.data || response.data.size === 0) {
         console.error('Errore: file vuoto o non ricevuto');
@@ -111,22 +119,21 @@
   }
 
   // Gestisce il caricamento del file Excel da importare
-  // Nel componente:
   async function handleFileImport(event) {
     const files = event.target.files;
     if (!files || files.length === 0) return;
     const file = files[0];
     const formData = new FormData();
-    // Usa una chiave consistente con quella che si aspetta il backend
     formData.append('excelFile', file);
     try {
       loading.value = true;
       await excelStore.importExcel(formData);
-      // Eventuale feedback (es. toast di successo)
+      // Eventuale feedback (es. toast di successo) può essere gestito qui
     } catch (error) {
       console.error('Error importing Excel:', error);
     } finally {
       loading.value = false;
+      // Reset dell'input file
       event.target.value = null;
     }
   }

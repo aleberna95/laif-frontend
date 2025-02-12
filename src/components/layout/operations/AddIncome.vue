@@ -52,9 +52,9 @@
         </div>
 
         <!-- Month, Day and Year -->
-        <div class="grid grid-cols-6 gap-2">
-          <BaseSelector label="day" :options="days" v-model="day" />
-          <BaseSelector class="col-span-3" label="month" :options="months" v-model="month" />
+        <div class="grid grid-cols-8 gap-2">
+          <BaseSelector class="col-span-2" label="day" :options="days" v-model="day" />
+          <BaseSelector class="col-span-4" label="month" :options="months" v-model="month" />
           <BaseSelector class="col-span-2" label="year" :options="years" v-model="year" />
         </div>
 

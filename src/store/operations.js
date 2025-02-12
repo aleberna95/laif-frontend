@@ -70,15 +70,33 @@ export const useOperationsStore = defineStore('operations', {
         async getCategories() {
             try {
                 const { t } = useI18n();
-
                 const response = await apiClient.getData('/api/operations/getCategories');
                 const categories = response.data.data;
-                this.categories = categories.map(category => {
-                    return {
-                        value: category.value,
-                        label: t(category.label),
-                    };
-                });
+
+                // Definiamo le categorie speciali
+                const priorityCategories = ['INVESTMENTS', 'SAVINGS', 'LEISURE'];
+                const lastCategory = 'OTHER';
+
+                // Separiamo le categorie
+                let filteredCategories = categories.filter(cat =>
+                    !priorityCategories.includes(cat.value) && cat.value !== lastCategory
+                );
+
+                // Ordiniamo alfabeticamente quelle in mezzo
+                const parsedCategories = filteredCategories.map(cat => ({ value: cat.value, label: t(cat.value) }));
+
+                parsedCategories.sort((a, b) => a.label.localeCompare(b.label));
+
+                // Reinseriamo le categorie speciali nei posti giusti
+                const sortedCategories = [
+                    ...priorityCategories.map(value => ({ value, label: t(value) })),
+                    ...parsedCategories.map(cat => ({ value: cat.value, label: cat.label })),
+                    { value: lastCategory, label: t(lastCategory) }
+                ];
+
+                // Assegniamo la lista ordinata
+                this.categories = sortedCategories;
+
             } catch (error) {
                 console.error('Errore durante il fetch delle categorie:', error);
                 throw error;

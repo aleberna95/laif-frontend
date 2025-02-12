@@ -126,7 +126,7 @@
     "INCOME": "Entrata",
     "EXPENSE": "Uscita",
     "managementSettings": "Impostazioni di gestione",
-    "SALARY": "Salario",
+    "SALARY": "Stipendio",
     "BONUS": "Bonus",
     "DIVIDENDS": "Dividendi",
     "INTEREST": "Interessi",
@@ -169,5 +169,7 @@
     "DONATIONS": "Donazioni",
     "GIFTS": "Regali",
     "OTHER": "Altro",
-    "both": "Tutte"
+    "both": "Tutte",
+    "noInvestmentBudget": "Non hai impostato un budget per gli investimenti. Aggiungi un obiettivo per tenere traccia dei tuoi progressi!",
+    "selectCategory": "Seleziona una categoria"
 }

@@ -169,5 +169,7 @@
     "DONATIONS": "Donations",
     "GIFTS": "Gifts",
     "OTHER": "Other",
-    "both": "Both"
+    "both": "Both",
+    "noInvestmentBudget": "You haven't set a budget for your investments. Add a goal to track your progress!",
+    "selectCategory": "Select a category"
 }
