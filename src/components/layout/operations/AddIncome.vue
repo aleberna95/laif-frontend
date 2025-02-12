@@ -3,7 +3,8 @@
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
       <BaseBackButton />
       <div class="text-center">
-        <h1 class="text-2xl font-bold text-gray-800">{{ $t('newIncome') }}</h1>
+        <!--         <h1 class="text-2xl font-bold text-gray-800">{{ $t('newIncome') }}</h1>
+ -->
         <p class="text-gray-600 mt-2">{{ $t('newIncomeDescription') }}</p>
       </div>
 
@@ -40,16 +41,17 @@
             v-model="category"
             required
             class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none">
-            <option v-for="cat in incomeCategories" :key="cat" :value="cat.value">
+            <option v-for="cat in categories" :key="cat" :value="cat.value">
               {{ cat.label }}
             </option>
           </select>
         </div>
 
         <!-- Month and Year -->
-        <div class="grid grid-cols-2 gap-4">
-          <DateSelector label="month" :options="months" v-model="month" />
-          <DateSelector label="year" :options="years" v-model="year" />
+        <div class="grid grid-cols-6 gap-2">
+          <BaseSelector label="day" :options="days" v-model="day" />
+          <BaseSelector class="col-span-3" label="month" :options="months" v-model="month" />
+          <BaseSelector class="col-span-2" label="year" :options="years" v-model="year" />
         </div>
 
         <!-- Submit Button -->
@@ -70,7 +72,7 @@
   import { useI18n } from 'vue-i18n';
   import { useOperationsStore } from '@/store/operations';
   import { useGlobalStore } from '@/store/global';
-  import DateSelector from '@/components/BaseSelector.vue';
+  import BaseSelector from '@/components/BaseSelector.vue';
   import router from '@/router';
   import BaseBackButton from '@/components/BaseBackButton.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
@@ -83,27 +85,17 @@
 
   const globalStore = useGlobalStore();
   const operationStore = useOperationsStore();
-  const incomeCategories = computed(() => {
-    const categories = operationStore.incomeCategories;
-    if (!categories) return [];
-
-    // le traduco con la funzione t di vue-i18n, poi le ordino in ordine alfabetico e le restituisco
-    return categories
-      .map((cat) => ({
-        value: cat.value,
-        label: t(cat.label),
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label));
-  });
+  const categories = computed(() => operationStore.categories);
   const amount = ref(null);
   const description = ref('');
   const category = ref('');
   const month = ref(new Date().getMonth() + 1); // Default to current month
   const year = ref(new Date().getFullYear()); // Default to current year
+  const day = ref(1);
 
   const months = globalStore.months;
   const years = globalStore.years;
-
+  const days = globalStore.days;
   const loading = ref(false);
 
   const submitIncome = () => {
@@ -128,15 +120,16 @@
     }
   };
 
-  const getIncomeCategories = async () => {
+  const getCategories = async () => {
     loading.value = true;
-    await operationStore.getIncomeCategories().finally(() => {
+    await operationStore.getCategories().finally(() => {
       loading.value = false;
     });
   };
 
   onMounted(() => {
-    getIncomeCategories();
+    getCategories();
+    globalStore.setAppTitle(t('newIncome'));
   });
 </script>
 

@@ -1,11 +1,11 @@
 import { defineStore } from 'pinia';
 import apiClient from '@/utils/apiService'; // Importa il client configurato
+import { useI18n } from 'vue-i18n';
 
 export const useOperationsStore = defineStore('operations', {
     state: () => ({
         operations: [],
-        incomeCategories: [],
-        expenseCategories: [],
+        categories: [],
         recursiveTypes: [],
         frequencies: [],
         recurringExpenses: [],
@@ -67,10 +67,18 @@ export const useOperationsStore = defineStore('operations', {
                 throw error;
             }
         },
-        async getIncomeCategories() {
+        async getCategories() {
             try {
-                const response = await apiClient.getData('/api/operations/getIncomeCategories');
-                this.incomeCategories = response.data.data;
+                const { t } = useI18n();
+
+                const response = await apiClient.getData('/api/operations/getCategories');
+                const categories = response.data.data;
+                this.categories = categories.map(category => {
+                    return {
+                        value: category.id,
+                        label: t(category.label),
+                    };
+                });
             } catch (error) {
                 console.error('Errore durante il fetch delle categorie:', error);
                 throw error;
@@ -95,24 +103,19 @@ export const useOperationsStore = defineStore('operations', {
                 throw error;
             }
         },
-        async getExpenseCategories() {
+        async fetchOperations({ year, month, type = undefined, category = undefined, pageSize, cursor = null }) {
             try {
-                const response = await apiClient.getData('/api/operations/getExpenseCategories');
-                this.expenseCategories = response.data.data;
-            } catch (error) {
-                console.error('Errore durante il fetch delle categorie:', error);
-                throw error;
-            }
-        },
-        async fetchOperations(year, month, pageSize, cursor = null) {
-            try {
-                const response = await apiClient.getData('/api/operations/getOperations', { year, month, pageSize, cursor });
+                this.operations = [];
+                const response = await apiClient.getData('/api/operations/getOperations', { year, month, pageSize, cursor, type, category });
                 this.operations = response.data.data.records;
                 return response.data; // Restituisce i dati per essere usati nel componente
             } catch (error) {
                 console.error('Errore durante il fetch delle operazioni:', error);
                 throw error;
             }
+        },
+        resetOperations() {
+            this.operations = [];
         },
 
     },

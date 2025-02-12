@@ -3,7 +3,7 @@
   <!-- grid-rows-[auto_minmax(0,1fr)_auto] = 3 righe: header | main flexibile | footer -->
   <div class="grid grid-rows-[auto_minmax(0,1fr)_auto] h-screen w-full bg-gray-50">
     <!-- Header in alto -->
-    <header class="px-4 pb-2 max-h-18 shadow-lg rounded-b-lg bg-white">
+    <header class="px-4 pb-2 max-h-18 rounded-b-lg bg-white">
       <div class="grid grid-cols-6 gap-2">
         <div class="flex justify-start col-span-1">
           <!-- 

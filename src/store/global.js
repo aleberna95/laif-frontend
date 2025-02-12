@@ -12,6 +12,10 @@ for (let i = 1; i <= 31; i++) {
 
 export const useGlobalStore = defineStore('global', {
     state: () => ({
+        operationTypes: [
+            'INCOME',
+            'EXPENSE',
+        ],
         currentPage: '',
         months: [
             { label: 'JANUARY', value: 1 },

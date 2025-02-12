@@ -2,7 +2,8 @@
   <div class="flex items-end justify-center min-h-full">
     <div class="max-w-lg w-full p-6 bg-white rounded-lg shadow-md">
       <BaseBackButton />
-      <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Tipo di Uscita</h1>
+      <!--       <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">Tipo di Uscita</h1>
+ -->
       <p class="text-gray-600 text-center mb-8">Scegli tra una spesa singola o una ricorrente.</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -48,7 +49,19 @@
 
 <script setup>
   import BaseBackButton from '@/components/BaseBackButton.vue';
-  // This script is placeholder for potential future logic.
+  import { useI18n } from 'vue-i18n';
+  import { useGlobalStore } from '@/store/global';
+  import { onMounted, onUpdated } from 'vue';
+
+  const { t } = useI18n();
+  const globalStore = useGlobalStore();
+
+  onMounted(() => {
+    globalStore.setAppTitle(t('expenseChoiceTitle'));
+  });
+  onUpdated(() => {
+    globalStore.setAppTitle(t('expenseChoiceTitle'));
+  });
 </script>
 
 <style scoped>

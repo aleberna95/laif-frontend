@@ -1,10 +1,5 @@
 <template>
-  <div class="flex flex-col h-full w-screen px-4">
-    <!-- Titolo pagina (opzionale) -->
-    <h2 class="text-xl font-semibold mb-4">
-      {{ $t('operations') }}
-    </h2>
-
+  <div class="flex flex-col h-full w-full px-4">
     <!-- Sezione Filtri (anno/mese) -->
     <div class="flex flex-wrap gap-4 mb-4 min-w-full">
       <DateSelector label="year" :options="years" v-model="selectedYear" @update:modelValue="updateOperations" />
@@ -20,21 +15,23 @@
       class="flex-1 min-h-0 bg-white shadow-md rounded-lg overflow-x-hidden md:overflow-x-auto overflow-y-auto">
       <table class="table-fixed w-full text-left">
         <!-- Intestazione (thead) -->
+        <!-- Header della tabella -->
         <thead class="bg-gray-100 sticky top-0 z-10">
           <tr>
+            <!-- Colonna Day ottimizzata -->
             <th
               scope="col"
-              class="px-2 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
+              class="px-2 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-12 text-center">
+              {{ $t('day') }}
+            </th>
+            <!-- Altre colonne -->
+            <th scope="col" class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider">
               {{ $t('description') }}
             </th>
-            <th
-              scope="col"
-              class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
+            <th scope="col" class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider">
               {{ $t('category') }}
             </th>
-            <th
-              scope="col"
-              class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
+            <th scope="col" class="px-4 py-3 text-xs font-medium text-right text-gray-600 uppercase tracking-wider">
               {{ $t('amount') }}
               <p class="text-xs text-gray-500">
                 {{ currency }}
@@ -43,19 +40,23 @@
           </tr>
         </thead>
 
-        <!-- Corpo Tabella (tbody) -->
+        <!-- Corpo della tabella -->
         <tbody v-if="operations && operations.length > 0" class="divide-y divide-gray-200 text-sm">
           <tr v-for="operation in operations" :key="operation.id" class="hover:bg-gray-50 transition-colors">
+            <!-- Colonna Day ottimizzata -->
+            <td class="px-2 py-3 text-center text-xs">
+              <span class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center">
+                {{ operation.day }}
+              </span>
+            </td>
             <!-- Descrizione -->
             <td class="px-4 py-3 break-words whitespace-normal">
               {{ operation.description }}
             </td>
-
             <!-- Categoria -->
             <td class="px-4 py-3 text-gray-500 break-words whitespace-normal">
-              {{ operation.type === 'INCOME' ? $t(operation.incomeCategory) : $t(operation.expenseCategory) }}
+              {{ $t(operation.category) }}
             </td>
-
             <!-- Importo -->
             <td
               class="px-4 py-3 font-medium text-right break-words whitespace-normal"
@@ -119,7 +120,7 @@
 </template>
 
 <script>
-  import { computed, ref, onMounted } from 'vue';
+  import { computed, ref, onMounted, onUpdated } from 'vue';
   import { useOperationsStore } from '@/store/operations';
   import { useGlobalStore } from '@/store/global';
   import DateSelector from '@/components/BaseSelector.vue';
@@ -163,12 +164,12 @@
         cursor.value = null;
         loading.value = true;
         try {
-          const operationsData = await operationsStore.fetchOperations(
-            selectedYear.value,
-            selectedMonth.value,
-            pageSize.value,
-            cursor.value,
-          );
+          const operationsData = await operationsStore.fetchOperations({
+            year: selectedYear.value,
+            month: selectedMonth.value,
+            pageSize: pageSize.value,
+            cursor: cursor.value,
+          });
           cursor.value = operationsData.nextCursor;
         } catch (error) {
           console.error('Errore durante il caricamento delle operazioni:', error);
@@ -207,6 +208,9 @@
       onMounted(() => {
         globalStore.setAppTitle(t('operationListTitle'));
         fetchOperations();
+      });
+      onUpdated(() => {
+        globalStore.setAppTitle(t('operationListTitle'));
       });
 
       return {

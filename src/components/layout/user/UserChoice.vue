@@ -19,12 +19,12 @@
       </router-link>
 
       <!-- Bottone Download e importazioni Excel -->
-      <router-link
+      <!-- <router-link
         to="/user/excelDocuments"
         class="flex items-center gap-2 justify-start bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 w-full rounded shadow focus:outline-none focus:ring">
         <span class="material-icons-outlined">description</span>
         {{ $t('excelDocuments') }}
-      </router-link>
+      </router-link> -->
 
       <!-- Bottone Tools doppioni -->
       <div class="h-10 flex items-center gap-2 justify-start bg-gray-50 x"></div>
@@ -44,7 +44,6 @@
   import { signOut } from 'firebase/auth';
   import { auth } from '@/services/firebase';
   import { useAuthStore } from '@/store/auth';
-
   export default {
     name: 'ViewUser',
     methods: {

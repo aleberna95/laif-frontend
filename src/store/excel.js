@@ -21,15 +21,12 @@ export const useExcelStore = defineStore('excel', {
 
             return excel;
         },
-        async importExcel(file) {
-            const formData = new FormData();
-            formData.append('file', file);
-
+        async importExcel(formData) {
             try {
-                await apiClient.postData('/api/user/importExcel', formData);
+                await apiClient.postData('/api/operations/importExcel', formData)
             } catch (error) {
-                console.error('Errore durante l\'importazione dell\'excel:', error);
-                throw error;
+                console.error('Errore durante l\'importazione dell\'excel:', error)
+                throw error
             }
         }
     },

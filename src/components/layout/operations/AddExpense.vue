@@ -3,7 +3,8 @@
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
       <BaseBackButton />
       <div class="text-center">
-        <h1 class="text-2xl font-bold text-gray-800">{{ $t('newExpense') }}</h1>
+        <!--         <h1 class="text-2xl font-bold text-gray-800">{{ $t('newExpense') }}</h1>
+ -->
         <p class="text-gray-600 mt-2">{{ $t('newExpenseDescription') }}</p>
       </div>
       <BaseLoader v-if="loading" />
@@ -39,16 +40,17 @@
             v-model="category"
             required
             class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none">
-            <option v-for="cat in expenseCategories" :key="cat" :value="cat.value">
+            <option v-for="cat in categories" :key="cat" :value="cat.value">
               {{ cat.label }}
             </option>
           </select>
         </div>
 
         <!-- Month and Year -->
-        <div class="grid grid-cols-2 gap-4">
-          <DateSelector label="month" :options="months" v-model="month" />
-          <DateSelector label="year" :options="years" v-model="year" />
+        <div class="grid grid-cols-6 gap-2">
+          <BaseSelector label="day" :options="days" v-model="day" />
+          <BaseSelector class="col-span-3" label="month" :options="months" v-model="month" />
+          <BaseSelector class="col-span-2" label="year" :options="years" v-model="year" />
         </div>
 
         <!-- Submit Button -->
@@ -68,7 +70,7 @@
   import { ref, computed, onMounted } from 'vue';
   import { useOperationsStore } from '@/store/operations';
   import { useGlobalStore } from '@/store/global';
-  import DateSelector from '@/components/BaseSelector.vue';
+  import BaseSelector from '@/components/BaseSelector.vue';
   import router from '@/router';
   import BaseBackButton from '@/components/BaseBackButton.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
@@ -82,26 +84,18 @@
   const globalStore = useGlobalStore();
   const operationStore = useOperationsStore();
 
-  const expenseCategories = computed(() => {
-    const categories = operationStore.expenseCategories;
-    if (!categories) return [];
-
-    return categories
-      .map((category) => ({
-        value: category.value,
-        label: t(category.label),
-      }))
-      .sort((a, b) => a.label.localeCompare(b.label));
-  });
+  const categories = computed(() => operationStore.categories);
 
   const amount = ref(null);
   const description = ref('');
   const category = ref('');
   const month = ref(new Date().getMonth() + 1); // Default to current month
   const year = ref(new Date().getFullYear()); // Default to current year
+  const day = ref(1);
 
   const months = globalStore.months;
   const years = globalStore.years;
+  const days = globalStore.days;
 
   const loading = ref(false);
 
@@ -128,16 +122,17 @@
     }
   };
 
-  const getExpenseCategories = async () => {
+  const getCategories = async () => {
     loading.value = true;
 
-    await operationStore.getExpenseCategories().finally(() => {
+    await operationStore.getCategories().finally(() => {
       loading.value = false;
     });
   };
 
   onMounted(() => {
-    getExpenseCategories();
+    getCategories();
+    globalStore.setAppTitle(t('newExpense'));
   });
 </script>
 

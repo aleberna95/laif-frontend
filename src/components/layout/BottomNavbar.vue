@@ -10,7 +10,7 @@
         ]">
         <img :src="homeImage" alt="Home" class="w-7 h-7" />
         <!-- Barretta blu se attivo -->
-        <span v-if="activeIcon === 'home'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+        <span v-if="activeIcon === 'home'" class="ml-0.5 absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
       </div>
     </router-link>
 
@@ -22,19 +22,19 @@
           activeIcon === 'operations' ? 'scale-110 text-blue-500' : '',
         ]">
         <img :src="filesImage" alt="Operations" class="w-7 h-7" />
-        <span v-if="activeIcon === 'operations'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+        <span v-if="activeIcon === 'operations'" class="ml-0.5 absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
       </div>
     </router-link>
 
     <!-- Link Add -->
-    <router-link to="/addOperation" class="flex flex-col items-center" @click="setActiveIcon('add')">
+    <router-link to="/addOperation" class="flex flex-col items-center" @click="setActiveIcon('addOperation')">
       <div
         :class="[
           'relative px-4 py-3.5 transition-transform duration-300 ease-in-out',
-          activeIcon === 'add' ? 'scale-110 text-blue-500' : '',
+          activeIcon === 'addOperation' ? 'scale-110 text-blue-500' : '',
         ]">
         <img :src="addImage" alt="Add" class="w-7 h-7" />
-        <span v-if="activeIcon === 'add'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+        <span v-if="activeIcon === 'addOperation'" class="ml-0.5 absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
       </div>
     </router-link>
 
@@ -46,7 +46,7 @@
           activeIcon === 'tips' ? 'scale-110 text-blue-500' : '',
         ]">
         <img :src="piggyBankImage" alt="Tips" class="w-7 h-7" />
-        <span v-if="activeIcon === 'tips'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+        <span v-if="activeIcon === 'tips'" class="ml-0.5 absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
       </div>
     </router-link>
 
@@ -59,10 +59,10 @@
       <div
         :class="[
           'relative px-4 py-3.5 transition-transform duration-300 ease-in-out',
-          activeIcon === 'login' ? 'scale-110 text-blue-500' : '',
+          activeIcon === 'user' ? 'scale-110 text-blue-500' : '',
         ]">
         <img :src="loginImage" alt="Login" class="w-7 h-7" />
-        <span v-if="activeIcon === 'login'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+        <span v-if="activeIcon === 'login'" class="ml-0.5 absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
       </div>
     </router-link>
 
@@ -74,14 +74,14 @@
           activeIcon === 'user' ? 'scale-110 text-blue-500' : '',
         ]">
         <img :src="userImage" alt="User" class="w-7 h-7" />
-        <span v-if="activeIcon === 'user'" class="absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
+        <span v-if="activeIcon === 'user'" class="ml-0.5 absolute top-1 w-6 h-1 bg-blue-500 rounded-sm"></span>
       </div>
     </router-link>
   </nav>
 </template>
 
 <script>
-  import { computed, ref } from 'vue';
+  import { computed, onMounted, ref } from 'vue';
   import userImage from '@/assets/navbar/user.png';
   import homeImage from '@/assets/navbar/home.png';
   import addImage from '@/assets/navbar/add.png';
@@ -100,6 +100,12 @@
 
       // Track dell'icona attiva
       const activeIcon = ref('');
+
+      onMounted(() => {
+        // prendo la prima parte della route per settare l'icona attiva
+        const route = window.location.hash.split('/')[1];
+        setActiveIcon(route);
+      });
 
       const setActiveIcon = (icon) => {
         activeIcon.value = icon;

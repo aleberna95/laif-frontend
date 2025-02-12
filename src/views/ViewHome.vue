@@ -43,9 +43,10 @@
                     'text-green-600': incomeChange >= 0,
                     'text-red-600': incomeChange < 0,
                   }">
-                  <span v-if="incomeChange >= 0" class="material-icons-outlined">trending_up</span>
-                  <span v-else class="material-icons-outlined">trending_down</span>
-                  {{ incomeChange >= 0 ? '+' : '' }}{{ incomeChange }}%
+                  <span v-if="incomeChange > 0" class="material-icons-outlined">trending_up</span>
+                  <span v-else-if="incomeChange < 0" class="material-icons-outlined">trending_down</span>
+                  <span v-else class="material-icons-outlined">trending_flat</span>
+                  {{ incomeChange > 0 ? '+' : incomeChange < 0 ? '-' : ' ' }}{{ incomeChange }}%
                 </p>
               </span>
             </div>
@@ -60,9 +61,10 @@
                 <p
                   class="text-sm rounded-lg p-2 flex justify-center items-center"
                   :class="{ 'text-red-600': expenseChange >= 0, ' text-green-600': expenseChange < 0 }">
-                  <span v-if="expenseChange >= 0" class="material-icons-outlined">trending_up</span>
-                  <span v-else class="material-icons-outlined">trending_down</span>
-                  {{ expenseChange >= 0 ? '+' : '' }}{{ expenseChange }}%
+                  <span v-if="expenseChange > 0" class="material-icons-outlined">trending_up</span>
+                  <span v-if="expenseChange < 0" class="material-icons-outlined">trending_down</span>
+                  <span v-else class="material-icons-outlined">trending_flat</span>
+                  {{ expenseChange > 0 ? '+' : expenseChange < 0 ? '-' : ' ' }}{{ expenseChange }}%
                 </p>
               </span>
             </div>
@@ -73,11 +75,7 @@
         <section class="mb-6">
           <!-- Filtro Operazione e Categoria -->
           <div class="grid grid-cols-2 gap-4">
-            <BaseSelector
-              label="operationType"
-              :options="operationTypes"
-              v-model="selectedOperationType"
-              @update:modelValue="onOperationTypeChange" />
+            <BaseSelector label="operationType" :options="operationTypes" v-model="selectedOperationType" />
             <BaseSelector v-if="showCategorySelect" label="category" :options="categories" v-model="selectedCategory" />
           </div>
         </section>
@@ -94,19 +92,22 @@
               <!-- Intestazione (thead) -->
               <thead class="bg-gray-100 sticky top-0 z-10">
                 <tr>
+                  <!-- Colonna Day ottimizzata -->
                   <th
                     scope="col"
-                    class="px-2 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
+                    class="px-2 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-12 text-center">
+                    {{ $t('day') }}
+                  </th>
+                  <!-- Altre colonne -->
+                  <th scope="col" class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider">
                     {{ $t('description') }}
                   </th>
-                  <th
-                    scope="col"
-                    class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
+                  <th scope="col" class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider">
                     {{ $t('category') }}
                   </th>
                   <th
                     scope="col"
-                    class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-2/4 break-words">
+                    class="px-4 py-3 text-xs font-medium text-right text-gray-600 uppercase tracking-wider">
                     {{ $t('amount') }}
                     <p class="text-xs text-gray-500">
                       {{ currency }}
@@ -118,16 +119,20 @@
               <!-- Corpo Tabella (tbody) -->
               <tbody v-if="operations && operations.length > 0" class="divide-y divide-gray-200 text-sm">
                 <tr v-for="operation in operations" :key="operation.id" class="hover:bg-gray-50 transition-colors">
+                  <!-- Colonna Day ottimizzata -->
+                  <td class="px-2 py-3 text-center text-xs">
+                    <span class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center">
+                      {{ operation.day }}
+                    </span>
+                  </td>
                   <!-- Descrizione -->
                   <td class="px-4 py-3 break-words whitespace-normal">
                     {{ operation.description }}
                   </td>
-
                   <!-- Categoria -->
                   <td class="px-4 py-3 text-gray-500 break-words whitespace-normal">
-                    {{ operation.type === 'INCOME' ? $t(operation.incomeCategory) : $t(operation.expenseCategory) }}
+                    {{ $t(operation.category) }}
                   </td>
-
                   <!-- Importo -->
                   <td
                     class="px-4 py-3 font-medium text-right break-words whitespace-normal"
@@ -234,8 +239,8 @@
   const totalExpense = computed(() => dashboardStore.totalExpense);
   const incomeChange = computed(() => dashboardStore.incomeChange);
   const expenseChange = computed(() => dashboardStore.expenseChange);
-  const operations = computed(() => dashboardStore.operations);
-  const categories = computed(() => dashboardStore.categories);
+  const operations = computed(() => operationsStore.operations);
+  const categories = computed(() => operationsStore.categories);
 
   const dashboardLoading = ref(false);
 
@@ -252,37 +257,34 @@
     dashboardLoading.value = false;
   };
 
+  // Paginazione
+  const pageSize = ref();
+  const cursor = ref(null);
+
   const operationLoading = ref(false);
   const fetchOperations = async () => {
+    cursor.value = null;
     operationLoading.value = true;
+
     const filters = {
       month: selectedMonth.value,
       year: selectedYear.value,
       type: selectedOperationType.value,
       category: selectedCategory.value,
+      cursor: cursor.value,
+      pageSize: pageSize.value,
     };
-    await dashboardStore.fetchOperations(filters).then(() => {
-      operationLoading.value = false;
-    });
+    const operationsData = await operationsStore.fetchOperations(filters);
+    operationLoading.value = false;
+    cursor.value = operationsData.nextCursor;
   };
 
   // Funzione per ottenere le categorie in base al tipo di operazione selezionato
-  const fetchCategories = async (type) => {
+  const fetchCategories = async () => {
     try {
-      dashboardStore.fetchCategories(type).then(() => {});
+      operationsStore.getCategories().then(() => {});
     } catch (error) {
       console.error('Error fetching categories', error);
-    }
-  };
-
-  // Gestione del cambio di tipo operazione: resettare la categoria e caricare le categorie corrette
-  const onOperationTypeChange = async (newValue) => {
-    selectedOperationType.value = newValue;
-    selectedCategory.value = null;
-    if (newValue) {
-      await fetchCategories(newValue);
-    } else {
-      categories.value = [];
     }
   };
 
@@ -290,14 +292,16 @@
   watch([selectedMonth, selectedYear], () => {
     fetchDashboardData();
   });
-  watch([selectedCategory], () => {
+  watch([selectedCategory, selectedOperationType], () => {
     fetchOperations();
   });
 
   // Carica i dati iniziali al montaggio del componente
   onMounted(() => {
+    operationsStore.resetOperations();
     globalStore.setAppTitle(t('homePageTitle'));
     fetchDashboardData();
+    fetchCategories();
   });
 
   const deleteId = ref(null);

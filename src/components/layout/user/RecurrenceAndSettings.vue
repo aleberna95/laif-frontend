@@ -185,11 +185,13 @@
 </template>
 
 <script>
-  import { ref, onMounted, computed } from 'vue';
+  import { ref, onMounted, computed, onUpdated } from 'vue';
   import { useOperationsStore } from '@/store/operations';
   import { useUserStore } from '@/store/user';
+  import { useGlobalStore } from '@/store/global';
   import BaseLoader from '@/components/BaseLoader.vue';
   import BaseBackButton from '@/components/BaseBackButton.vue';
+  import { useI18n } from 'vue-i18n';
 
   export default {
     name: 'RecurrenceAndSettings',
@@ -200,7 +202,8 @@
     setup() {
       const userStore = useUserStore();
       const operationsStore = useOperationsStore();
-
+      const globalStore = useGlobalStore();
+      const { t } = useI18n();
       const currency = computed(() => userStore.user?.currency);
 
       // Variabili per la UI
@@ -340,6 +343,11 @@
       onMounted(() => {
         fetchUserSettings();
         fetchRecurringExpenses();
+        globalStore.setAppTitle(t('managementSettings'));
+      });
+
+      onUpdated(() => {
+        globalStore.setAppTitle(t('managementSettings'));
       });
 
       return {

@@ -1,8 +1,8 @@
 <template>
   <div class="flex items-end justify-center min-h-full">
     <div class="max-w-lg w-full p-6 bg-white rounded-lg shadow-md">
-      <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">{{ $t('operationChoiceTitle') }}</h1>
-      <p class="text-gray-600 text-center mb-8">{{ $t('operationChoiceBody') }}</p>
+<!--       <h1 class="text-3xl font-bold text-gray-800 text-center mb-6">{{ $t('operationChoiceTitle') }}</h1>
+ -->      <p class="text-gray-600 text-center mb-8">{{ $t('operationChoiceBody') }}</p>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         <!-- Entrata -->
@@ -44,3 +44,18 @@
     </div>
   </div>
 </template>
+<script setup>
+  import { useI18n } from 'vue-i18n';
+  import { useGlobalStore } from '@/store/global';
+  import { onMounted, onUpdated } from 'vue';
+
+  const { t } = useI18n();
+  const globalStore = useGlobalStore();
+
+  onMounted(() => {
+    globalStore.setAppTitle(t('operationChoiceTitle'));
+  });
+  onUpdated(() => {
+    globalStore.setAppTitle(t('operationChoiceTitle'));
+  });
+</script>

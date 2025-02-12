@@ -4,7 +4,8 @@
       <!-- Header -->
       <div class="text-center p-4 w-full">
         <BaseBackButton />
-        <h1 class="text-2xl font-bold text-gray-800">{{ $t('newRecurringExpense') }}</h1>
+        <!--         <h1 class="text-2xl font-bold text-gray-800">{{ $t('newRecurringExpense') }}</h1>
+ -->
         <p class="text-gray-500 mt-2">{{ $t('newExpenseDescription') }}</p>
       </div>
 
@@ -69,7 +70,7 @@
                 id="category"
                 v-model="localForm.category"
                 class="mt-1 w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded shadow focus:outline-none">
-                <option v-for="cat in expenseCategories" :key="cat.value" :value="cat.value">
+                <option v-for="cat in categories" :key="cat.value" :value="cat.value">
                   {{ cat.label }}
                 </option>
               </select>
@@ -116,13 +117,7 @@
   const operationStore = useOperationsStore();
   const globalStore = useGlobalStore();
 
-  const expenseCategories = computed(() => {
-    const categories = operationStore.expenseCategories;
-    if (!categories) return [];
-    return categories
-      .map((cat) => ({ label: t(cat.label), value: cat.value }))
-      .sort((a, b) => a.label.localeCompare(b.label));
-  });
+  const categories = computed(() => operationStore.categories);
   const frequencies = computed(() => operationStore.frequencies);
   const recursiveTypes = computed(() => operationStore.recursiveTypes);
   const months = computed(() => globalStore.months);
@@ -151,7 +146,7 @@
   const getRecurringExpenseData = async () => {
     loading.value = true;
     await Promise.all([
-      operationStore.getExpenseCategories(),
+      operationStore.getCategories(),
       operationStore.getRecursiveTypes(),
       operationStore.getFrequencies(),
     ]);
@@ -160,6 +155,7 @@
 
   onMounted(() => {
     getRecurringExpenseData();
+    globalStore.setAppTitle(t('newRecurringExpense'));
   });
 
   // Watch recursiveType per impostare comportamenti di default

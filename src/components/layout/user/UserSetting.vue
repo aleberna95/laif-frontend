@@ -7,8 +7,8 @@
     <!-- Contenuto Scrollabile -->
     <main class="pt-4 flex-1 overflow-y-auto">
       <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">{{ $t('userSettingsTitle') }}</h1>
-
+        <!--         <h1 class="text-2xl font-bold mb-4">{{ $t('userSettingsTitle') }}</h1>
+ -->
         <!-- Info Utente -->
         <BaseLoader v-if="userLoader" />
         <div v-else class="bg-white p-4 rounded shadow mb-6">
@@ -58,16 +58,19 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, computed } from 'vue';
+  import { ref, onMounted, computed, onUpdated } from 'vue';
   import BaseSelector from '@/components/BaseSelector.vue';
   import { useUserStore } from '@/store/user';
   import { useI18n } from 'vue-i18n';
   import BaseLoader from '@/components/BaseLoader.vue';
   import BaseBackButton from '@/components/BaseBackButton.vue';
+  import { useGlobalStore } from '@/store/global';
 
+  const { t } = useI18n();
   const { locale } = useI18n();
   // Recupera dati utente dallo store
   const userStore = useUserStore();
+  const globalStore = useGlobalStore();
   const userName = ref('');
   const userEmail = ref('');
 
@@ -121,8 +124,11 @@
   onMounted(() => {
     fetchUserData();
     fetchSelectorData();
+    globalStore.setAppTitle(t('userSettingsTitle'));
   });
-
+  onUpdated(() => {
+    globalStore.setAppTitle(t('userSettingsTitle'));
+  });
   // Funzione per salvare le modifiche
   const saveSettings = () => {
     dataLoader.value = true;
