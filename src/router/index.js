@@ -19,6 +19,8 @@ import ViewUser from '@/views/ViewUser.vue';
 import UserChoice from '@/components/layout/user/UserChoice.vue';
 import RecurrenceAndSettings from '@/components/layout/user/RecurrenceAndSettings.vue';
 import UserSetting from '@/components/layout/user/UserSetting.vue';
+import ClonesTool from '@/components/layout/user/ClonesTool.vue';
+import ExcelDocuments from '@/components/layout/user/ExcelDocuments.vue';
 
 // Definizione delle rotte
 const routes = [
@@ -146,7 +148,23 @@ const routes = [
                 meta: {
                     requiresAuth: true, // Accesso consentito solo se autenticato
                 },
-            }
+            },
+            {
+                path: 'clonesTool',
+                name: 'ClonesTool',
+                component: ClonesTool,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
+            {
+                path: 'excelDocuments',
+                name: 'ExcelDocuments',
+                component: ExcelDocuments,
+                meta: {
+                    requiresAuth: true, // Accesso consentito solo se autenticato
+                },
+            },
         ]
     },
 ];

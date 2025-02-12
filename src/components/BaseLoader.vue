@@ -1,14 +1,33 @@
 <template>
-  <!-- Loading state -->
   <div class="flex flex-col items-center justify-center h-60">
-    <svg
-      class="animate-spin h-12 w-12 text-gray-400 mb-4"
-      xmlns="http://www.w3.org/2000/svg"
-      fill="none"
-      viewBox="0 0 24 24">
-      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 008 8V4a8 8 0 00-8 8z"></path>
-    </svg>
-    <p class="text-gray-500 text-lg">{{ $t('loading') }}...</p>
+    <div class="flex space-x-2">
+      <div class="w-3 h-3 bg-blue-500 rounded-full animate-bounceDot"></div>
+      <div class="w-3 h-3 bg-blue-500 rounded-full animate-bounceDot delay-200"></div>
+      <div class="w-3 h-3 bg-blue-500 rounded-full animate-bounceDot delay-400"></div>
+    </div>
+    <p class="text-gray-500 text-lg mt-4">{{ $t('loading') }}...</p>
   </div>
 </template>
+
+<style scoped>
+@keyframes bounceDot {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+.animate-bounceDot {
+  animation: bounceDot 1.4s infinite ease-in-out both;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+</style>

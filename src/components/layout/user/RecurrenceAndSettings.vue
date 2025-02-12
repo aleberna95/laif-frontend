@@ -1,6 +1,10 @@
 <template>
   <!-- Contenitore principale a colonna, in cui occuperemo l'intera altezza a disposizione -->
   <div class="flex flex-col h-full w-full">
+    <!-- Header Fisso -->
+    <header class="w-full z-10">
+      <BaseBackButton />
+    </header>
     <!-- Sezione “Settings” (parte alta) -->
     <div class="p-4">
       <BaseLoader v-if="loadingSettings" />
@@ -185,11 +189,13 @@
   import { useOperationsStore } from '@/store/operations';
   import { useUserStore } from '@/store/user';
   import BaseLoader from '@/components/BaseLoader.vue';
+  import BaseBackButton from '@/components/BaseBackButton.vue';
 
   export default {
     name: 'RecurrenceAndSettings',
     components: {
       BaseLoader,
+      BaseBackButton,
     },
     setup() {
       const userStore = useUserStore();

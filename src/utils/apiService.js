@@ -30,8 +30,8 @@ export default {
     getData(url, params = {}) {
         return apiClient.get(url, { params });
     },
-    postData(url, data) {
-        return apiClient.post(url, data);
+    postData(url, data, config = {}) {
+        return apiClient.post(url, data, { ...config });
     },
     putData(url, data) {
         return apiClient.put(url, data);

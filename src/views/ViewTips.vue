@@ -112,12 +112,11 @@
     try {
       operationsStore.fetchTips().then((data) => {
         tipsData.value = data;
+        loading.value = false;
       });
     } catch (error) {
       console.error('Error fetching tips data', error);
-    } finally {
-      loading.value = false;
-    }
+    } 
   };
 
   onMounted(() => {
