@@ -46,7 +46,7 @@
                   <span v-if="incomeChange > 0" class="material-icons-outlined">trending_up</span>
                   <span v-else-if="incomeChange < 0" class="material-icons-outlined">trending_down</span>
                   <span v-else class="material-icons-outlined">trending_flat</span>
-                  {{ incomeChange > 0 ? '+' : incomeChange < 0 ? '-' : ' ' }}{{ incomeChange }}%
+                  {{ incomeChange > 0 ? '+' : ' ' }}{{ incomeChange }}%
                 </p>
               </span>
             </div>
@@ -64,7 +64,7 @@
                   <span v-if="expenseChange > 0" class="material-icons-outlined">trending_up</span>
                   <span v-if="expenseChange < 0" class="material-icons-outlined">trending_down</span>
                   <span v-else class="material-icons-outlined">trending_flat</span>
-                  {{ expenseChange > 0 ? '+' : expenseChange < 0 ? '-' : ' ' }}{{ expenseChange }}%
+                  {{ expenseChange > 0 ? '+' : ' ' }}{{ expenseChange }}%
                 </p>
               </span>
             </div>
