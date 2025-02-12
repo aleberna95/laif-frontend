@@ -228,6 +228,7 @@
   const operationTypes = ref([
     { label: 'income', value: 'INCOME' },
     { label: 'expense', value: 'EXPENSE' },
+    { label: 'both', value: undefined },
   ]);
   const showCategorySelect = computed(() => selectedOperationType.value !== null);
 

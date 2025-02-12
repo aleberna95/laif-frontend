@@ -3,19 +3,22 @@
     <div class="max-w-2xl w-full p-8 bg-white rounded-lg shadow-md">
       <BaseBackButton />
       <div class="text-center">
-        <!--         <h1 class="text-2xl font-bold text-gray-800">{{ $t('newIncome') }}</h1>
- -->
         <p class="text-gray-600 mt-2">{{ $t('newIncomeDescription') }}</p>
       </div>
 
       <BaseLoader v-if="loading" />
-      <form v-else @submit.prevent="submitIncome" class="space-y-6">
+      <form v-else @submit.prevent="submitIncome" class="space-y-6 my-6">
+        <!-- Alert errore -->
+        <div v-if="errorMessage" class="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
+          {{ errorMessage }}
+        </div>
+
         <!-- Amount -->
         <div class="relative">
           <label for="amount" class="block text-sm font-medium text-gray-700">{{ $t('amount') }}</label>
           <input
             id="amount"
-            v-model="amount"
+            v-model.number="amount"
             type="number"
             step="0.01"
             required
@@ -38,16 +41,17 @@
           <label for="category" class="block text-sm font-medium text-gray-700">{{ $t('category') }}</label>
           <select
             id="category"
-            v-model="category"
+            v-model="selectedCategory"
             required
             class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-md shadow-sm focus:outline-none">
+            <option value="" disabled>{{ $t('selectCategory') }}</option>
             <option v-for="cat in categories" :key="cat" :value="cat.value">
               {{ cat.label }}
             </option>
           </select>
         </div>
 
-        <!-- Month and Year -->
+        <!-- Month, Day and Year -->
         <div class="grid grid-cols-6 gap-2">
           <BaseSelector label="day" :options="days" v-model="day" />
           <BaseSelector class="col-span-3" label="month" :options="months" v-model="month" />
@@ -82,42 +86,62 @@
   const currency = computed(() => userStore.user?.currency);
 
   const { t } = useI18n();
-
   const globalStore = useGlobalStore();
   const operationStore = useOperationsStore();
+
   const categories = computed(() => operationStore.categories);
   const amount = ref(null);
   const description = ref('');
-  const category = ref('');
-  const month = ref(new Date().getMonth() + 1); // Default to current month
-  const year = ref(new Date().getFullYear()); // Default to current year
+  const selectedCategory = ref('');
+  const month = ref(new Date().getMonth() + 1); // Default current month
+  const year = ref(new Date().getFullYear()); // Default current year
   const day = ref(1);
 
   const months = globalStore.months;
   const years = globalStore.years;
   const days = globalStore.days;
   const loading = ref(false);
+  const errorMessage = ref('');
 
   const submitIncome = () => {
-    if (amount.value && description.value && category.value && month.value && year.value) {
-      loading.value = true;
-      operationStore
-        .addOperation({
-          amount: amount.value,
-          description: description.value,
-          category: category.value,
-          month: month.value,
-          year: year.value,
-          type: 'INCOME',
-        })
-        .finally(() => {
-          console.log('Entrata salvata con successo!');
-          loading.value = false;
-          router.push({ name: 'AddOperation' });
-        });
-    } else {
-      console.error('Compila tutti i campi obbligatori.');
+    errorMessage.value = '';
+
+    // Verifica dei campi obbligatori
+    if (!amount.value || amount.value <= 0) {
+      errorMessage.value = t('pleaseEnterAmount'); // Traduci la chiave in i18n oppure sostituisci con "Inserisci un importo valido"
+      return;
     }
+    if (!description.value || description.value.trim() === '') {
+      errorMessage.value = t('pleaseEnterDescription'); // Traduci la chiave oppure usa "Inserisci una descrizione"
+      return;
+    }
+    if (!selectedCategory.value || selectedCategory.value === '') {
+      errorMessage.value = t('pleaseSelectCategory'); // Traduci la chiave oppure usa "Seleziona una categoria"
+      return;
+    }
+
+    // Se tutto è inserito, procedi con l'operazione
+    loading.value = true;
+    operationStore
+      .addOperation({
+        amount: amount.value,
+        description: description.value,
+        category: selectedCategory.value,
+        month: month.value,
+        year: year.value,
+        type: 'INCOME',
+      })
+      .then(() => {
+        console.log('Entrata salvata con successo!');
+        router.push({ name: 'AddOperation' });
+      })
+      .catch((error) => {
+        console.error(error);
+        // Potresti mostrare anche un messaggio d'errore generico in caso di fallimento
+      })
+      .finally(() => {
+        loading.value = false;
+      });
   };
 
   const getCategories = async () => {

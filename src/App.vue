@@ -17,8 +17,8 @@
         </div>
         <div class="flex justify-end col-span-1">
           <!-- icona notifiche di materialicons-->
-          <span class="material-icons-outlined">notifications</span>
-        </div>
+<!--           <span class="material-icons-outlined">notifications</span>
+ -->        </div>
       </div>
     </header>
 

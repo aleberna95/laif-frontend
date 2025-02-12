@@ -75,7 +75,7 @@ export const useOperationsStore = defineStore('operations', {
                 const categories = response.data.data;
                 this.categories = categories.map(category => {
                     return {
-                        value: category.id,
+                        value: category.value,
                         label: t(category.label),
                     };
                 });

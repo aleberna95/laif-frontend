@@ -168,5 +168,6 @@
     "LEISURE": "Leisure Expenses",
     "DONATIONS": "Donations",
     "GIFTS": "Gifts",
-    "OTHER": "Other"
+    "OTHER": "Other",
+    "both": "Both"
 }
