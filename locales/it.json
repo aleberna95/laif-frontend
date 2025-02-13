@@ -171,5 +171,6 @@
     "OTHER": "Altro",
     "both": "Tutte",
     "noInvestmentBudget": "Non hai impostato un budget per gli investimenti. Aggiungi un obiettivo per tenere traccia dei tuoi progressi!",
-    "selectCategory": "Seleziona una categoria"
+    "selectCategory": "Seleziona una categoria",
+    "expenseChoiceTitle": "Cosa vuoi aggiungere?"
 }

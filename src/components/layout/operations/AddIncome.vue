@@ -95,7 +95,7 @@
   const selectedCategory = ref('');
   const month = ref(new Date().getMonth() + 1); // Default current month
   const year = ref(new Date().getFullYear()); // Default current year
-  const day = ref(1);
+  const day = ref(new Date().getDate()); // Default current day
 
   const months = globalStore.months;
   const years = globalStore.years;
