@@ -7,9 +7,24 @@ export const useDashboardStore = defineStore('dashboard', {
         totalExpense: 0,
         incomeChange: 0,
         expenseChange: 0,
-/*         operations: [],
- */    }),
+        estimatedRemainingTotal: 0,
+        estimatedReminingPercentage: 0,
+    }),
     actions: {
+        async fetchEstimatedRemainingTotal() {
+            // api get /api/operations/getEstimatedRemainingTotal
+            try {
+                await apiClient.getData('/api/operations/getEstimedRemainingBudget').then(response => {
+                    console.log('getEstimatedRemainingTotal', response.data.data);
+                    this.estimatedRemainingTotal = response.data.data.estimatedRemainingBudget;
+                    this.estimatedReminingPercentage = response.data.data.percentage;
+                });
+            }
+            catch (error) {
+                console.log("Errore durante il fetch dei dati del dashboard", error);
+                throw error;
+            }
+        },
         async fetchDashboardData(data) {
             // api get /api/operations/getMonthlySummary come params year e month
             this.categories = [];
@@ -29,18 +44,5 @@ export const useDashboardStore = defineStore('dashboard', {
             }
 
         },
-        /* async fetchOperations(data) {
-            this.operations = [];
-            try {
-                await apiClient.getData('/api/operations/getOperations', data).then(response => {
-                    console.log('fetchOperations', response.data.data);
-                    this.operations = response.data.data.records;
-                });
-            }
-            catch (error) {
-                console.log("Errore durante il fetch dei dati del dashboard", error);
-                throw error;
-            }
-        } */
     }
 });

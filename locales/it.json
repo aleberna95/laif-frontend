@@ -172,5 +172,8 @@
     "both": "Tutte",
     "noInvestmentBudget": "Non hai impostato un budget per gli investimenti. Aggiungi un obiettivo per tenere traccia dei tuoi progressi!",
     "selectCategory": "Seleziona una categoria",
-    "expenseChoiceTitle": "Cosa vuoi aggiungere?"
+    "expenseChoiceTitle": "Cosa vuoi aggiungere?",
+    "remainingStimedEstimated": "Rimanente stimato",
+    "stimedTooltips": "Il valore stimato è calcolato in base alle spese ricorrenti e alle entrate del mese corrente.",
+    "remainingEstimated": "Rimanente mese"
 }

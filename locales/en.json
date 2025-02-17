@@ -172,5 +172,8 @@
     "both": "Both",
     "noInvestmentBudget": "You haven't set a budget for your investments. Add a goal to track your progress!",
     "selectCategory": "Select a category",
-    "expenseChoiceTitle": "What do you want to add?"
+    "expenseChoiceTitle": "What do you want to add?",
+    "remainingStimedEstimated": "Remaining Estimated",
+    "stimedTooltips": "The estimated value is calculated based on the recurring expenses and incomes of the current month.",
+    "remainingEstimated": "Remaining Month"
 }
