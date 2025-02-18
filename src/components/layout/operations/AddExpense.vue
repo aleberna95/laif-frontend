@@ -110,6 +110,7 @@
           month: month.value,
           year: year.value,
           type: 'EXPENSE',
+          day: day.value,
         })
         .finally(() => {
           console.log('Uscita salvata con successo!');

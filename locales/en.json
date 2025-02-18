@@ -174,6 +174,8 @@
     "selectCategory": "Select a category",
     "expenseChoiceTitle": "What do you want to add?",
     "remainingStimedEstimated": "Remaining Estimated",
-    "stimedTooltips": "The estimated value is calculated based on the recurring expenses and incomes of the current month.",
-    "remainingEstimated": "Remaining Month"
+    "stimedTooltips": "The estimated value is calculated based on the expenses incurred plus the recurring ones yet to be entered, for this month.",
+    "remainingEstimated": "Remaining Month",
+    "totalMonthIncome": "Total Month Income",
+    "totalMonthExpense": "Total Month Expenses"
 }

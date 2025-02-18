@@ -130,6 +130,7 @@
         month: month.value,
         year: year.value,
         type: 'INCOME',
+        day: day.value,
       })
       .then(() => {
         console.log('Entrata salvata con successo!');

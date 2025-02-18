@@ -13,7 +13,7 @@
             <!-- Totale Entrate -->
             <div class="bg-green-100 p-4 rounded-xl shadow">
               <span>
-                <p class="text-sm text-gray-600">{{ $t('totalIncome') }}</p>
+                <p class="text-sm text-gray-600">{{ $t('totalMonthIncome') }}</p>
                 <p class="text-xs text-gray-500">{{ currency }}</p>
               </span>
               <span>
@@ -35,7 +35,7 @@
             <!-- Totale Spese -->
             <div class="bg-red-100 p-4 rounded-xl shadow">
               <span>
-                <p class="text-sm text-gray-600">{{ $t('totalExpense') }}</p>
+                <p class="text-sm text-gray-600">{{ $t('totalMonthExpense') }}</p>
                 <p class="text-xs text-gray-500">{{ currency }}</p>
               </span>
               <span>
@@ -75,7 +75,7 @@
               </div>
             </BaseCard>
             <!-- Card: Rimanente Stimato -->
-            <!-- <BaseCard title="remainingStimedEstimated">
+            <BaseCard title="remainingStimedEstimated">
               <p class="text-sm text-gray-500">{{ currency }}</p>
               <div class="py-6">
                 <div class="text-3xl font-bold text-gray-800">
@@ -93,8 +93,8 @@
                   <p class="mt-2 text-sm text-gray-600 text-right">{{ remainingStimedPercentage }}%</p>
                 </div>
               </div>
-              <p>{{ $t('stimedTooltips') }}</p>
-            </BaseCard> -->
+              <p class="text-sm text-gray-700">{{ $t('stimedTooltips') }}</p>
+            </BaseCard>
           </div>
         </section>
       </div>
@@ -133,8 +133,8 @@
   );
 
   // Rimanente Stimato: logica che può essere modificata a piacimento
-/*   const remainingStimedTotal = computed(() => dashboardStore.estimatedRemainingTotal);
-  const remainingStimedPercentage = computed(() => dashboardStore.estimatedReminingPercentage); */
+  const remainingStimedTotal = computed(() => dashboardStore.estimatedRemainingTotal);
+  const remainingStimedPercentage = computed(() => dashboardStore.estimatedReminingPercentage);
 
   // Funzione per calcolare il colore dinamico da rosso a verde in base alla percentuale
   function getDynamicColor(percentage) {
@@ -148,8 +148,8 @@
 
   // Computed properties per il colore dinamico per entrambe le card
   const dynamicColorTotal = computed(() => getDynamicColor(remainingPercentage.value));
-/*   const dynamicColorStimed = computed(() => getDynamicColor(remainingStimedPercentage.value));
- */
+  const dynamicColorStimed = computed(() => getDynamicColor(remainingStimedPercentage.value));
+
   const dashboardLoading = ref(false);
 
   // --- Funzioni di API ---

@@ -1,9 +1,22 @@
 <template>
-  <div class="flex flex-col h-full w-full px-4">
-    <!-- Sezione Filtri (anno/mese) -->
+  <div class="flex flex-col h-full min-w-full px-4">
+    <!-- Sezione Filtri -->
     <div class="flex flex-wrap gap-4 mb-4 min-w-full">
-      <DateSelector label="year" :options="years" v-model="selectedYear" @update:modelValue="updateOperations" />
-      <DateSelector label="month" :options="months" v-model="selectedMonth" @update:modelValue="updateOperations" />
+      <!-- Filtro Anno -->
+      <DateSelector label="year" :options="years" v-model="selectedYear" @update:modelValue="applyFilters" />
+      <!-- Filtro Mese -->
+      <DateSelector label="month" :options="months" v-model="selectedMonth" @update:modelValue="applyFilters" />
+      <!-- Nuovo Filtro Operazioni -->
+      <div class="flex flex-col">
+        <label class="text-gray-600 text-xs uppercase mb-1">
+          {{ $t('search') }}
+        </label>
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Cerca operazione..."
+          class="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
     </div>
 
     <!-- Loader se stiamo caricando -->
@@ -14,17 +27,14 @@
       v-else
       class="flex-1 min-h-0 bg-white shadow-md rounded-lg overflow-x-hidden md:overflow-x-auto overflow-y-auto">
       <table class="table-fixed w-full text-left">
-        <!-- Intestazione (thead) -->
         <!-- Header della tabella -->
         <thead class="bg-gray-100 sticky top-0 z-10">
           <tr>
-            <!-- Colonna Day ottimizzata -->
             <th
               scope="col"
               class="px-2 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider w-12 text-center">
               {{ $t('day') }}
             </th>
-            <!-- Altre colonne -->
             <th scope="col" class="px-4 py-3 text-xs font-medium text-gray-600 uppercase tracking-wider">
               {{ $t('description') }}
             </th>
@@ -41,9 +51,9 @@
         </thead>
 
         <!-- Corpo della tabella -->
-        <tbody v-if="operations && operations.length > 0" class="divide-y divide-gray-200 text-sm">
-          <tr v-for="operation in operations" :key="operation.id" class="hover:bg-gray-50 transition-colors">
-            <!-- Colonna Day ottimizzata -->
+        <tbody v-if="filteredOperations && filteredOperations.length > 0" class="divide-y divide-gray-200 text-sm">
+          <tr v-for="operation in filteredOperations" :key="operation.id" class="hover:bg-gray-50 transition-colors">
+            <!-- Giorno -->
             <td class="px-2 py-3 text-center text-xs">
               <span class="bg-blue-100 text-blue-800 rounded-full w-8 h-8 flex items-center justify-center">
                 {{ operation.day }}
@@ -74,10 +84,10 @@
           </tr>
         </tbody>
 
-        <!-- Nessun dato -->
-        <tbody v-else-if="!loading && operations && operations.length === 0">
+        <!-- Messaggio di "Nessun dato" -->
+        <tbody v-else-if="!loading && filteredOperations && filteredOperations.length === 0">
           <tr>
-            <td class="px-4 py-3 text-center text-gray-500" colspan="3">
+            <td class="px-4 py-3 text-center text-gray-500" colspan="4">
               {{ $t('noData') }}
             </td>
           </tr>
@@ -91,6 +101,9 @@
             </td>
             <td class="px-4 py-3">
               <div class="animate-pulse h-4 bg-gray-200 rounded w-2/4 mx-auto"></div>
+            </td>
+            <td class="px-4 py-3">
+              <div class="animate-pulse h-4 bg-gray-200 rounded w-1/4 mx-auto"></div>
             </td>
             <td class="px-4 py-3">
               <div class="animate-pulse h-4 bg-gray-200 rounded w-1/4 mx-auto"></div>
@@ -136,6 +149,7 @@
 
       const globalStore = useGlobalStore();
       const operationsStore = useOperationsStore();
+      // Le operazioni vengono lette dallo store
       const operations = computed(() => operationsStore.operations);
       const userStore = useUserStore();
 
@@ -148,29 +162,25 @@
       const years = globalStore.years;
       const months = globalStore.months;
 
-      // Paginazione
-      const pageSize = ref();
-      const cursor = ref(null);
+      // Campo ricerca per filtro client-side
+      const searchQuery = ref('');
 
       // Stato caricamento
       const loading = ref(true);
 
-      // Popup conferma
+      // Popup conferma eliminazione
       const showConfirm = ref(false);
       const deleteId = ref(null);
 
-      // Funzione fetch
+      // Fetch delle operazioni (lato server, in base ad anno e mese)
       const fetchOperations = async () => {
-        cursor.value = null;
         loading.value = true;
         try {
-          const operationsData = await operationsStore.fetchOperations({
+          // Il fetch non include il filtro "search" perché lo facciamo client-side
+          await operationsStore.fetchOperations({
             year: selectedYear.value,
             month: selectedMonth.value,
-            pageSize: pageSize.value,
-            cursor: cursor.value,
           });
-          cursor.value = operationsData.nextCursor;
         } catch (error) {
           console.error('Errore durante il caricamento delle operazioni:', error);
         } finally {
@@ -178,12 +188,26 @@
         }
       };
 
-      // Aggiorna le operazioni al cambio di anno/mese
-      const updateOperations = () => {
+      // Filtro client-side sulle operazioni già disponibili
+      const filteredOperations = computed(() => {
+        const query = searchQuery.value.trim().toLowerCase();
+        if (!query) return operations.value;
+        return operations.value.filter((op) => {
+          return (
+            (op.description && op.description.toLowerCase().includes(query)) ||
+            (op.category && op.category.toLowerCase().includes(query)) ||
+            (op.day && String(op.day).includes(query)) ||
+            (op.amount && String(op.amount).includes(query))
+          );
+        });
+      });
+
+      // Aggiorna i filtri (fetch lato server per anno/mese, mentre la ricerca è client-side)
+      const applyFilters = () => {
         fetchOperations();
       };
 
-      // Conferma e cancellazione operazione
+      // Gestione della cancellazione
       const confirmDelete = (id) => {
         deleteId.value = id;
         showConfirm.value = true;
@@ -195,10 +219,10 @@
       };
 
       const deleteOperation = async (id) => {
+        if (!id) return;
         try {
-          if (!id) return;
           await operationsStore.deleteOperation(id);
-          fetchOperations(); // Ricarica la lista dopo la cancellazione
+          fetchOperations();
           cancelDelete();
         } catch (error) {
           console.error("Errore durante la cancellazione dell'operazione:", error);
@@ -215,18 +239,21 @@
 
       return {
         currency,
-        operations,
+        // Passiamo il filtro client-side alla template
+        filteredOperations,
         selectedYear,
         selectedMonth,
         years,
         months,
+        searchQuery,
         loading,
-        updateOperations,
+        applyFilters,
         confirmDelete,
         cancelDelete,
         deleteOperation,
         showConfirm,
         deleteId,
+        t,
       };
     },
   };
