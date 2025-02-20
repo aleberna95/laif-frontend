@@ -26,6 +26,16 @@
     <div
       v-else
       class="flex-1 min-h-0 bg-white shadow-md rounded-lg overflow-x-hidden md:overflow-x-auto overflow-y-auto">
+      <div class="flex flex-row justify-between px-4 py-2 text-xs text-gray-500">
+        <div class="text-left">
+          <p class="text-green-600 font-semibold">Entrate</p>
+          <p>{{ totalIncome?.toFixed(2) }}</p>
+        </div>
+        <div class="text-right">
+          <p class="text-red-600 font-semibold">Uscite</p>
+          <p>{{ totalExpense?.toFixed(2) }}</p>
+        </div>
+      </div>
       <table class="table-fixed w-full text-left">
         <!-- Header della tabella -->
         <thead class="bg-gray-100 sticky top-0 z-10">
@@ -146,7 +156,6 @@
     components: { DateSelector, BaseLoader },
     setup() {
       const { t } = useI18n();
-
       const globalStore = useGlobalStore();
       const operationsStore = useOperationsStore();
       // Le operazioni vengono lette dallo store
@@ -172,11 +181,10 @@
       const showConfirm = ref(false);
       const deleteId = ref(null);
 
-      // Fetch delle operazioni (lato server, in base ad anno e mese)
+      // Fetch delle operazioni (lato server, in base ad anno/mese)
       const fetchOperations = async () => {
         loading.value = true;
         try {
-          // Il fetch non include il filtro "search" perché lo facciamo client-side
           await operationsStore.fetchOperations({
             year: selectedYear.value,
             month: selectedMonth.value,
@@ -200,6 +208,15 @@
             (op.amount && String(op.amount).includes(query))
           );
         });
+      });
+
+      // Calcolo dinamico di totalIncome e totalExpense dalle operazioni filtrate
+      const totalIncome = computed(() => {
+        return filteredOperations.value.filter((op) => op.type === 'INCOME').reduce((acc, op) => acc + op.amount, 0);
+      });
+
+      const totalExpense = computed(() => {
+        return filteredOperations.value.filter((op) => op.type === 'EXPENSE').reduce((acc, op) => acc + op.amount, 0);
       });
 
       // Aggiorna i filtri (fetch lato server per anno/mese, mentre la ricerca è client-side)
@@ -239,7 +256,6 @@
 
       return {
         currency,
-        // Passiamo il filtro client-side alla template
         filteredOperations,
         selectedYear,
         selectedMonth,
@@ -254,6 +270,8 @@
         showConfirm,
         deleteId,
         t,
+        totalIncome,
+        totalExpense,
       };
     },
   };
