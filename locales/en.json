@@ -177,5 +177,6 @@
     "stimedTooltips": "The estimated value is calculated based on the expenses incurred plus the recurring ones yet to be entered, for this month.",
     "remainingEstimated": "Remaining Month",
     "totalMonthIncome": "Total Month Income",
-    "totalMonthExpense": "Total Month Expenses"
+    "totalMonthExpense": "Total Month Expenses",
+    "search": "Search"
 }

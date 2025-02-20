@@ -177,5 +177,6 @@
     "stimedTooltips": "Il valore stimato è calcolato in base alle spese effettuate più le ricorrenti ancora da inserire, di questo mese.",
     "remainingEstimated": "Rimanente mese",
     "totalMonthIncome": "Entrate totali mese",
-    "totalMonthExpense": "Uscite totali mese"
+    "totalMonthExpense": "Uscite totali mese",
+    "search": "Cerca"
 }

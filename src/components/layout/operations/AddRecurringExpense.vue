@@ -269,7 +269,7 @@
         maxOccurrences: localForm.value.maxOccurrences,
         firstOccurrenceDate: new Date(
           localForm.value.firstOccurrence.year,
-          localForm.value.firstOccurrence.month,
+          localForm.value.firstOccurrence.month - 1,
           localForm.value.firstOccurrence.day,
         ).toISOString(),
         lastOccurenceDate: lastOccurrenceDate ? lastOccurrenceDate.toISOString() : null,
