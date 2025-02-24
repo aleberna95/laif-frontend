@@ -51,8 +51,6 @@
         try {
           // Esegui il logout tramite Firebase
           await signOut(auth);
-          console.log('Logout riuscito');
-
           const store = useAuthStore();
           // Reindirizza alla pagina di login
           store.logout();

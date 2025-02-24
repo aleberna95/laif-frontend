@@ -133,7 +133,6 @@
         day: day.value,
       })
       .then(() => {
-        console.log('Entrata salvata con successo!');
         router.push({ name: 'AddOperation' });
       })
       .catch((error) => {

@@ -13,12 +13,6 @@ export const useExcelStore = defineStore('excel', {
                 type
             };
             const excel = await apiClient.postData('/api/user/getExcel', data, { responseType: 'blob' });
-
-            console.log('Risposta dal backend:', excel);
-            console.log('Tipo di dati ricevuto:', excel.data instanceof Blob ? 'Blob valido' : 'Non è un Blob');
-            console.log('Dimensione del file ricevuto:', excel.data?.size);
-
-
             return excel;
         },
         async importExcel(formData) {

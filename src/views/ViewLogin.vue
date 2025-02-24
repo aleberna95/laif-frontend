@@ -117,11 +117,6 @@
           const user = result.user;
           const token = await user.getIdToken();
           const refreshToken = user.refreshToken;
-
-          console.log('Login riuscito:', user);
-          console.log('Token ottenuto:', token);
-          console.log('Refresh token:', refreshToken);
-
           this.handleUserLogin(user, token, refreshToken);
         } catch (error) {
           console.error('Errore durante il login con Google:', error);
@@ -133,11 +128,6 @@
           const user = userCredential.user;
           const token = await user.getIdToken();
           const refreshToken = user.refreshToken;
-
-          console.log('Login con email e password riuscito:', user);
-          console.log('Token ottenuto:', token);
-          console.log('Refresh token:', refreshToken);
-
           this.handleUserLogin(user, token, refreshToken);
         } catch (error) {
           console.error('Errore durante il login con email e password:', error);
@@ -149,10 +139,6 @@
           const user = userCredential.user;
           const token = await user.getIdToken();
           const refreshToken = user.refreshToken;
-
-          console.log('Registrazione con email e password riuscita:', user);
-          console.log('Token ottenuto:', token);
-          console.log('Refresh token:', refreshToken);
 
           this.handleUserLogin(user, token, refreshToken);
         } catch (error) {

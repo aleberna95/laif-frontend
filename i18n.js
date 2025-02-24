@@ -4,8 +4,6 @@ import it from './locales/it.json';
 
 // Funzione per ottenere la lingua dell'utente (da localStorage o impostazioni API)
 const getUserLanguage = () => {
-    console.log(localStorage.getItem('userLanguage'));
-    
     return localStorage.getItem('userLanguage') || 'it'; // Default: Italiano
 };
 

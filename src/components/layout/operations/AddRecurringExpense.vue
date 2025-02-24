@@ -188,8 +188,6 @@
   );
 
   function computeMaxOccurrences() {
-    console.log('Computing max occurrences...');
-
     const { frequency, frequencyCount, firstOccurrence } = localForm.value;
 
     // Verifica validità di `firstOccurrence`
@@ -276,9 +274,7 @@
         type: 'EXPENSE',
       })
       .then(() => {
-        console.log('Uscita salvata con successo!');
         loading.value = false;
-
         router.push({ name: 'AddOperation' });
       })
       .catch((err) => console.error(err));

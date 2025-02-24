@@ -201,12 +201,21 @@
         const query = searchQuery.value.trim().toLowerCase();
         if (!query) return operations.value;
         return operations.value.filter((op) => {
-          return (
-            (op.description && op.description.toLowerCase().includes(query)) ||
-            (op.category && op.category.toLowerCase().includes(query)) ||
-            (op.day && String(op.day).includes(query)) ||
-            (op.amount && String(op.amount).includes(query))
-          );
+          // se si tratta di una categoria devo tradurla e poi cercare
+          if (op.category) {
+            const category = t(op.category).toLowerCase();
+            return (
+              (op.description && op.description.toLowerCase().includes(query)) ||
+              category.includes(query) ||
+              (op.day && String(op.day).includes(query)) ||
+              (op.amount && String(op.amount).includes(query))
+            );
+          } else
+            return (
+              (op.description && op.description.toLowerCase().includes(query)) ||
+              (op.day && String(op.day).includes(query)) ||
+              (op.amount && String(op.amount).includes(query))
+            );
         });
       });
 

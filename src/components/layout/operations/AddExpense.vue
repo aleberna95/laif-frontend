@@ -113,7 +113,6 @@
           day: day.value,
         })
         .finally(() => {
-          console.log('Uscita salvata con successo!');
           loading.value = false;
 
           router.push({ name: 'AddOperation' });

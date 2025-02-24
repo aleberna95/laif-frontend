@@ -105,7 +105,6 @@
           selectedCurrency.value = data.currency;
           userName.value = data.name;
           userEmail.value = data.email;
-          console.log('Utente recuperato:', data);
         })
         .then(() => {
           userLoader.value = false;
@@ -144,10 +143,8 @@
         changeLanguage(selectedLanguage.value);
         dataLoader.value = false;
         userLoader.value = false;
-        console.log('Impostazioni aggiornate');
       });
     // Puoi aggiungere qui eventuali notifiche di salvataggio o gestione degli errori
-    console.log('Impostazioni aggiornate:', userStore.user);
   };
 </script>
 

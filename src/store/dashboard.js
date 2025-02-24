@@ -15,7 +15,6 @@ export const useDashboardStore = defineStore('dashboard', {
             // api get /api/operations/getEstimatedRemainingTotal
             try {
                 await apiClient.getData('/api/operations/getEstimedRemainingBudget').then(response => {
-                    console.log('getEstimatedRemainingTotal', response.data.data);
                     this.estimatedRemainingTotal = response.data.data.estimatedRemainingBudget;
                     this.estimatedReminingPercentage = response.data.data.percentage;
                 });
@@ -30,8 +29,6 @@ export const useDashboardStore = defineStore('dashboard', {
             this.categories = [];
             try {
                 await apiClient.getData('/api/operations/getMonthlySummary', data).then(response => {
-                    console.log('fetchDashboardData', response.data.data);
-
                     this.totalIncome = response.data.data.totalIncome;
                     this.totalExpense = response.data.data.totalExpense;
                     this.incomeChange = response.data.data.incomeChange;
