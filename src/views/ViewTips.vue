@@ -1,6 +1,5 @@
 <template>
   <div class="flex flex-col h-full min-h-full bg-gray-50">
-    <!-- Contenuto scrollabile -->
     <main class="flex-1 overflow-y-auto">
       <div class="max-w-7xl mx-auto p-6 space-y-8">
         <!-- Loader -->
@@ -10,63 +9,77 @@
         <div v-else class="grid grid-cols-1 gap-6 md:grid-cols-3">
           <!-- Card Svago (Leisure) -->
           <div
-            class="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500 hover:shadow-lg transition-shadow duration-300">
-            <div class="flex justify-between items-center mb-4">
+            class="bg-white/90 backdrop-blur-lg p-6 rounded-xl shadow-md border-l-4 border-yellow-500 hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center justify-between mb-3">
               <h2 class="text-xl font-bold text-yellow-600">{{ $t('leisure') }}</h2>
-              <!-- Qui potresti integrare un TooltipModal se necessario -->
+              <TooltipModal>
+                <p class="text-sm">{{ $t('leisureTooltip') }}</p>
+              </TooltipModal>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden relative">
-              <div
-                class="h-full rounded-full transition-all duration-1000 bg-gradient-to-r from-yellow-400 to-yellow-600"
-                :style="{ width: (spentLeisurePercent > 100 ? 100 : spentLeisurePercent) + '%' }"></div>
-              <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+            <div class="relative">
+              <div class="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  class="h-full rounded-full transition-all duration-1000 bg-gradient-to-r from-yellow-400 to-yellow-600"
+                  :style="{ width: (spentLeisurePercent > 100 ? 100 : spentLeisurePercent) + '%' }"></div>
+              </div>
+              <div class="absolute inset-0 flex justify-center items-center text-xs font-semibold text-white">
                 <span>{{ spentLeisure || 0 }}</span>
                 <span class="mx-1">/</span>
                 <span>{{ leisureBudget || 0 }}</span>
                 <span class="ml-1">{{ currency }}</span>
               </div>
             </div>
-            <p class="mt-4 text-sm font-medium text-yellow-700">{{ $t(messageLeisure) }}</p>
+            <p class="mt-3 text-sm font-medium text-yellow-700">{{ $t(messageLeisure) }}</p>
           </div>
 
           <!-- Card Risparmi (Savings) -->
           <div
-            class="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-lg transition-shadow duration-300">
-            <div class="flex justify-between items-center mb-4">
+            class="bg-white/90 backdrop-blur-lg p-6 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center justify-between mb-3">
               <h2 class="text-xl font-bold text-green-600">{{ $t('savings') }}</h2>
+              <TooltipModal>
+                <p class="text-sm">{{ $t('savingsTooltip') }}</p>
+              </TooltipModal>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden relative">
-              <div
-                class="h-full rounded-full transition-all duration-1000 bg-gradient-to-r from-green-400 to-green-600"
-                :style="{ width: (spentSavingsPercent > 100 ? 100 : spentSavingsPercent) + '%' }"></div>
-              <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+            <div class="relative">
+              <div class="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  class="h-full rounded-full transition-all duration-1000 bg-gradient-to-r from-green-400 to-green-600"
+                  :style="{ width: (spentSavingsPercent > 100 ? 100 : spentSavingsPercent) + '%' }"></div>
+              </div>
+              <div class="absolute inset-0 flex justify-center items-center text-xs font-semibold text-white">
                 <span>{{ spentSavings || 0 }}</span>
                 <span class="mx-1">/</span>
                 <span>{{ savingBudget || 0 }}</span>
                 <span class="ml-1">{{ currency }}</span>
               </div>
             </div>
-            <p class="mt-4 text-sm font-medium text-green-700">{{ $t(messageSavings) }}</p>
+            <p class="mt-3 text-sm font-medium text-green-700">{{ $t(messageSavings) }}</p>
           </div>
 
           <!-- Card Investimenti (Investments) -->
           <div
-            class="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-lg transition-shadow duration-300">
-            <div class="flex justify-between items-center mb-4">
+            class="bg-white/90 backdrop-blur-lg p-6 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-xl transition-shadow duration-300">
+            <div class="flex items-center justify-between mb-3">
               <h2 class="text-xl font-bold text-blue-600">{{ $t('investments') }}</h2>
+              <TooltipModal>
+                <p class="text-sm">{{ $t('investmentTooltip') }}</p>
+              </TooltipModal>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden relative">
-              <div
-                class="h-full rounded-full transition-all duration-1000 bg-gradient-to-r from-blue-400 to-blue-600"
-                :style="{ width: (spentInvestmentsPercent > 100 ? 100 : spentInvestmentsPercent) + '%' }"></div>
-              <div class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white">
+            <div class="relative">
+              <div class="w-full h-4 bg-gray-200 rounded-full overflow-hidden">
+                <div
+                  class="h-full rounded-full transition-all duration-1000 bg-gradient-to-r from-blue-400 to-blue-600"
+                  :style="{ width: (spentInvestmentsPercent > 100 ? 100 : spentInvestmentsPercent) + '%' }"></div>
+              </div>
+              <div class="absolute inset-0 flex justify-center items-center text-xs font-semibold text-white">
                 <span>{{ spentInvestments || 0 }}</span>
                 <span class="mx-1">/</span>
                 <span>{{ investmentBudget || 0 }}</span>
                 <span class="ml-1">{{ currency }}</span>
               </div>
             </div>
-            <p class="mt-4 text-sm font-medium text-blue-700">{{ $t(messageInvestment) }}</p>
+            <p class="mt-3 text-sm font-medium text-blue-700">{{ $t(messageInvestment) }}</p>
           </div>
         </div>
       </div>
@@ -81,6 +94,7 @@
   import { useUserStore } from '@/store/user';
   import { useGlobalStore } from '@/store/global';
   import { useI18n } from 'vue-i18n';
+  import TooltipModal from '@/components/TooltipModal.vue';
 
   const globalStore = useGlobalStore();
   const operationsStore = useOperationsStore();
