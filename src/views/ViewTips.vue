@@ -1,19 +1,19 @@
 <template>
   <div class="flex flex-col h-full min-h-full bg-gray-50">
-    <!-- Header Fisso (se presente in un wrapper globale, altrimenti aggiungi qui il BaseBackButton) -->
     <!-- Contenuto scrollabile -->
     <main class="flex-1 overflow-y-auto">
       <div class="max-w-7xl mx-auto p-6 space-y-8">
         <!-- Loader -->
         <BaseLoader v-if="loading" />
 
-        <!-- Contenuto Tips -->
+        <!-- Griglia delle Card -->
         <div v-else class="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <!-- Card Svago -->
+          <!-- Card Svago (Leisure) -->
           <div
-            class="bg-white p-3 rounded-lg shadow-xl border-l-8 border-yellow-500 hover:shadow-2xl transition-shadow">
+            class="bg-white p-6 rounded-xl shadow-md border-l-4 border-yellow-500 hover:shadow-lg transition-shadow duration-300">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-xl font-bold text-yellow-600">{{ $t('leisure') }}</h2>
+              <!-- Qui potresti integrare un TooltipModal se necessario -->
             </div>
             <div class="w-full bg-gray-200 rounded-full h-6 overflow-hidden relative">
               <div
@@ -29,8 +29,9 @@
             <p class="mt-4 text-sm font-medium text-yellow-700">{{ $t(messageLeisure) }}</p>
           </div>
 
-          <!-- Card Risparmi -->
-          <div class="bg-white p-6 rounded-lg shadow-xl border-l-8 border-green-500 hover:shadow-2xl transition-shadow">
+          <!-- Card Risparmi (Savings) -->
+          <div
+            class="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500 hover:shadow-lg transition-shadow duration-300">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-xl font-bold text-green-600">{{ $t('savings') }}</h2>
             </div>
@@ -48,8 +49,9 @@
             <p class="mt-4 text-sm font-medium text-green-700">{{ $t(messageSavings) }}</p>
           </div>
 
-          <!-- Card Investimenti -->
-          <div class="bg-white p-6 rounded-lg shadow-xl border-l-8 border-blue-500 hover:shadow-2xl transition-shadow">
+          <!-- Card Investimenti (Investments) -->
+          <div
+            class="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500 hover:shadow-lg transition-shadow duration-300">
             <div class="flex justify-between items-center mb-4">
               <h2 class="text-xl font-bold text-blue-600">{{ $t('investments') }}</h2>
             </div>
@@ -116,7 +118,7 @@
       });
     } catch (error) {
       console.error('Error fetching tips data', error);
-    } 
+    }
   };
 
   onMounted(() => {

@@ -26,7 +26,6 @@ apiClient.interceptors.request.use(
     },
     (error) => {
         console.log("Errore nella richiesta", error);
-
         return Promise.reject(error);
     }
 );

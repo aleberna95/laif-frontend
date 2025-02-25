@@ -174,7 +174,7 @@
     "selectCategory": "Seleziona una categoria",
     "expenseChoiceTitle": "Cosa vuoi aggiungere?",
     "remainingStimedEstimated": "Rimanente stimato",
-    "stimedTooltips": "Il valore stimato è calcolato in base alle spese effettuate più le ricorrenti ancora da inserire, di questo mese.",
+    "stimedTooltips": "Il valore stimato è calcolato in base alle spese effettuate più le ricorrenti ancora non scadute, di questo mese.",
     "remainingEstimated": "Rimanente mese",
     "totalMonthIncome": "Entrate totali mese",
     "totalMonthExpense": "Uscite totali mese",

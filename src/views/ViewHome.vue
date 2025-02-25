@@ -75,8 +75,21 @@
               </div>
             </BaseCard>
             <!-- Card: Rimanente Stimato -->
-            <BaseCard title="remainingStimedEstimated">
-              <p class="text-sm text-gray-500">{{ currency }}</p>
+            <BaseCard>
+              <!-- Header con titolo e tooltip in alto a destra -->
+              <div class="flex justify-between items-center">
+                <h2 class="text-sm text-gray-500">{{ $t('remainingStimedEstimated') }}</h2>
+              </div>
+
+              <!-- Corpo della card -->
+              <span class="flex justify-between items-center">
+                <p class="text-sm text-gray-500">{{ currency }}</p>
+                <TooltipModal>
+                  <p class="text-lg">
+                    {{ $t('stimedTooltips') }}
+                  </p>
+                </TooltipModal>
+              </span>
               <div class="py-6">
                 <div class="text-3xl font-bold text-gray-800">
                   {{ remainingStimedTotal }}
@@ -93,7 +106,6 @@
                   <p class="mt-2 text-sm text-gray-600 text-right">{{ remainingStimedPercentage }}%</p>
                 </div>
               </div>
-              <p class="text-sm text-gray-700">{{ $t('stimedTooltips') }}</p>
             </BaseCard>
           </div>
         </section>
@@ -109,6 +121,7 @@
   import { useUserStore } from '@/store/user';
   import BaseLoader from '@/components/BaseLoader.vue';
   import BaseCard from '@/components/BaseCard.vue';
+  import TooltipModal from '@/components/TooltipModal.vue';
 
   // --- Pinia Stores ---
   const dashboardStore = useDashboardStore();

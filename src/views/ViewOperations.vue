@@ -2,20 +2,32 @@
   <div class="flex flex-col h-full min-w-full px-4">
     <!-- Sezione Filtri -->
     <div class="flex flex-wrap gap-4 mb-4 min-w-full">
-      <!-- Filtro Anno -->
-      <DateSelector label="year" :options="years" v-model="selectedYear" @update:modelValue="applyFilters" />
-      <!-- Filtro Mese -->
-      <DateSelector label="month" :options="months" v-model="selectedMonth" @update:modelValue="applyFilters" />
+      <div class="flex gap-4">
+        <!-- Filtro Anno -->
+        <BaseSelector label="year" :options="years" v-model="selectedYear" @update:modelValue="applyFilters" />
+        <!-- Filtro Mese -->
+        <BaseSelector label="month" :options="months" v-model="selectedMonth" @update:modelValue="applyFilters" />
+        <BaseSelector
+          class="max-w-40"
+          label="category"
+          :options="categories"
+          :translateLabel="false"
+          v-model="category"
+          @update:modelValue="fetchOperations" />
+      </div>
+
       <!-- Nuovo Filtro Operazioni -->
-      <div class="flex flex-col">
-        <label class="text-gray-600 text-xs uppercase mb-1">
-          {{ $t('search') }}
-        </label>
-        <input
-          type="text"
-          v-model="searchQuery"
-          placeholder="Cerca operazione..."
-          class="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      <div class="flex justify-between">
+        <div class="flex flex-col">
+          <label class="text-gray-600 text-xs uppercase mb-1">
+            {{ $t('search') }}
+          </label>
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Cerca operazione..."
+            class="px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
       </div>
     </div>
 
@@ -146,14 +158,14 @@
   import { computed, ref, onMounted, onUpdated } from 'vue';
   import { useOperationsStore } from '@/store/operations';
   import { useGlobalStore } from '@/store/global';
-  import DateSelector from '@/components/BaseSelector.vue';
+  import BaseSelector from '@/components/BaseSelector.vue';
   import BaseLoader from '@/components/BaseLoader.vue';
   import { useUserStore } from '@/store/user';
   import { useI18n } from 'vue-i18n';
 
   export default {
     name: 'OperationsList',
-    components: { DateSelector, BaseLoader },
+    components: { BaseSelector, BaseLoader },
     setup() {
       const { t } = useI18n();
       const globalStore = useGlobalStore();
@@ -170,6 +182,7 @@
 
       const years = globalStore.years;
       const months = globalStore.months;
+      const category = ref(null);
 
       // Campo ricerca per filtro client-side
       const searchQuery = ref('');
@@ -181,6 +194,17 @@
       const showConfirm = ref(false);
       const deleteId = ref(null);
 
+      // categories
+      const categories = computed(() => operationsStore.categories);
+
+      const fetchCategories = async () => {
+        try {
+          await operationsStore.getCategories();
+        } catch (error) {
+          console.error('Errore durante il caricamento delle categorie:', error);
+        }
+      };
+
       // Fetch delle operazioni (lato server, in base ad anno/mese)
       const fetchOperations = async () => {
         loading.value = true;
@@ -188,6 +212,7 @@
           await operationsStore.fetchOperations({
             year: selectedYear.value,
             month: selectedMonth.value,
+            category: category.value,
           });
         } catch (error) {
           console.error('Errore durante il caricamento delle operazioni:', error);
@@ -258,12 +283,15 @@
       onMounted(() => {
         globalStore.setAppTitle(t('operationListTitle'));
         fetchOperations();
+        fetchCategories();
       });
       onUpdated(() => {
         globalStore.setAppTitle(t('operationListTitle'));
       });
 
       return {
+        category,
+        categories,
         currency,
         filteredOperations,
         selectedYear,
@@ -276,6 +304,7 @@
         confirmDelete,
         cancelDelete,
         deleteOperation,
+        fetchOperations,
         showConfirm,
         deleteId,
         t,
