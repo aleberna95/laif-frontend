@@ -11,10 +11,10 @@ export const useDashboardStore = defineStore('dashboard', {
         estimatedReminingPercentage: 0,
     }),
     actions: {
-        async fetchEstimatedRemainingTotal() {
+        async fetchEstimatedRemainingTotal(data) {
             // api get /api/operations/getEstimatedRemainingTotal
             try {
-                await apiClient.getData('/api/operations/getEstimedRemainingBudget').then(response => {
+                await apiClient.getData('/api/operations/getEstimedRemainingBudget', data).then(response => {
                     this.estimatedRemainingTotal = response.data.data.estimatedRemainingBudget;
                     this.estimatedReminingPercentage = response.data.data.percentage;
                 });

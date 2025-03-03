@@ -18,6 +18,7 @@ export const useGlobalStore = defineStore('global', {
         ],
         currentPage: '',
         months: [
+            { label: 'DECEMBER', value: 12 },
             { label: 'JANUARY', value: 1 },
             { label: 'FEBRUARY', value: 2 },
             { label: 'MARCH', value: 3 },

@@ -8,6 +8,7 @@
       :value="modelValue"
       @change="$emit('update:modelValue', $event.target.value)"
       class="border rounded pl-1 py-2 shadow focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <option :value="null">--</option>
       <option v-for="option in options" :key="option.value" :value="option.value">
         {{ parseInt(option.label) ? option.label : translateLabel ? $t(option.label) : option.label }}
       </option>
